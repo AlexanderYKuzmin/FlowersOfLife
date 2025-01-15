@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "560589630636",
+    "project_id": "flowers-of-life-1dd2a",
+    "storage_bucket": "flowers-of-life-1dd2a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560589630636:android:aaa120e3094953df7a8309",
+        "android_client_info": {
+          "package_name": "com.kuzmin.flowersoflife"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOIof-H56sJEpAhGsuu0zDja_JdEs2jg4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
