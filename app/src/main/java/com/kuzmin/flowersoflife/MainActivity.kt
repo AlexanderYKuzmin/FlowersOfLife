@@ -1,54 +1,66 @@
 package com.kuzmin.flowersoflife
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import androidx.activity.viewModels
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
+import com.kuzmin.flowersoflife.domain.model.AppUiState
+import com.kuzmin.flowersoflife.domain.model.UiEvent
+import com.kuzmin.flowersoflife.ui.screen.MainScreen
+import com.kuzmin.flowersoflife.ui.screen.SplashScreenAnimated
 import com.kuzmin.flowersoflife.ui.theme.FlowersOfLifeTheme
+import com.kuzmin.flowersoflife.ui.viewmodels.MainScreenViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var featureNavGraph: Set<@JvmSuppressWildcards FeatureNavGraph>
+
+    private val viewModel: MainScreenViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             FlowersOfLifeTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
+                val appState by viewModel.appState.collectAsState()
+
+                val snackbarHostState = remember { SnackbarHostState() }
+                val uiEvent = viewModel.uiEvent
+
+                when (appState) {
+                    is AppUiState.Loading -> SplashScreenAnimated()
+                    is AppUiState.Success -> MainScreen(
+                        appState = appState as AppUiState.Success,
+                        featureNavGraph = featureNavGraph,
+                        snackbarHostState = snackbarHostState,
+                    )
+
+                    else -> Unit
+                }
+
+
+                LaunchedEffect(Unit) {
+                    uiEvent.collect { event ->
+                        when (event) {
+                            is UiEvent.ShowSnackbar -> {
+                                snackbarHostState.showSnackbar(event.message)
+                            }
+
+                            else -> Unit
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FlowersOfLifeTheme {
-        Greeting("Android")
     }
 }

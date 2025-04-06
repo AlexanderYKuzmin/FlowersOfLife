@@ -6,4 +6,11 @@
   <component name="ProjectType">
     <option name="id" value="Android" />
   </component>
+  <component name="jsonEditor">
+    <option name="stateMap">
+      <map>
+        <entry key="Flowers Of Life" value="{&#10;  &quot;users&quot;: {&#10;    &quot;980a97b1-8f75-4d03-98ac-99bfd8536d0b&quot;: {&#10;      &quot;email&quot;: &quot;kuzmin2706@yandex.ru&quot;,&#10;      &quot;role&quot;: &quot;parent&quot;,&#10;      &quot;children&quot;: [&#10;        &quot;f3617725-91ac-470c-b4b3-eec4a31962fd&quot;  &#10;      ]&#10;    },&#10;    &quot;f3617725-91ac-470c-b4b3-eec4a31962fd&quot;: {&#10;      &quot;email&quot;: &quot;lida@yandex.ru&quot;,&#10;      &quot;role&quot;: &quot;child&quot;,&#10;      &quot;parents&quot;: [&#10;        &quot;980a97b1-8f75-4d03-98ac-99bfd8536d0b&quot;  &#10;      ]&#10;    }&#10;  }&#10;}" />
+      </map>
+    </option>
+  </component>
 </project>
