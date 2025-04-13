@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.navigation
+package com.kuzmin.flowersoflife.navigation.graph
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

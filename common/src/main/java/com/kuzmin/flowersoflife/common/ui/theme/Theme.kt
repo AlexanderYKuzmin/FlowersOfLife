@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.ui.theme
+package com.kuzmin.flowersoflife.common.ui.theme
 
 import androidx.compose.ui.graphics.Color
 import android.app.Activity
@@ -30,7 +30,7 @@ private val DarkColorScheme = darkColorScheme(
 
 private val LightColorScheme = lightColorScheme(
     primary = Primary,
-    secondary = Surface,
+    secondary = Gray,
     tertiary = PrimaryDark,
     background = Color(0xFFFDFDFD),
     surface = Surface,
@@ -38,9 +38,10 @@ private val LightColorScheme = lightColorScheme(
     onSecondary = Color.Black,
     onTertiary = OnSurface,
     onPrimaryContainer = OnSurface,
-    onSurfaceVariant = Color.Green, //todo check
+    onSurfaceVariant = OnSurfaceVariant, //label
     onTertiaryContainer = Color.Blue, //todo check
-    onSurface = Color.White
+    onSurface = Color.White,
+    inverseOnSurface = Color.Black
 )
 
 @Composable

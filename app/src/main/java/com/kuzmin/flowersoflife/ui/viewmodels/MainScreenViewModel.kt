@@ -53,7 +53,6 @@ class MainScreenViewModel @Inject constructor(
                 checkAuthUseCase()
             }
 
-            Log.d("MainScreenViewModel", "user: $user, isAuthorized: $isAuthorized")
             delay(5000)
             _appState.update {
                 AppUiState.Success(user = user, isAuthorized = isAuthorized)

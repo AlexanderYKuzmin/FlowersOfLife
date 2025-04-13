@@ -58,9 +58,8 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:domain"))
     implementation(project(":core:ui"))
-    implementation(project(":data_provider:remote_data"))
-    implementation(project(":data_provider:local_data"))
     implementation(project(":common"))
+    implementation(project(":feature:api"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)
@@ -70,6 +69,12 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icon)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.database)
+    implementation(libs.firebase.auth)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

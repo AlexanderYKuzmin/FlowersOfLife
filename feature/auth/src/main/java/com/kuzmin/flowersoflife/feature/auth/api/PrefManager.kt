@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.data_provider.api
+package com.kuzmin.flowersoflife.feature.auth.api
 
 import com.kuzmin.flowersoflife.core.domain.model.User
 

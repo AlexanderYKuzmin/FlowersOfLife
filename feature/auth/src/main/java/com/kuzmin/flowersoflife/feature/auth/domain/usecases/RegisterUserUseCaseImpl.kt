@@ -1,8 +1,8 @@
 package com.kuzmin.flowersoflife.feature.auth.domain.usecases
 
 import com.kuzmin.flowersoflife.core.domain.model.User
-import com.kuzmin.flowersoflife.core.domain.usecases.RegisterUserUseCase
-import com.kuzmin.flowersoflife.data_provider.api.AuthRepository
+import com.kuzmin.flowersoflife.feature.auth.api.usecases.RegisterUserUseCase
+import com.kuzmin.flowersoflife.feature.auth.api.AuthRepository
 import javax.inject.Inject
 
 class RegisterUserUseCaseImpl @Inject constructor(

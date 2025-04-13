@@ -1,13 +1,16 @@
 package com.kuzmin.flowersoflife.data
 
 import android.util.Log
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
 import com.kuzmin.flowersoflife.common.ext.setValueSuspend
 import com.kuzmin.flowersoflife.core.AuthService
+import com.kuzmin.flowersoflife.core.model.AuthCredentialsFb
 import com.kuzmin.flowersoflife.core.model.UserFb
+import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthCredentials
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,10 +23,11 @@ class FirebaseAuthServiceImpl @Inject constructor(
 
     override fun getCurrentUser(): FirebaseUser? = firebaseAuth.currentUser
 
-    override suspend fun signInWithEmail(userFb: UserFb): UserFb {
-        val result = firebaseAuth.signInWithEmailAndPassword(userFb.email, userFb.password).await()
-
-        return userFb.copy(uid = result.user?.uid)
+    override suspend fun signInWithEmail(authCredentialsFb: AuthCredentialsFb): Boolean {
+        with(authCredentialsFb) {
+            val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
+            return result.user != null
+        }
     }
 
     override suspend fun registerWithEmail(userFb: UserFb): UserFb {

@@ -1,6 +1,6 @@
 package com.kuzmin.flowersoflife.data_provider.di
 
-import com.kuzmin.flowersoflife.data_provider.api.AuthRepository
+import com.kuzmin.flowersoflife.feature.auth.api.AuthRepository
 import com.kuzmin.flowersoflife.data_provider.repository.AuthRepositoryImpl
 import dagger.Binds
 import dagger.Module

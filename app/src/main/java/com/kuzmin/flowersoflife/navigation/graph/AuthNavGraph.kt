@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.navigation
+package com.kuzmin.flowersoflife.navigation.graph
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -22,12 +22,7 @@ class AuthNavGraph @Inject constructor() : FeatureNavGraph {
             startDestination = Destination.AUTH_LOGIN
         ) {
             composable(route = Destination.AUTH_LOGIN) {
-                AuthLoginScreen(
-                    onLoginClick = {},
-                    onNavigateToRegister = {
-                        navController.navigate(Destination.AUTH_REGISTER)
-                    }
-                )
+                AuthLoginScreen()
             }
 
             composable(route = Destination.AUTH_REGISTER) {

@@ -1,19 +1,24 @@
 package com.kuzmin.flowersoflife.ui.screen
 
 import android.util.Log
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.ime
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.compose.rememberNavController
 import com.kuzmin.flowersoflife.common.constants.Route
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
 import com.kuzmin.flowersoflife.domain.model.AppUiState
+import com.kuzmin.flowersoflife.navigation.manager.NavigationManagerImpl
 import com.kuzmin.flowersoflife.ui.components.AppNavGraph
 import com.kuzmin.flowersoflife.ui.components.ParentBottomNavigationBar
 import com.kuzmin.flowersoflife.ui.components.DrawerContent
@@ -25,8 +30,10 @@ fun MainScreen(
     featureNavGraph: Set<@JvmSuppressWildcards FeatureNavGraph>,
     appState: AppUiState,
     snackbarHostState: SnackbarHostState,
+    navigationManagerImpl: NavigationManagerImpl,
     modifier: Modifier = Modifier
 ) {
+
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -41,7 +48,10 @@ fun MainScreen(
         }
     } else Route.AUTH_NAV_GRAPH
 
-    Log.d("Main", "start destination: $startDestination")
+    LaunchedEffect(Unit) {
+        navigationManagerImpl.setNavController(navController)
+    }
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
