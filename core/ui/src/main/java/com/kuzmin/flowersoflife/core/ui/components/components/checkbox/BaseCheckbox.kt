@@ -18,7 +18,7 @@ import com.kuzmin.flowersoflife.common.ui.theme.FlowersOfLifeTheme
 fun BaseCheckbox(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
-    label: String,
+    label: String? = null,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     colors: CheckboxColors = CheckboxDefaults.colors(
@@ -39,12 +39,14 @@ fun BaseCheckbox(
             enabled = enabled,
             colors = colors
         )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            text = label,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.inverseOnSurface
-        )
+        if (label != null) {
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = label ?: "",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.inverseOnSurface
+            )
+        }
     }
 }
 

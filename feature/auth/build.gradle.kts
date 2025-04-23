@@ -58,6 +58,7 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:domain"))
     implementation(project(":core:ui"))
+    implementation(project(":core:local"))
     implementation(project(":common"))
     implementation(project(":feature:api"))
 

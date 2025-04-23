@@ -26,11 +26,7 @@ class AuthNavGraph @Inject constructor() : FeatureNavGraph {
             }
 
             composable(route = Destination.AUTH_REGISTER) {
-                AuthRegisterScreen(
-                    onNavigateToLogin = {
-                        navController.navigate(Destination.AUTH_LOGIN)
-                    }
-                )
+                AuthRegisterScreen()
             }
 
             composable(route = Destination.AUTH_RESET) {

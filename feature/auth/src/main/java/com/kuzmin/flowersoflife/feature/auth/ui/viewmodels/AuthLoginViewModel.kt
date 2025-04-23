@@ -1,19 +1,16 @@
 package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.common.constants.Destination
 import com.kuzmin.flowersoflife.common.constants.Route
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.domain.usecases.GetUserFromLocalStorageUseCase
-import com.kuzmin.flowersoflife.feature.auth.api.usecases.RegisterUserUseCase
 import com.kuzmin.flowersoflife.feature.auth.api.usecases.SignInUseCase
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthCredentials
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -24,22 +21,13 @@ open class AuthLoginViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
     private val getUserFromLocalStorageUseCase: GetUserFromLocalStorageUseCase,
     private val navigationManager: NavigationManager
-) : ViewModel() {
-
-    private val _authState = MutableStateFlow<AuthState>(AuthState.Idle)
-    val authState: StateFlow<AuthState> = _authState
-
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        _authState.value = AuthState.Error(throwable)
-    }
-
-    private val ioContext = Dispatchers.IO + coroutineExceptionHandler
+) : AuthBaseViewModel(navigationManager) {
 
     init {
-        _authState.value = AuthState.Loading
-        viewModelScope.launch(ioContext) {
+        setAuthState(AuthState.Loading)
+        viewModelScope.launch(ioCoroutineContext) {
             val user = getUserFromLocalStorageUseCase()
-            _authState.value = AuthState.Success(user)
+            setAuthState(AuthState.Success(user))
         }
     }
 
@@ -48,7 +36,7 @@ open class AuthLoginViewModel @Inject constructor(
     }
 
     fun signInUser(credentials: AuthCredentials, rememberMe: Boolean) {
-        viewModelScope.launch(ioContext) {
+        viewModelScope.launch(ioCoroutineContext) {
             val isUserAuthorized = signInUseCase(credentials)
             if (isUserAuthorized) {
                 val route = when(
@@ -70,6 +58,6 @@ open class AuthLoginViewModel @Inject constructor(
     }
 
     fun cancelAuth() {
-        navigationManager.popBackStack()
+        toStartAuth()
     }
 }

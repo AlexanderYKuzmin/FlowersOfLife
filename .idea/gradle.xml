@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/data_provider/local_data" />
             <option value="$PROJECT_DIR$/data_provider/remote_data" />
             <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/api" />
             <option value="$PROJECT_DIR$/feature/auth" />
             <option value="$PROJECT_DIR$/feature/finance" />
             <option value="$PROJECT_DIR$/feature/home" />

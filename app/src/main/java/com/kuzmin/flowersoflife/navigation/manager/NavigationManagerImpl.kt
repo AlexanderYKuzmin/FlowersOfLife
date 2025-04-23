@@ -27,6 +27,10 @@ class NavigationManagerImpl @Inject constructor() : NavigationManager {
         return navController?.popBackStack() ?: false
     }
 
+    override fun popUpTo(destination: String) {
+        navController?.popBackStack(destination, false)
+    }
+
     override fun navigateUp(): Boolean {
         return navController?.navigateUp() ?: false
     }

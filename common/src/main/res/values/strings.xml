@@ -8,4 +8,18 @@
     <string name="remember_me">Remember me</string>
     <string name="register">Register</string>
 
+    <!--Register-->
+    <string name="i_am_admin">I am administrator</string>
+    <string name="i_am_parent">I am parent</string>
+    <string name="i_am_child">I am child</string>
+    <string name="family_group">Group</string>
+    <string name="firstname">Name</string>
+    <string name="password_again">Repeat password</string>
+
+
+    <!--Errors messages-->
+    <string name="invalid_email">Invalid Email</string>
+    <string name="user_not_initialized">User is not initialized</string>
+    <string name="unsuccessful_registration">Registration failed</string>
+
 </resources>

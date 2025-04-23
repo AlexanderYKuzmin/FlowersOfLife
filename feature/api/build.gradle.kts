@@ -2,8 +2,6 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.kotlinKapt)
-    alias(libs.plugins.hilt)
 }
 
 android {
@@ -33,16 +31,9 @@ android {
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
     }
-    kapt {
-        correctErrorTypes = true
-    }
 }
 
 dependencies {
-    implementation(project(":core:navigation"))
-    implementation(project(":core:domain"))
-    implementation(project(":core:ui"))
-    implementation(project(":common"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)
@@ -54,10 +45,6 @@ dependencies {
     implementation(libs.androidx.compose.material.icon)
     implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
-
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-    implementation(libs.hilt.navigation)
 
     implementation(libs.androidx.navigation.compose)
 

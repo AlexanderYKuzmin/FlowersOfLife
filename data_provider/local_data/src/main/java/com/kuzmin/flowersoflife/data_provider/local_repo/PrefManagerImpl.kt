@@ -7,12 +7,13 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
-import com.kuzmin.flowersoflife.core.local.util.UserDataScheme
-import com.kuzmin.flowersoflife.core.local.util.UserDataScheme.EMAIL
-import com.kuzmin.flowersoflife.core.local.util.UserDataScheme.FIRSTNAME
-import com.kuzmin.flowersoflife.core.local.util.UserDataScheme.PASSWORD
-import com.kuzmin.flowersoflife.core.local.util.UserDataScheme.ROLE
-import com.kuzmin.flowersoflife.core.local.util.UserDataScheme.UID
+import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.EMAIL
+import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.FIRSTNAME
+import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.GROUP
+import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.IS_ADMIN
+import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.PASSWORD
+import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.ROLE
+import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.UID
 import com.kuzmin.flowersoflife.feature.auth.api.PrefManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
@@ -32,19 +33,23 @@ class PrefManagerImpl @Inject constructor(
         with(UserDataScheme) {
             return dataStore.data.map { prefs ->
                 val firstname = prefs[FIRSTNAME] ?: ""
+                val group = prefs[GROUP] ?: ""
                 val email = prefs[EMAIL] ?: ""
                 val password = prefs[PASSWORD] ?: ""
                 val role = prefs[ROLE]
+                val isAdmin = prefs[IS_ADMIN] ?: false
                 val uid = prefs[UID] ?: ""
 
                 User(
                     firstName = firstname,
+                    groupName = group,
                     email = email,
                     role = role?.let {
                         UserRole.valueOf(
                             role
                         )
                     },
+                    isAdmin = isAdmin,
                     password = password,
                     uid = uid
                 )
@@ -56,9 +61,11 @@ class PrefManagerImpl @Inject constructor(
         with(user) {
             dataStore.edit { prefs ->
                 prefs[FIRSTNAME] = firstName
+                prefs[GROUP] = groupName
                 prefs[EMAIL] = email
                 prefs[PASSWORD] = password
                 prefs[ROLE] = role?.name ?: throw RuntimeException("Role can't be null")
+                prefs[IS_ADMIN] = isAdmin
                 prefs[UID] = uid ?: ""
             }
         }

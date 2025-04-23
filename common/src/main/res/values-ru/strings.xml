@@ -7,4 +7,16 @@
     <string name="password">Пароль</string>
     <string name="remember_me">Запомнить меня</string>
     <string name="register">Зарегистрироваться</string>
+
+    <string name="i_am_admin">Я - администратор</string>
+    <string name="i_am_parent">Я - родитель</string>
+    <string name="i_am_child">Я - ребенок</string>
+    <string name="family_group">Группа</string>
+    <string name="firstname">Имя пользователя</string>
+    <string name="password_again">Пароль повторно</string>
+
+    <!--Errors messages-->
+    <string name="invalid_email">Некорректный Email</string>
+    <string name="user_not_initialized">Пользватель не проинициализирован</string>
+    <string name="unsuccessful_registration">Ошибка при регистрации</string>
 </resources>
