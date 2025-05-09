@@ -17,7 +17,12 @@ abstract class AuthBaseViewModel(
     private val navigationManager: NavigationManager
 ) : ViewModel() {
 
-    open val errors = mutableMapOf<RegisterErrorType, String>()
+    private val _fieldErrors = MutableStateFlow<Set<RegisterErrorType>>(emptySet())
+    val fieldErrors: StateFlow<Set<RegisterErrorType>> = _fieldErrors
+
+    protected fun setErrors(newErrors: Set<RegisterErrorType>) {
+        _fieldErrors.value = newErrors
+    }
 
     private val _authState = MutableStateFlow<AuthState>(AuthState.Idle)
     open val authState: StateFlow<AuthState> get() = _authState.asStateFlow()

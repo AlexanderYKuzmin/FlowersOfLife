@@ -32,15 +32,21 @@ fun BaseTextInputField(
             unfocusedContainerColor = Color.Transparent,
             focusedContainerColor = Color.Transparent,
             unfocusedLabelColor = MaterialTheme.colorScheme.secondary,
-            focusedLabelColor = MaterialTheme.colorScheme.surface
-        )
+            focusedLabelColor = MaterialTheme.colorScheme.surface,
+            focusedTextColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            unfocusedTextColor = MaterialTheme.colorScheme.onSecondaryContainer
+        ),
+        isError = isError,
+        supportingText = {
+            supportingText?.let { Text(it) }
+        }
     )
 }
 
 @Preview
 @Composable
 fun BaseTextInputFieldPreview() {
-    FlowersOfLifeTheme(dynamicColor = false) {
+    FlowersOfLifeTheme {
         BaseTextInputField(
             value = "test",
             label = "test"

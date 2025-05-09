@@ -3,20 +3,19 @@ package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.common.R.string.unsuccessful_registration
 import com.kuzmin.flowersoflife.common.R.string.user_not_initialized
+import com.kuzmin.flowersoflife.common.constants.Destination
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.local.resource_provider.ResourceProvider
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
-import com.kuzmin.flowersoflife.feature.auth.R
 import com.kuzmin.flowersoflife.feature.auth.api.usecases.RegisterUserUseCase
 import com.kuzmin.flowersoflife.feature.auth.api.usecases.SaveUserDatastoreUseCase
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
-import com.kuzmin.flowersoflife.feature.auth.domain.usecases.RegisterUserUseCaseImpl
-import com.kuzmin.flowersoflife.feature.auth.exception.AuthRegisterException
 import com.kuzmin.flowersoflife.feature.auth.exception.ServerRegisterException
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.ServerRegisterErrorType
 import com.kuzmin.flowersoflife.feature.auth.validators.RegisterUserValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -35,6 +34,9 @@ class AuthRegisterViewModel @Inject constructor(
     val userState: StateFlow<User?> = authState
         .map { (it as? AuthState.Success)?.user }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    private val _repeatPassword = MutableStateFlow("")
+    val repeatPassword: StateFlow<String> = _repeatPassword
 
     init {
         updateAuthState {
@@ -65,16 +67,23 @@ class AuthRegisterViewModel @Inject constructor(
         }
     }
 
-    //TODO Разобраться с пароль повторно. Надо проверять не отходя от кассы
+    fun onRepeatPasswordChanged(value: String) {
+        _repeatPassword.value = value
+    }
+
+    fun isPasswordMismatch(): Boolean {
+        val userPassword = (authState.value as? AuthState.Success)?.user?.password.orEmpty()
+        return _repeatPassword.value.isNotBlank() && _repeatPassword.value != userPassword
+    }
 
     fun registerUser() {
         viewModelScope.launch(ioCoroutineContext) {
             val user = (authState.value as? AuthState.Success)?.user
                 ?: throw IllegalStateException(resourceProvider.getString(user_not_initialized))
 
-            val errors = RegisterUserValidator.validate(user)
+            val errors = RegisterUserValidator.validate(user, repeatPassword.value)
             if (errors.isNotEmpty()) {
-                setAuthState(AuthState.Error(AuthRegisterException(errors)))
+                setErrors(errors)
                 return@launch
             }
 
@@ -93,5 +102,9 @@ class AuthRegisterViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun cancelRegistration() {
+        navigationManager.popUpTo(Destination.AUTH_LOGIN)
     }
 }

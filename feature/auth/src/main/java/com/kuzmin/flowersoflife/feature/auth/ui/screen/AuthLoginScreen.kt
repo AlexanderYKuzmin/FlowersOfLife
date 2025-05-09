@@ -29,11 +29,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kuzmin.flowersoflife.common.R
+import com.kuzmin.flowersoflife.common.ui.theme.FlowersOfLifeTheme
 import com.kuzmin.flowersoflife.common.ui.theme.Link
-import com.kuzmin.flowersoflife.core.domain.extensions.isEmailConsistent
 import com.kuzmin.flowersoflife.core.ui.components.components.button.BaseApproveBtnGroup
 import com.kuzmin.flowersoflife.core.ui.components.components.checkbox.BaseCheckbox
 import com.kuzmin.flowersoflife.core.ui.components.components.text.BasePasswordInputField
@@ -47,9 +48,6 @@ fun AuthLoginScreen(
     viewModel: AuthLoginViewModel = hiltViewModel()
 ) {
     val authState by viewModel.authState.collectAsState()
-
-    var credentials by remember { mutableStateOf(AuthCredentials()) }
-    var rememberMe by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -69,9 +67,13 @@ fun AuthLoginScreen(
             }
 
             is AuthState.Success -> {
-                credentials = AuthCredentials(
+                AuthLoginScreenCard(
                     email = (authState as AuthState.Success).user.email,
-                    password = credentials.password
+                    password = (authState as AuthState.Success).user.password,
+                    onNegativeClick = viewModel::cancelAuth,
+                    onPositiveClick = {  credentials, rememberMe ->
+                        viewModel.signInUser(credentials, rememberMe)
+                    }
                 )
             }
 
@@ -79,9 +81,23 @@ fun AuthLoginScreen(
                 // TODO
             }
 
-            else -> {}
+            else -> {
+            }
         }
+    }
+}
 
+@Composable
+fun AuthLoginScreenCard(
+    email: String = "",
+    password: String = "",
+    navigateToRegisterUser: () -> Unit = {},
+    onPositiveClick: (AuthCredentials, Boolean) -> Unit = { _, _ -> },
+    onNegativeClick: () -> Unit = {}
+) {
+    var credentials by remember { mutableStateOf(AuthCredentials(email, password)) }
+    var rememberMe by remember { mutableStateOf(false) }
+    Box(modifier = Modifier.fillMaxSize()) {
         Card(
             modifier = Modifier
                 .align(Alignment.Center)
@@ -95,16 +111,14 @@ fun AuthLoginScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
 
-                var isEmailValid by remember { mutableStateOf(false) }
                 BaseTextInputField(
                     value = credentials.email,
                     onValueChange = {
                         credentials = credentials.copy(email = it)
-                        isEmailValid = it.isEmailConsistent()
                     },
                     label = stringResource(id = R.string.email),
-                    isError = !isEmailValid,
-                    supportingText = if (!isEmailValid) stringResource(id = R.string.invalid_email) else null
+                    isError = false,
+                    //supportingText = if (!isEmailValid) stringResource(id = R.string.error_email_invalid) else null
                 )
 
                 BasePasswordInputField(
@@ -135,7 +149,7 @@ fun AuthLoginScreen(
                             textDecoration = TextDecoration.Underline
                         ),
                         modifier = Modifier.clickable(
-                            onClick = { viewModel.navigateToRegisterUser() }
+                            onClick = navigateToRegisterUser
                         )
                     )
                 }
@@ -143,10 +157,25 @@ fun AuthLoginScreen(
                 BaseApproveBtnGroup(
                     positiveText = stringResource(id = R.string.ok_btn_txt),
                     negativeText = stringResource(id = R.string.cancel_btn_txt),
-                    onPositiveClick = { viewModel.signInUser(credentials, rememberMe) },
-                    onNegativeClick = { viewModel.cancelAuth() }
+                    onPositiveClick = { onPositiveClick(credentials, rememberMe) },
+                    onNegativeClick = { onNegativeClick() }
                 )
             }
         }
+    }
+
+}
+
+@Preview(
+    showBackground = true,
+    apiLevel = 33
+)
+@Composable
+fun AuthLoginScreenPreview() {
+    FlowersOfLifeTheme {
+        AuthLoginScreenCard(
+            email = "gpBzK@example.com",
+            password = "123456"
+        )
     }
 }

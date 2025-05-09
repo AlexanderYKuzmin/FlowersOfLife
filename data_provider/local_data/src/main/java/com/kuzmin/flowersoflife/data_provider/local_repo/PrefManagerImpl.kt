@@ -1,10 +1,8 @@
 package com.kuzmin.flowersoflife.data_provider.local_repo
 
-import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.preferencesDataStore
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.EMAIL
@@ -15,19 +13,13 @@ import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.PASSWORD
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.ROLE
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.UID
 import com.kuzmin.flowersoflife.feature.auth.api.PrefManager
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class PrefManagerImpl @Inject constructor(
-    @ApplicationContext
-    private val context: Context
+    private val dataStore: DataStore<Preferences>
 ) : PrefManager {
-
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_preferences")
-
-    private val dataStore = context.dataStore
 
     override suspend fun getUser(): User {
         with(UserDataScheme) {

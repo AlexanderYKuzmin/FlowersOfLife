@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AuthLoginScreenPreview">
+        <State />
+      </entry>
       <entry key="BaseApproveBtnGroupPreview">
         <State />
       </entry>
@@ -9,9 +12,6 @@
         <State />
       </entry>
       <entry key="BaseTextInputFieldPreview">
-        <State />
-      </entry>
-      <entry key="FirebaseDatabaseTest">
         <State />
       </entry>
       <entry key="LoginScreenPreview">
@@ -43,7 +43,7 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2025-04-19T07:38:11.127977500Z" />
+          <timeTargetWasSelectedWithDropDown value="2025-05-09T06:07:19.126494800Z" />
         </State>
       </entry>
     </value>
