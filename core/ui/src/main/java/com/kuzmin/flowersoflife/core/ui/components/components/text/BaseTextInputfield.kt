@@ -43,13 +43,15 @@ fun BaseTextInputField(
     )
 }
 
-@Preview
+@Preview(
+    showBackground = true
+)
 @Composable
 fun BaseTextInputFieldPreview() {
     FlowersOfLifeTheme {
         BaseTextInputField(
-            value = "test",
-            label = "test"
+            value = "Test",
+            label = "Test"
         )
     }
 }

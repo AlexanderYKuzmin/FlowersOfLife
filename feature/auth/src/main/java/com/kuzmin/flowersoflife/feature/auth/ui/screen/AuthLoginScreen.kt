@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,6 +43,7 @@ import com.kuzmin.flowersoflife.core.ui.components.components.text.BasePasswordI
 import com.kuzmin.flowersoflife.core.ui.components.components.text.BaseTextInputField
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthCredentials
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
+import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType
 import com.kuzmin.flowersoflife.feature.auth.ui.viewmodels.AuthLoginViewModel
 
 @Composable
@@ -48,6 +51,8 @@ fun AuthLoginScreen(
     viewModel: AuthLoginViewModel = hiltViewModel()
 ) {
     val authState by viewModel.authState.collectAsState()
+
+    val errors by viewModel.fieldErrors.collectAsState()
 
     Box(
         modifier = Modifier
@@ -73,7 +78,9 @@ fun AuthLoginScreen(
                     onNegativeClick = viewModel::cancelAuth,
                     onPositiveClick = {  credentials, rememberMe ->
                         viewModel.signInUser(credentials, rememberMe)
-                    }
+                    },
+                    navigateToRegisterUser = viewModel::navigateToRegisterUser,
+                    errors = errors
                 )
             }
 
@@ -93,7 +100,8 @@ fun AuthLoginScreenCard(
     password: String = "",
     navigateToRegisterUser: () -> Unit = {},
     onPositiveClick: (AuthCredentials, Boolean) -> Unit = { _, _ -> },
-    onNegativeClick: () -> Unit = {}
+    onNegativeClick: () -> Unit = {},
+    errors: Set<RegisterErrorType> = emptySet()
 ) {
     var credentials by remember { mutableStateOf(AuthCredentials(email, password)) }
     var rememberMe by remember { mutableStateOf(false) }
@@ -117,20 +125,33 @@ fun AuthLoginScreenCard(
                         credentials = credentials.copy(email = it)
                     },
                     label = stringResource(id = R.string.email),
-                    isError = false,
-                    //supportingText = if (!isEmailValid) stringResource(id = R.string.error_email_invalid) else null
+                    isError = errors.contains(RegisterErrorType.EMAIL_EMPTY) || errors.contains(RegisterErrorType.EMAIL_INVALID),
+                    supportingText = when {
+                        errors.contains(RegisterErrorType.EMAIL_EMPTY) -> stringResource(id = R.string.error_email_empty)
+                        errors.contains(RegisterErrorType.EMAIL_INVALID) -> stringResource(id = R.string.error_email_invalid)
+                        else -> null
+                    }
                 )
 
                 BasePasswordInputField(
                     value = credentials.password,
                     onValueChange = { credentials = credentials.copy(password = it) },
-                    label = stringResource(id = R.string.password)
+                    label = stringResource(id = R.string.password),
+                    isError = errors.contains(RegisterErrorType.PASSWORD_EMPTY) || errors.contains(RegisterErrorType.PASSWORD_WEAK),
+                    supportingText = when {
+                        errors.contains(RegisterErrorType.PASSWORD_EMPTY) -> stringResource(id = R.string.error_password_empty)
+                        errors.contains(RegisterErrorType.PASSWORD_WEAK) -> stringResource(id = R.string.error_password_weak)
+                        else -> null
+                    }
                 )
 
+
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 4.dp, end = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
                 ) {
                     BaseCheckbox(
                         checked = rememberMe,
@@ -142,9 +163,20 @@ fun AuthLoginScreenCard(
                             checkmarkColor = MaterialTheme.colorScheme.onPrimary
                         )
                     )
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 4.dp, end = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
                     Text(
                         text = stringResource(id = R.string.register),
-                        style = MaterialTheme.typography.bodyMedium.copy(
+                        style = MaterialTheme.typography.bodyLarge.copy(
                             color = Link,
                             textDecoration = TextDecoration.Underline
                         ),
@@ -153,6 +185,8 @@ fun AuthLoginScreenCard(
                         )
                     )
                 }
+
+                Spacer(modifier = Modifier.height(8.dp))
 
                 BaseApproveBtnGroup(
                     positiveText = stringResource(id = R.string.ok_btn_txt),
@@ -163,7 +197,6 @@ fun AuthLoginScreenCard(
             }
         }
     }
-
 }
 
 @Preview(

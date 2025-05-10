@@ -13,7 +13,7 @@ import com.kuzmin.flowersoflife.feature.auth.api.usecases.SaveUserDatastoreUseCa
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
 import com.kuzmin.flowersoflife.feature.auth.exception.ServerRegisterException
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.ServerRegisterErrorType
-import com.kuzmin.flowersoflife.feature.auth.validators.RegisterUserValidator
+import com.kuzmin.flowersoflife.feature.auth.validators.RegisterUserContextualValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -81,7 +81,7 @@ class AuthRegisterViewModel @Inject constructor(
             val user = (authState.value as? AuthState.Success)?.user
                 ?: throw IllegalStateException(resourceProvider.getString(user_not_initialized))
 
-            val errors = RegisterUserValidator.validate(user, repeatPassword.value)
+            val errors = RegisterUserContextualValidator.validate(user, repeatPassword.value)
             if (errors.isNotEmpty()) {
                 setErrors(errors)
                 return@launch

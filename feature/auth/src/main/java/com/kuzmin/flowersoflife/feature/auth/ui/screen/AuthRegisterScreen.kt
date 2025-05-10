@@ -145,7 +145,8 @@ fun AuthRegisterScreen(
             modifier = Modifier
                 .imePadding()
                 .padding(horizontal = 16.dp)
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState())
+                .weight(1f),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             BaseTextInputField(
@@ -208,7 +209,7 @@ fun AuthRegisterScreen(
         }
 
         if (!imeVisible) {
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(.1f))
             BaseApproveBtnGroup(
                 modifier = Modifier
                     .fillMaxWidth()

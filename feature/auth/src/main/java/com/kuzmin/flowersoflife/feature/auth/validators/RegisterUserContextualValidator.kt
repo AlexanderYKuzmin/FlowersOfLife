@@ -3,10 +3,10 @@ package com.kuzmin.flowersoflife.feature.auth.validators
 import com.kuzmin.flowersoflife.core.domain.extensions.isEmailConsistent
 import com.kuzmin.flowersoflife.core.domain.extensions.isPasswordConsistent
 import com.kuzmin.flowersoflife.core.domain.model.User
-import com.kuzmin.flowersoflife.core.local.validators.Validator
+import com.kuzmin.flowersoflife.core.local.validators.ContextualValidator
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType
 
-object RegisterUserValidator : Validator<User, String, RegisterErrorType> {
+object RegisterUserContextualValidator : ContextualValidator<User, String, RegisterErrorType> {
 
     override fun validate(user: User, repeatPassword: String): Set<RegisterErrorType> = buildSet {
         if (user.groupName.isBlank()) add(RegisterErrorType.GROUP_NAME_EMPTY)

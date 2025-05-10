@@ -5,14 +5,12 @@ import com.kuzmin.flowersoflife.common.constants.Destination
 import com.kuzmin.flowersoflife.common.constants.Route
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.domain.usecases.GetUserFromLocalStorageUseCase
-import com.kuzmin.flowersoflife.feature.auth.api.usecases.SignInUseCase
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
+import com.kuzmin.flowersoflife.feature.auth.api.usecases.SignInUseCase
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthCredentials
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
+import com.kuzmin.flowersoflife.feature.auth.validators.CredentialsValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,6 +35,11 @@ open class AuthLoginViewModel @Inject constructor(
 
     fun signInUser(credentials: AuthCredentials, rememberMe: Boolean) {
         viewModelScope.launch(ioCoroutineContext) {
+            val errors = CredentialsValidator.validate(credentials)
+            setErrors(errors)
+
+            if (errors.isNotEmpty()) return@launch
+
             val isUserAuthorized = signInUseCase(credentials)
             if (isUserAuthorized) {
                 val route = when(

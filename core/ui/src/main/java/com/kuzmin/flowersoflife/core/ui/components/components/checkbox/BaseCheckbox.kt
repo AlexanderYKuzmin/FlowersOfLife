@@ -33,31 +33,33 @@ fun BaseCheckbox(
             .clickable(enabled = enabled) { onCheckedChange(!checked) },
         verticalAlignment = Alignment.CenterVertically
     ) {
+        if (label != null) {
+            Text(
+                text = label ?: "",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.inverseOnSurface
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+        }
         Checkbox(
             checked = checked,
             onCheckedChange = null,
             enabled = enabled,
             colors = colors
         )
-        if (label != null) {
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = label ?: "",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.inverseOnSurface
-            )
-        }
     }
 }
 
-@Preview
+@Preview(
+    showBackground = true
+)
 @Composable
 fun BaseCheckboxPreview() {
-    FlowersOfLifeTheme(dynamicColor = false) {
+    FlowersOfLifeTheme {
         BaseCheckbox(
             checked = true,
             onCheckedChange = {},
-            label = "test"
+            label = "Remember me"
         )
     }
 }
