@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     is AppUiState.Success -> MainScreen(
                         appState = appState as AppUiState.Success,
                         featureNavGraph = featureNavGraph,
-                        snackbarHostState = snackbarHostState,
+                        snackBarHostState = snackbarHostState,
                         navigationManagerImpl = navigationManagerImpl,
                     )
 
