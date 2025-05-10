@@ -1,9 +1,11 @@
 package com.kuzmin.flowersoflife.di
 
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
-import com.kuzmin.flowersoflife.navigation.AuthNavGraph
-import com.kuzmin.flowersoflife.navigation.ChildNavGraph
-import com.kuzmin.flowersoflife.navigation.ParentNavGraph
+import com.kuzmin.flowersoflife.core.navigation.NavigationManager
+import com.kuzmin.flowersoflife.navigation.graph.AuthNavGraph
+import com.kuzmin.flowersoflife.navigation.graph.ChildNavGraph
+import com.kuzmin.flowersoflife.navigation.graph.ParentNavGraph
+import com.kuzmin.flowersoflife.navigation.manager.NavigationManagerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -25,4 +27,7 @@ interface NavigationModule {
     @Binds
     @IntoSet
     fun bindAuthNavGraph(navGraph: AuthNavGraph): FeatureNavGraph
+
+    @Binds
+    fun bindNavigationManager(impl: NavigationManagerImpl): NavigationManager
 }

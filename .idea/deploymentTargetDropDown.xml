@@ -2,10 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="FirebaseDatabaseTest">
+      <entry key="AuthLoginScreenPreview">
         <State />
       </entry>
-      <entry key="app">
+      <entry key="BaseApproveBtnGroupPreview">
+        <State />
+      </entry>
+      <entry key="BasePasswordInputFieldPreview">
+        <State />
+      </entry>
+      <entry key="BaseTextInputFieldPreview">
+        <State />
+      </entry>
+      <entry key="LoginScreenPreview">
         <State>
           <targetSelectedWithDropDown>
             <Target>
@@ -18,7 +27,23 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2025-01-21T08:13:03.995338800Z" />
+          <timeTargetWasSelectedWithDropDown value="2025-04-11T21:01:44.056697100Z" />
+        </State>
+      </entry>
+      <entry key="app">
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\Alex\.android\avd\Pixel_6_API_34.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2025-05-10T15:42:14.501282500Z" />
         </State>
       </entry>
     </value>

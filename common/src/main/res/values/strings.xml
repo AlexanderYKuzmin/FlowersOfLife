@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ok_btn_txt">OK</string>
+    <string name="cancel_btn_txt">Cancel</string>
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="register">Register</string>
+
+    <!--Register-->
+    <string name="i_am_admin">I am administrator</string>
+    <string name="i_am_parent">I am parent</string>
+    <string name="i_am_child">I am child</string>
+    <string name="family_group">Group</string>
+    <string name="firstname">Name</string>
+    <string name="password_again">Repeat password</string>
+
+
+    <!--Errors messages-->
+    <string name="user_not_initialized">User is not initialized</string>
+    <string name="unsuccessful_registration">Registration failed</string>
+
+    <string name="error_group_name_empty">Please enter a family group name</string>
+    <string name="error_firstname_is_empty">Please enter your first name</string>
+    <string name="error_email_empty">Please enter your email</string>
+    <string name="error_email_invalid">Invalid email format</string>
+    <string name="error_password_empty">Please enter a password</string>
+    <string name="error_password_weak">Password is too weak</string>
+    <string name="error_password_mismatch">Passwords do not match</string>
+    <string name="error_role_not_selected">Please select a role</string>
+
+
+</resources>

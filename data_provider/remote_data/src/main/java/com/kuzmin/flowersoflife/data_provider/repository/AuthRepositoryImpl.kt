@@ -4,8 +4,9 @@ import com.kuzmin.flowersoflife.core.domain.roles.RoleManager
 import com.google.firebase.auth.FirebaseUser
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.AuthService
-import com.kuzmin.flowersoflife.data_provider.api.AuthRepository
 import com.kuzmin.flowersoflife.data_provider.mapper.UserMapper
+import com.kuzmin.flowersoflife.feature.auth.api.AuthRepository
+import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthCredentials
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -20,11 +21,10 @@ class AuthRepositoryImpl @Inject constructor(
         return getCurrentUser() != null
     }
 
-    override suspend fun signInWithEmail(user: User): Boolean {
-        val result = authService.signInWithEmail(
-            userMapper.mapUserToUserFb(user)
+    override suspend fun signInWithEmail(authCredentials: AuthCredentials): Boolean {
+        return authService.signInWithEmail(
+            userMapper.mapAuthCredentialsToAuthCredentialsFb(authCredentials)
         )
-        return result.uid != null
     }
 
     override suspend fun registerWithEmail(user: User): User? {

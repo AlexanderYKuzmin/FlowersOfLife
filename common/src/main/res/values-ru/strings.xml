@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ok_btn_txt">Войти</string>
+    <string name="cancel_btn_txt">Отмена</string>
+
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="remember_me">Запомнить меня</string>
+    <string name="register">Зарегистрироваться</string>
+
+    <string name="i_am_admin">Я - администратор</string>
+    <string name="i_am_parent">Я - родитель</string>
+    <string name="i_am_child">Я - ребенок</string>
+    <string name="family_group">Группа</string>
+    <string name="firstname">Имя пользователя</string>
+    <string name="password_again">Пароль повторно</string>
+
+    <!--Errors messages-->
+    <string name="user_not_initialized">Пользватель не проинициализирован</string>
+    <string name="unsuccessful_registration">Ошибка при регистрации</string>
+
+    <string name="error_group_name_empty">Введите название семейной группы</string>
+    <string name="error_firstname_is_empty">Введите имя</string>
+    <string name="error_email_empty">Введите email</string>
+    <string name="error_email_invalid">Некорректный email</string>
+    <string name="error_password_empty">Введите пароль</string>
+    <string name="error_password_weak">Пароль слишком простой</string>
+    <string name="error_password_mismatch">Пароли не совпадают</string>
+    <string name="error_role_not_selected">Выберите роль</string>
+
+</resources>

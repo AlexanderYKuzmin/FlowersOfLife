@@ -39,6 +39,7 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":core:local"))
     implementation(project(":core:domain"))
+    implementation(project(":feature:auth"))
 
 
     implementation(libs.androidx.core.ktx)

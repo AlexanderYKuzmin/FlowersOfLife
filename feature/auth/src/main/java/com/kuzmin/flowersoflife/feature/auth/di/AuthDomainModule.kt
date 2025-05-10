@@ -2,11 +2,13 @@ package com.kuzmin.flowersoflife.feature.auth.di
 
 import com.kuzmin.flowersoflife.core.domain.usecases.CheckAuthUseCase
 import com.kuzmin.flowersoflife.core.domain.usecases.GetUserFromLocalStorageUseCase
-import com.kuzmin.flowersoflife.core.domain.usecases.RegisterUserUseCase
-import com.kuzmin.flowersoflife.core.domain.usecases.SignInUseCase
+import com.kuzmin.flowersoflife.feature.auth.api.usecases.RegisterUserUseCase
+import com.kuzmin.flowersoflife.feature.auth.api.usecases.SaveUserDatastoreUseCase
+import com.kuzmin.flowersoflife.feature.auth.api.usecases.SignInUseCase
 import com.kuzmin.flowersoflife.feature.auth.domain.usecases.CheckAuthUseCaseImpl
 import com.kuzmin.flowersoflife.feature.auth.domain.usecases.GetUserFromLocalStorageUseCaseImpl
 import com.kuzmin.flowersoflife.feature.auth.domain.usecases.RegisterUserUseCaseImpl
+import com.kuzmin.flowersoflife.feature.auth.domain.usecases.SaveUserDatastoreUseCaseImpl
 import com.kuzmin.flowersoflife.feature.auth.domain.usecases.SignInUseCaseImpl
 import dagger.Binds
 import dagger.Module
@@ -31,4 +33,8 @@ interface AuthDomainModule {
         getUserFromLocalStorageUseCase: GetUserFromLocalStorageUseCaseImpl
     ): GetUserFromLocalStorageUseCase
 
+    @Binds
+    fun bindSaveUserDatastoreUseCase(
+        saveUserDatastoreUseCase: SaveUserDatastoreUseCaseImpl
+    ): SaveUserDatastoreUseCase
 }
