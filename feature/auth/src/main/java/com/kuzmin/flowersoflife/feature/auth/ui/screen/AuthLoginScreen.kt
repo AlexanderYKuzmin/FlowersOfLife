@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
@@ -105,6 +108,10 @@ fun AuthLoginScreenCard(
 ) {
     var credentials by remember { mutableStateOf(AuthCredentials(email, password)) }
     var rememberMe by remember { mutableStateOf(false) }
+
+    val density = LocalDensity.current
+    val imeVisible = WindowInsets.ime.getBottom(density) > 0
+
     Box(modifier = Modifier.fillMaxSize()) {
         Card(
             modifier = Modifier
@@ -146,54 +153,57 @@ fun AuthLoginScreenCard(
                 )
 
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 4.dp, end = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    BaseCheckbox(
-                        checked = rememberMe,
-                        onCheckedChange = { rememberMe = it },
-                        label = stringResource(id = R.string.remember_me),
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = MaterialTheme.colorScheme.primary,
-                            uncheckedColor = MaterialTheme.colorScheme.outline,
-                            checkmarkColor = MaterialTheme.colorScheme.onPrimary
+                if (!imeVisible) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 4.dp, end = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        BaseCheckbox(
+                            checked = rememberMe,
+                            onCheckedChange = { rememberMe = it },
+                            label = stringResource(id = R.string.remember_me),
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = MaterialTheme.colorScheme.primary,
+                                uncheckedColor = MaterialTheme.colorScheme.outline,
+                                checkmarkColor = MaterialTheme.colorScheme.onPrimary
+                            )
                         )
-                    )
-                }
+                    }
 
-                Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 4.dp, end = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.register),
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Link,
-                            textDecoration = TextDecoration.Underline
-                        ),
-                        modifier = Modifier.clickable(
-                            onClick = navigateToRegisterUser
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 4.dp, end = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.register),
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                color = Link,
+                                textDecoration = TextDecoration.Underline
+                            ),
+                            modifier = Modifier.clickable(
+                                onClick = navigateToRegisterUser
+                            )
                         )
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    BaseApproveBtnGroup(
+                        positiveText = stringResource(id = R.string.ok_btn_txt),
+                        negativeText = stringResource(id = R.string.cancel_btn_txt),
+                        onPositiveClick = { onPositiveClick(credentials, rememberMe) },
+                        onNegativeClick = { onNegativeClick() }
                     )
+                } else {
                 }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                BaseApproveBtnGroup(
-                    positiveText = stringResource(id = R.string.ok_btn_txt),
-                    negativeText = stringResource(id = R.string.cancel_btn_txt),
-                    onPositiveClick = { onPositiveClick(credentials, rememberMe) },
-                    onNegativeClick = { onNegativeClick() }
-                )
             }
         }
     }

@@ -55,7 +55,9 @@ fun BasePasswordInputField(
             unfocusedContainerColor = Color.Transparent,
             focusedContainerColor = Color.Transparent,
             unfocusedLabelColor = MaterialTheme.colorScheme.secondary,
-            focusedLabelColor = MaterialTheme.colorScheme.surface
+            focusedLabelColor = MaterialTheme.colorScheme.surface,
+            focusedTextColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            unfocusedTextColor = MaterialTheme.colorScheme.onSecondaryContainer
         ),
         isError = isError,
         supportingText = {
@@ -64,7 +66,9 @@ fun BasePasswordInputField(
     )
 }
 
-@Preview
+@Preview(
+    showBackground = true,
+)
 @Composable
 fun BasePasswordInputFieldPreview() {
     FlowersOfLifeTheme(dynamicColor = false) {
