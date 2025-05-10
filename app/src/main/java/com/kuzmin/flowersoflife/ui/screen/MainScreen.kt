@@ -1,16 +1,21 @@
 package com.kuzmin.flowersoflife.ui.screen
 
+import android.app.Activity
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import com.kuzmin.flowersoflife.common.constants.Route
+import com.kuzmin.flowersoflife.common.ext.setSystemBarsAppearance
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
 import com.kuzmin.flowersoflife.domain.model.AppUiState
@@ -25,10 +30,20 @@ import kotlinx.coroutines.launch
 fun MainScreen(
     featureNavGraph: Set<@JvmSuppressWildcards FeatureNavGraph>,
     appState: AppUiState,
-    snackbarHostState: SnackbarHostState,
+    snackBarHostState: SnackbarHostState,
     navigationManagerImpl: NavigationManagerImpl,
     modifier: Modifier = Modifier
 ) {
+    val activity = LocalContext.current as Activity
+    val statusBarColor = MaterialTheme.colorScheme.surface
+    val navigationBarColor = MaterialTheme.colorScheme.surface
+
+    SideEffect {
+        activity.setSystemBarsAppearance(
+            statusBarColor = statusBarColor,
+            navigationBarColor = navigationBarColor
+        )
+    }
 
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
