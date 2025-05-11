@@ -5,6 +5,7 @@ import com.kuzmin.flowersoflife.common.constants.Destination
 import com.kuzmin.flowersoflife.common.constants.Route
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
+import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -57,5 +58,9 @@ abstract class AuthBaseViewModel(
                 popUpTo(Destination.AUTH_LOGIN)
             }
         }
+    }
+
+    fun showSnackMessage(message: String, type: SnackbarMessageType) {
+
     }
 }

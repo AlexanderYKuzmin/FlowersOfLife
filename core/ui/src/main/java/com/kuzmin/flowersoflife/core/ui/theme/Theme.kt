@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.common.ui.theme
+package com.kuzmin.flowersoflife.core.ui.theme
 
 import android.app.Activity
 import android.os.Build

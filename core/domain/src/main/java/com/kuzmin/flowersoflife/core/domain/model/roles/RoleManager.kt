@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.core.domain.roles
+package com.kuzmin.flowersoflife.core.domain.model.roles
 
 interface RoleManager {
     suspend fun getUserRole(userId: String): String?

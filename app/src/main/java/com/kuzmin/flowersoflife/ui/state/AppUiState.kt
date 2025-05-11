@@ -1,8 +1,7 @@
-package com.kuzmin.flowersoflife.domain.model
+package com.kuzmin.flowersoflife.ui.state
 
 import androidx.compose.runtime.Immutable
 import com.kuzmin.flowersoflife.core.domain.model.User
-import com.kuzmin.flowersoflife.core.domain.model.UserRole
 
 sealed interface AppUiState {
     data object Loading : AppUiState
@@ -15,6 +14,12 @@ sealed interface AppUiState {
         val isLoading: Boolean = false,
         val isInternetAvailable: Boolean = true,
         val user: User? = null,
-        val isAuthorized: Boolean = false
+        val isAuthorized: Boolean = false,
+
+        val title: String = "",
+        val profilePhotoUrl: String? = null,
+        val showBackButton: Boolean = true,
+        val showProfilePhoto: Boolean = false,
+        val showSettingsButton: Boolean = false
     ) : AppUiState
 }

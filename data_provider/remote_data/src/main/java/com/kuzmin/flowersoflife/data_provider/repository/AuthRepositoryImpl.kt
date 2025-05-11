@@ -1,6 +1,6 @@
 package com.kuzmin.flowersoflife.data_provider.repository
 
-import com.kuzmin.flowersoflife.core.domain.roles.RoleManager
+import com.kuzmin.flowersoflife.core.domain.model.roles.RoleManager
 import com.google.firebase.auth.FirebaseUser
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.AuthService

@@ -18,7 +18,8 @@ import com.kuzmin.flowersoflife.common.constants.Route
 import com.kuzmin.flowersoflife.common.ext.setSystemBarsAppearance
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
-import com.kuzmin.flowersoflife.domain.model.AppUiState
+import com.kuzmin.flowersoflife.core.ui.components.snackbarhost.CustomSnackbarHost
+import com.kuzmin.flowersoflife.ui.state.AppUiState
 import com.kuzmin.flowersoflife.navigation.manager.NavigationManagerImpl
 import com.kuzmin.flowersoflife.ui.components.AppNavGraph
 import com.kuzmin.flowersoflife.ui.components.DrawerContent
@@ -29,7 +30,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(
     featureNavGraph: Set<@JvmSuppressWildcards FeatureNavGraph>,
-    appState: AppUiState,
+    appState: AppUiState.Success,
     snackBarHostState: SnackbarHostState,
     navigationManagerImpl: NavigationManagerImpl,
     modifier: Modifier = Modifier
@@ -49,8 +50,9 @@ fun MainScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    val userRole = (appState as? AppUiState.Success)?.user?.role
-    val isAuthorized = (appState as? AppUiState.Success)?.isAuthorized ?: false
+    val userRole = appState.user?.role
+    val isAuthorized = appState.isAuthorized
+
     val startDestination = if (isAuthorized) {
         when(userRole) {
             UserRole.PARENT -> Route.PARENT_NAV_GRAPH
@@ -71,8 +73,11 @@ fun MainScreen(
     ) {
 
         Scaffold(
+            snackbarHost = { CustomSnackbarHost(snackBarHostState) },
             topBar = {
                 MainScreenTopBar(
+                    title = appState.title,
+                    isBackButtonVisible = appState.showBackButton,
                     onNavigationIconClick = {
                         scope.launch { drawerState.open() }
                     }

@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.core.ui.components.components.checkbox
+package com.kuzmin.flowersoflife.core.ui.components.checkbox
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kuzmin.flowersoflife.common.ui.theme.FlowersOfLifeTheme
+import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
 
 @Composable
 fun BaseCheckbox(

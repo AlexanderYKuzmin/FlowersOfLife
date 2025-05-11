@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.core.ui.components.components.text
+package com.kuzmin.flowersoflife.core.ui.components.text
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -22,7 +22,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import com.kuzmin.flowersoflife.common.ui.theme.FlowersOfLifeTheme
+import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
 
 @Composable
 fun BasePasswordInputField(

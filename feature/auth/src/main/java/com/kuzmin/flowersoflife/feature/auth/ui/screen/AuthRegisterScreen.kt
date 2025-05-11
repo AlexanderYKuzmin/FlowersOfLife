@@ -26,13 +26,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kuzmin.flowersoflife.common.R
-import com.kuzmin.flowersoflife.common.ui.theme.FlowersOfLifeTheme
+import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
-import com.kuzmin.flowersoflife.core.ui.components.components.button.BaseApproveBtnGroup
-import com.kuzmin.flowersoflife.core.ui.components.components.checkbox.BaseCheckbox
-import com.kuzmin.flowersoflife.core.ui.components.components.text.BasePasswordInputField
-import com.kuzmin.flowersoflife.core.ui.components.components.text.BaseTextInputField
+import com.kuzmin.flowersoflife.core.ui.components.button.BaseApproveBtnGroup
+import com.kuzmin.flowersoflife.core.ui.components.checkbox.BaseCheckbox
+import com.kuzmin.flowersoflife.core.ui.components.text.BasePasswordInputField
+import com.kuzmin.flowersoflife.core.ui.components.text.BaseTextInputField
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType
 import com.kuzmin.flowersoflife.feature.auth.ui.viewmodels.AuthRegisterViewModel
 

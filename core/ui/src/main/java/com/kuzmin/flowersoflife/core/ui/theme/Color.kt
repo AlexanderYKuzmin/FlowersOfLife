@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.common.ui.theme
+package com.kuzmin.flowersoflife.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -8,6 +8,10 @@ val PrimaryDark = Color(0xFFBF3030)
 val Surface = Color(0xFFFB5353)
 val Gray = Color(0xFF979797)
 val Link = Color(0xFF0000EE)
+
+val ErrorColor = Color(0xFFF44336)
+val InfoColor = Color(0xFF2196F3)
+val WarningColor = Color(0xFFFFC107)
 
 //Form
 val RegisterFormContainer = Color(0xFFFCF8F8)

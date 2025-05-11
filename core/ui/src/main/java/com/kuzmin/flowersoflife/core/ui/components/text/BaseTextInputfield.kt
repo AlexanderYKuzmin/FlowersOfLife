@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.core.ui.components.components.text
+package com.kuzmin.flowersoflife.core.ui.components.text
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.OutlinedTextField
@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.kuzmin.flowersoflife.common.ui.theme.FlowersOfLifeTheme
+import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
 
 @Composable
 fun BaseTextInputField(

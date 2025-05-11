@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.core.ui.components.components.button
+package com.kuzmin.flowersoflife.core.ui.components.button
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kuzmin.flowersoflife.common.ui.theme.FlowersOfLifeTheme
+import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
 import com.kuzmin.flowersoflife.common.R
 
 @Composable
