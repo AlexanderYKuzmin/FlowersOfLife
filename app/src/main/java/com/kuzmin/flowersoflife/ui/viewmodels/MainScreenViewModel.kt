@@ -1,5 +1,6 @@
 package com.kuzmin.flowersoflife.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.R
@@ -72,6 +73,7 @@ class MainScreenViewModel @Inject constructor(
             uiEventFlow.events.collect { event ->
                 when (event) {
                     is UiEvent.ShowSnackbar -> {
+                        Log.d("CAB-8", "observeUiEvents: $event")
                         _snackbarState.emit(
                             SnackbarData(
                                 message = event.message,

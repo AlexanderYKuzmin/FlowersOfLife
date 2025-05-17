@@ -1,5 +1,6 @@
 package com.kuzmin.flowersoflife.feature.auth.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -42,10 +43,13 @@ import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
 import com.kuzmin.flowersoflife.core.ui.theme.Link
 import com.kuzmin.flowersoflife.core.ui.components.button.BaseApproveBtnGroup
 import com.kuzmin.flowersoflife.core.ui.components.checkbox.BaseCheckbox
+import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 import com.kuzmin.flowersoflife.core.ui.components.text.BasePasswordInputField
 import com.kuzmin.flowersoflife.core.ui.components.text.BaseTextInputField
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthCredentials
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
+import com.kuzmin.flowersoflife.feature.auth.exception.IllegalLoginException
+import com.kuzmin.flowersoflife.feature.auth.exception.IllegalRouteException
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType
 import com.kuzmin.flowersoflife.feature.auth.ui.viewmodels.AuthLoginViewModel
 
@@ -88,11 +92,22 @@ fun AuthLoginScreen(
             }
 
             is AuthState.Error -> {
-                // TODO
+                Log.d("CAB-8", "AuthLoginScreen: $authState")
+                val state = authState as AuthState.Error
+                val message = when (state.throwable) {
+                    is IllegalRouteException -> stringResource(id = R.string.illegal_route_error)
+                    is IllegalLoginException -> stringResource(id = R.string.illegal_login_error)
+                    else -> state.throwable.message ?: stringResource(id = R.string.unknown_error)
+                }
+
+                viewModel.showSnackMessage(
+                    message = message,
+                    type = SnackbarMessageType.ERROR
+                )
+                viewModel.refresh()
             }
 
-            else -> {
-            }
+            else -> Unit
         }
     }
 }

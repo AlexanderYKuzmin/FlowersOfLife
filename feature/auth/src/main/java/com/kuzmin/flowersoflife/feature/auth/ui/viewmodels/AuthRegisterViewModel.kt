@@ -8,6 +8,7 @@ import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.local.resource_provider.ResourceProvider
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
+import com.kuzmin.flowersoflife.core.ui.event.UiEventFlow
 import com.kuzmin.flowersoflife.feature.auth.api.usecases.RegisterUserUseCase
 import com.kuzmin.flowersoflife.feature.auth.api.usecases.SaveUserDatastoreUseCase
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
@@ -28,8 +29,9 @@ class AuthRegisterViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
     private val resourceProvider: ResourceProvider,
     private val registerUserUseCase: RegisterUserUseCase,
-    private val saveUserDatastoreUseCase: SaveUserDatastoreUseCase
-) : AuthBaseViewModel(navigationManager) {
+    private val saveUserDatastoreUseCase: SaveUserDatastoreUseCase,
+    uiEventFlow: UiEventFlow
+) : AuthBaseViewModel(navigationManager, uiEventFlow) {
 
     val userState: StateFlow<User?> = authState
         .map { (it as? AuthState.Success)?.user }

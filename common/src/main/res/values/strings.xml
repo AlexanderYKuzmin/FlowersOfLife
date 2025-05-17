@@ -31,4 +31,7 @@
     <string name="error_role_not_selected">Please select a role</string>
 
 
+    <string name="unknown_error">Unknown error</string>
+    <string name="illegal_route_error">Wrong application routing</string>
+    <string name="illegal_login_error">Wrong login or password</string>
 </resources>

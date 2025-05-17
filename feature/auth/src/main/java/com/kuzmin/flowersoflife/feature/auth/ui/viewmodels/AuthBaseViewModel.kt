@@ -1,11 +1,14 @@
 package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.common.constants.Destination
 import com.kuzmin.flowersoflife.common.constants.Route
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
+import com.kuzmin.flowersoflife.core.ui.event.UiEvent
+import com.kuzmin.flowersoflife.core.ui.event.UiEventFlow
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -13,9 +16,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 abstract class AuthBaseViewModel(
-    private val navigationManager: NavigationManager
+    private val navigationManager: NavigationManager,
+    private val uiEventFlow: UiEventFlow
 ) : ViewModel() {
 
     private val _fieldErrors = MutableStateFlow<Set<RegisterErrorType>>(emptySet())
@@ -61,6 +66,8 @@ abstract class AuthBaseViewModel(
     }
 
     fun showSnackMessage(message: String, type: SnackbarMessageType) {
-
+        viewModelScope.launch {
+            uiEventFlow.emit(UiEvent.ShowSnackbar(message, type))
+        }
     }
 }

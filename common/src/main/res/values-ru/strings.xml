@@ -28,4 +28,7 @@
     <string name="error_password_mismatch">Пароли не совпадают</string>
     <string name="error_role_not_selected">Выберите роль</string>
 
+    <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="illegal_route_error">Ошибка маршрутизации приложения</string>
+    <string name="illegal_login_error">Неверный логин или пароль</string>
 </resources>
