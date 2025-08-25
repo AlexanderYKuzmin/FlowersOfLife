@@ -2,14 +2,16 @@ package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kuzmin.flowersoflife.common.constants.Destination
 import com.kuzmin.flowersoflife.common.constants.Route
+import com.kuzmin.flowersoflife.common.model.AppUiData
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
+import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 import com.kuzmin.flowersoflife.core.ui.event.UiEvent
 import com.kuzmin.flowersoflife.core.ui.event.UiEventFlow
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
+import com.kuzmin.flowersoflife.feature.auth.exception.IllegalRouteException
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +36,7 @@ abstract class AuthBaseViewModel(
     open val authState: StateFlow<AuthState> get() = _authState.asStateFlow()
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        throwable.printStackTrace()
         _authState.value = AuthState.Error(throwable)
     }
 
@@ -47,23 +50,33 @@ abstract class AuthBaseViewModel(
         _authState.value = block(_authState.value)
     }
 
-    fun toStartAuth() {
-        navigationManager.popUpTo(Destination.AUTH_LOGIN)
+    protected suspend fun updateTopbarState(appUiData: AppUiData) {
+        uiEventFlow.emit(
+            UiEvent.UpdateAppState(
+                appUiData = appUiData
+            )
+        )
     }
 
-    fun navigateToHome() {
-        if (authState.value is AuthState.Success) {
-            val user = (authState.value as? AuthState.Success)?.user ?: return
-            val route = if (user.role == UserRole.PARENT) {
-                Route.PARENT_NAV_GRAPH
-            } else {
-                Route.CHILD_NAV_GRAPH
-            }
-            navigationManager.navigate(route) {
-                popUpTo(Destination.AUTH_LOGIN)
-            }
-        }
+    suspend fun toStartAuth() {
+        navigationManager.navigate(NavigationCommand.Back)
     }
+
+    suspend fun navigateToHome() {
+        val currentState = authState.value
+        if (currentState !is AuthState.Success) return
+
+        val user = currentState.user
+
+        val route = when (user.role) {
+            UserRole.PARENT -> Route.PARENT_NAV_GRAPH
+            UserRole.CHILD -> Route.CHILD_NAV_GRAPH
+            else -> throw IllegalRouteException()
+        }
+
+        navigationManager.navigate(NavigationCommand.ToGraph(route, Route.AUTH_NAV_GRAPH))
+    }
+
 
     fun showSnackMessage(message: String, type: SnackbarMessageType) {
         viewModelScope.launch {

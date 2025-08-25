@@ -1,6 +1,6 @@
 package com.kuzmin.flowersoflife.core.ui.event
 
-import com.kuzmin.flowersoflife.common.model.AppData
+import com.kuzmin.flowersoflife.common.model.AppUiData
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 
 sealed class UiEvent {
@@ -11,5 +11,5 @@ sealed class UiEvent {
 
     data class Navigate(val route: String) : UiEvent()
 
-    data class UpdateAppState(val appData: AppData) : UiEvent()
+    data class UpdateAppState(val appUiData: AppUiData) : UiEvent()
 }

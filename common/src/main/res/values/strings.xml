@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Kids at business</string>
+    <string name="sign_in_title">Authorization</string>
+    <string name="sign_up_title">Sign up</string>
+
     <string name="ok_btn_txt">OK</string>
     <string name="cancel_btn_txt">Cancel</string>
 
@@ -34,4 +38,7 @@
     <string name="unknown_error">Unknown error</string>
     <string name="illegal_route_error">Wrong application routing</string>
     <string name="illegal_login_error">Wrong login or password</string>
+
+    <!-- INFO MESSAGES -->
+    <string name="user_registered">User is signed up</string>
 </resources>

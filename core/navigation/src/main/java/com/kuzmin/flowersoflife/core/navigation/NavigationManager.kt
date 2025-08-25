@@ -1,11 +1,10 @@
 package com.kuzmin.flowersoflife.core.navigation
 
-import androidx.navigation.NavOptionsBuilder
+import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
+import kotlinx.coroutines.flow.SharedFlow
 
 interface NavigationManager {
-    fun navigate(destination: String)
-    fun navigate(route: String, builder: NavOptionsBuilder.() -> Unit)
-    fun popBackStack(): Boolean
-    fun popUpTo(destination: String)
-    fun navigateUp(): Boolean
+    val commands: SharedFlow<NavigationCommand>
+
+    suspend fun navigate(command: NavigationCommand)
 }

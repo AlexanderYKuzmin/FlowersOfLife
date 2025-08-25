@@ -7,4 +7,5 @@ sealed class AuthState {
     data object Loading : AuthState()
     data class Error(val throwable: Throwable) : AuthState()
     data class Success(val user: User) : AuthState()
+    data class Navigated(val route: String) : AuthState()
 }

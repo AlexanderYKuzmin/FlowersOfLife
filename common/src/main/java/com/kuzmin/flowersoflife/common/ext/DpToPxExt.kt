@@ -10,9 +10,14 @@ fun Int.toPx(): Float {
     return this * density.density
 }
 
-
 @Composable
 fun Dp.toPx(): Float {
     val density = LocalDensity.current
     return this.value * density.density
+}
+
+@Composable
+fun Int.toDp(): Dp {
+    val density = LocalDensity.current
+    return with(density) { this@toDp.toFloat().toDp() }
 }

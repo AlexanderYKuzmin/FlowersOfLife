@@ -7,10 +7,14 @@ data class User(
     val role: UserRole? = null,
     val password: String = "",
     val isAdmin: Boolean = false,
-    val uid: String? = null
+    val uid: String? = null,
+    val isAuthorized: Boolean = false
 ) {
     val isUserConsistent: Boolean
         get() =
             firstName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() &&
             role != null
+
+    val isUserRegistered: Boolean
+        get() = uid != null
 }

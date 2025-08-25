@@ -11,28 +11,38 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kuzmin.flowersoflife.R
+import com.kuzmin.flowersoflife.common.model.AppUiData
 import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreenTopBar(
-    title: String = stringResource(id = R.string.app_name),
-    isBackButtonVisible: Boolean = true,
-    onNavigationIconClick: () -> Unit
+    appUiData: AppUiData = AppUiData(),
+    onNavigationIconClick: () -> Unit,
+    onBackClick: () -> Unit
 ) {
     TopAppBar(
         title = {
             Text(
-                text = title,
+                text = appUiData.title,
                 style = MaterialTheme.typography.titleLarge
             )
         },
         navigationIcon = {
-            IconButton(onClick = onNavigationIconClick) {
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_menu_24),
-                    contentDescription = stringResource(id = R.string.menu_icon_description)
-                )
+            if (appUiData.isHamburgerVisible) {
+                IconButton(onClick = onNavigationIconClick) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_menu_24),
+                        contentDescription = stringResource(id = R.string.menu_icon_description)
+                    )
+                }
+            } else if (appUiData.isBackVisible) {
+                IconButton(onClick = onBackClick) {
+                    Icon(
+                        painter = painterResource(id = com.google.android.material.R.drawable.material_ic_keyboard_arrow_left_black_24dp),
+                        contentDescription = stringResource(id = R.string.back_icon_description)
+                    )
+                }
             }
         }
     )
@@ -47,8 +57,9 @@ fun MainScreenTopBar(
 private fun MainScreenTopBarPreview() {
     FlowersOfLifeTheme {
         MainScreenTopBar(
-            title = "Дети при деле",
-            onNavigationIconClick = {}
+            appUiData = AppUiData(),
+            onNavigationIconClick = {},
+            onBackClick = {}
         )
     }
 }
