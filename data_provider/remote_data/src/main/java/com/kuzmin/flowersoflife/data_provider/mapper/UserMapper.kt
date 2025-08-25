@@ -1,6 +1,5 @@
 package com.kuzmin.flowersoflife.data_provider.mapper
 
-import com.google.firebase.auth.AuthCredential
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.model.AuthCredentialsFb
@@ -22,7 +21,9 @@ class UserMapper @Inject constructor() {
             email = userFb.email,
             password = userFb.password,
             role = UserRole.valueOf(userFb.role),
-            firstName = userFb.firstName
+            firstName = userFb.firstName,
+            groupName = userFb.groupName,
+            isAdmin = userFb.isAdmin
         )
     }
 
@@ -32,7 +33,9 @@ class UserMapper @Inject constructor() {
             email = user.email,
             password = user.password,
             role = user.role!!.name,
-            firstName = user.firstName
+            firstName = user.firstName,
+            groupName = user.groupName,
+            isAdmin = user.isAdmin
         )
     }
 }

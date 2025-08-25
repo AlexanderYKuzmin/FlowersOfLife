@@ -83,7 +83,9 @@ dependencies {
 
     implementation(libs.androidx.navigation.compose)
 
+    testImplementation(project(":core:test-utils"))
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

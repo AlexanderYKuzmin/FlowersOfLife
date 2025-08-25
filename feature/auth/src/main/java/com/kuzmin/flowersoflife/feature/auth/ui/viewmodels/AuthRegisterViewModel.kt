@@ -1,13 +1,17 @@
 package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 
 import androidx.lifecycle.viewModelScope
+import com.kuzmin.flowersoflife.common.R.string.sign_up_title
 import com.kuzmin.flowersoflife.common.R.string.unsuccessful_registration
 import com.kuzmin.flowersoflife.common.R.string.user_not_initialized
-import com.kuzmin.flowersoflife.common.constants.Destination
+import com.kuzmin.flowersoflife.common.R.string.user_registered
+import com.kuzmin.flowersoflife.common.model.AppUiData
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.local.resource_provider.ResourceProvider
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
+import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
+import com.kuzmin.flowersoflife.core.ui.event.UiEventFlow
 import com.kuzmin.flowersoflife.feature.auth.api.usecases.RegisterUserUseCase
 import com.kuzmin.flowersoflife.feature.auth.api.usecases.SaveUserDatastoreUseCase
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
@@ -28,8 +32,9 @@ class AuthRegisterViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
     private val resourceProvider: ResourceProvider,
     private val registerUserUseCase: RegisterUserUseCase,
-    private val saveUserDatastoreUseCase: SaveUserDatastoreUseCase
-) : AuthBaseViewModel(navigationManager) {
+    private val saveUserDatastoreUseCase: SaveUserDatastoreUseCase,
+    uiEventFlow: UiEventFlow
+) : AuthBaseViewModel(navigationManager, uiEventFlow) {
 
     val userState: StateFlow<User?> = authState
         .map { (it as? AuthState.Success)?.user }
@@ -39,8 +44,19 @@ class AuthRegisterViewModel @Inject constructor(
     val repeatPassword: StateFlow<String> = _repeatPassword
 
     init {
+
+        setAuthState(AuthState.Loading)
         updateAuthState {
             AuthState.Success(User())
+        }
+        viewModelScope.launch {
+            updateTopbarState(
+                AppUiData(
+                    isHamburgerVisible = false,
+                    isBackVisible = true,
+                    title = resourceProvider.getString(sign_up_title)
+                )
+            )
         }
     }
 
@@ -77,10 +93,12 @@ class AuthRegisterViewModel @Inject constructor(
     }
 
     fun registerUser() {
-        viewModelScope.launch(ioCoroutineContext) {
-            val user = (authState.value as? AuthState.Success)?.user
-                ?: throw IllegalStateException(resourceProvider.getString(user_not_initialized))
+        val user = (authState.value as? AuthState.Success)?.user
+            ?: throw IllegalStateException(resourceProvider.getString(user_not_initialized))
 
+        setAuthState(AuthState.Loading)
+
+        viewModelScope.launch(ioCoroutineContext) {
             val errors = RegisterUserContextualValidator.validate(user, repeatPassword.value)
             if (errors.isNotEmpty()) {
                 setErrors(errors)
@@ -89,8 +107,13 @@ class AuthRegisterViewModel @Inject constructor(
 
             val registeredUser = registerUserUseCase.invoke(user)
             if (registeredUser != null) {
+                setAuthState(AuthState.Success(registeredUser))
                 saveUserDatastoreUseCase.invoke(registeredUser)
                 navigateToHome()
+                showSnackMessage(
+                    resourceProvider.getString(user_registered),
+                    SnackbarMessageType.INFO
+                )
             } else {
                 setAuthState(
                     AuthState.Error(
@@ -105,6 +128,8 @@ class AuthRegisterViewModel @Inject constructor(
     }
 
     fun cancelRegistration() {
-        navigationManager.popUpTo(Destination.AUTH_LOGIN)
+        viewModelScope.launch {
+            toStartAuth()
+        }
     }
 }
