@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun HomeScreen(
+fun ChildrenScreen(
     modifier: Modifier = Modifier
 ) {
     Box(
