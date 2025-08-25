@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.feature.home.ui.screen
+package com.kuzmin.flowersoflife.feature.home.ui.screen.children
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
