@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,20 +37,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kuzmin.flowersoflife.common.R
-import com.kuzmin.flowersoflife.common.ui.theme.FlowersOfLifeTheme
-import com.kuzmin.flowersoflife.common.ui.theme.Link
-import com.kuzmin.flowersoflife.core.ui.components.components.button.BaseApproveBtnGroup
-import com.kuzmin.flowersoflife.core.ui.components.components.checkbox.BaseCheckbox
-import com.kuzmin.flowersoflife.core.ui.components.components.text.BasePasswordInputField
-import com.kuzmin.flowersoflife.core.ui.components.components.text.BaseTextInputField
+import com.kuzmin.flowersoflife.core.ui.components.button.BaseApproveBtnGroup
+import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
+import com.kuzmin.flowersoflife.core.ui.components.text.BasePasswordInputField
+import com.kuzmin.flowersoflife.core.ui.components.text.BaseTextInputField
+import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
+import com.kuzmin.flowersoflife.core.ui.theme.Link
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthCredentials
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
+import com.kuzmin.flowersoflife.feature.auth.exception.IllegalLoginException
+import com.kuzmin.flowersoflife.feature.auth.exception.IllegalRouteException
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType
 import com.kuzmin.flowersoflife.feature.auth.ui.viewmodels.AuthLoginViewModel
 
 @Composable
 fun AuthLoginScreen(
-    viewModel: AuthLoginViewModel = hiltViewModel()
+    viewModel: AuthLoginViewModel = hiltViewModel(),
 ) {
     val authState by viewModel.authState.collectAsState()
 
@@ -88,11 +89,21 @@ fun AuthLoginScreen(
             }
 
             is AuthState.Error -> {
-                // TODO
+                val state = authState as AuthState.Error
+                val message = when (state.throwable) {
+                    is IllegalRouteException -> stringResource(id = R.string.illegal_route_error)
+                    is IllegalLoginException -> stringResource(id = R.string.illegal_login_error)
+                    else -> state.throwable.message ?: stringResource(id = R.string.unknown_error)
+                }
+
+                viewModel.showSnackMessage(
+                    message = message,
+                    type = SnackbarMessageType.ERROR
+                )
+                viewModel.refresh()
             }
 
-            else -> {
-            }
+            else -> Unit
         }
     }
 }
@@ -107,7 +118,7 @@ fun AuthLoginScreenCard(
     errors: Set<RegisterErrorType> = emptySet()
 ) {
     var credentials by remember { mutableStateOf(AuthCredentials(email, password)) }
-    var rememberMe by remember { mutableStateOf(false) }
+    val rememberMe by remember { mutableStateOf(false) }
 
     val density = LocalDensity.current
     val imeVisible = WindowInsets.ime.getBottom(density) > 0
@@ -161,27 +172,6 @@ fun AuthLoginScreenCard(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.End
                     ) {
-                        BaseCheckbox(
-                            checked = rememberMe,
-                            onCheckedChange = { rememberMe = it },
-                            label = stringResource(id = R.string.remember_me),
-                            colors = CheckboxDefaults.colors(
-                                checkedColor = MaterialTheme.colorScheme.primary,
-                                uncheckedColor = MaterialTheme.colorScheme.outline,
-                                checkmarkColor = MaterialTheme.colorScheme.onPrimary
-                            )
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 4.dp, end = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.End
-                    ) {
                         Text(
                             text = stringResource(id = R.string.register),
                             style = MaterialTheme.typography.bodyLarge.copy(
@@ -202,7 +192,6 @@ fun AuthLoginScreenCard(
                         onPositiveClick = { onPositiveClick(credentials, rememberMe) },
                         onNegativeClick = { onNegativeClick() }
                     )
-                } else {
                 }
             }
         }

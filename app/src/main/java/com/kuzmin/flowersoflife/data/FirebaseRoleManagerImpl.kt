@@ -3,13 +3,13 @@ package com.kuzmin.flowersoflife.data
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.kuzmin.flowersoflife.common.ext.awaitSingleValueEvent
-import com.kuzmin.flowersoflife.core.domain.roles.RoleManager
+import com.kuzmin.flowersoflife.core.domain.model.roles.RoleManager
 import javax.inject.Inject
 
 class FirebaseRoleManagerImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val database: FirebaseDatabase
-) : RoleManager{
+) : RoleManager {
 
     override suspend fun getUserRole(userId: String): String? {
         return try {

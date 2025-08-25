@@ -5,5 +5,7 @@ data class UserFb(
     val firstName: String,
     val email: String,
     val role: String,
-    val password: String
+    val password: String,
+    val groupName: String,
+    val isAdmin: Boolean
 )

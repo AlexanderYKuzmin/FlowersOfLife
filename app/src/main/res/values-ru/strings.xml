@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Дети при деле</string>
-
     <string name="menu_icon_description">Меню</string>
+    <string name="back_icon_description">Стрелка назад</string>
 
     <string name="home">Домой</string>
     <string name="tasks">Задания</string>

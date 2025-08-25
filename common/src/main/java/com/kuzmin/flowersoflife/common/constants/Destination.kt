@@ -2,6 +2,9 @@ package com.kuzmin.flowersoflife.common.constants
 
 object Destination {
     //root
+    const val ROOT = "root"
+
+    //auth
     const val AUTH_LOGIN = "auth_login"
     const val AUTH_REGISTER = "auth_register"
     const val AUTH_RESET = "auth_reset"

@@ -1,5 +1,6 @@
 package com.kuzmin.flowersoflife.navigation.graph
 
+import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -15,11 +16,14 @@ class ParentNavGraph @Inject constructor() : FeatureNavGraph {
         navController: NavController,
         navGraphBuilder: NavGraphBuilder
     ) {
+        Log.d("CAB-9", "🔧 ParentNavGraph registered")
         navGraphBuilder.navigation(
             route = Route.PARENT_NAV_GRAPH,
             startDestination = Destination.PARENT_HOME
         ) {
+            Log.d("CAB-9", "📍 registering parent_home destination")
             composable(route = Destination.PARENT_HOME) {
+                Log.d("CAB-9", "✅ parent_home hit!")
                 HomeScreen()
             }
         }

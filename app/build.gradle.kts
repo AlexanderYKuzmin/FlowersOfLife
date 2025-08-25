@@ -72,6 +72,7 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:domain"))
     implementation(project(":core:local"))
+    implementation(project(":core:ui"))
     implementation(project(":feature:auth"))
     implementation(project(":feature:home"))
     implementation(project(":feature:tasks"))

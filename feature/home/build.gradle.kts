@@ -49,6 +49,7 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":core:navigation"))
     implementation(project(":core:domain"))
+    implementation(project(":data_provider:remote_data"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)
