@@ -1,7 +1,7 @@
 package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 
 import com.kuzmin.flowersoflife.core.domain.model.User
-import com.kuzmin.flowersoflife.core.domain.usecases.GetUserFromLocalStorageUseCase
+import com.kuzmin.flowersoflife.core.domain.usecases.auth.GetUserFromLocalStorageUseCase
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.test_utils.MainDispatcherRule
 import com.kuzmin.flowersoflife.core.ui.event.UiEventFlowImpl

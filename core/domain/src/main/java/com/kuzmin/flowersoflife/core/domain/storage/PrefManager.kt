@@ -1,6 +1,4 @@
-package com.kuzmin.flowersoflife.feature.auth.api
-
-import com.kuzmin.flowersoflife.core.domain.model.User
+package com.kuzmin.flowersoflife.core.domain.storage
 
 interface PrefManager {
 

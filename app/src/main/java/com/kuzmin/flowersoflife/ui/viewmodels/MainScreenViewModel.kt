@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.R
 import com.kuzmin.flowersoflife.common.model.AppUiData
 import com.kuzmin.flowersoflife.core.domain.model.User
-import com.kuzmin.flowersoflife.core.domain.usecases.CheckAuthUseCase
-import com.kuzmin.flowersoflife.core.domain.usecases.GetUserFromLocalStorageUseCase
+import com.kuzmin.flowersoflife.core.domain.usecases.auth.CheckAuthUseCase
+import com.kuzmin.flowersoflife.core.domain.usecases.auth.GetUserFromLocalStorageUseCase
 import com.kuzmin.flowersoflife.core.local.resource_provider.ResourceProvider
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarData

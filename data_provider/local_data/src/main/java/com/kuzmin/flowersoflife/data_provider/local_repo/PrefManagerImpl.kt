@@ -12,7 +12,7 @@ import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.IS_ADMIN
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.PASSWORD
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.ROLE
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.UID
-import com.kuzmin.flowersoflife.feature.auth.api.PrefManager
+import com.kuzmin.flowersoflife.core.domain.storage.PrefManager
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
-import com.kuzmin.flowersoflife.feature.auth.api.PrefManager
+import com.kuzmin.flowersoflife.core.domain.storage.PrefManager
 import com.kuzmin.flowersoflife.data_provider.local_repo.PrefManagerImpl
 import dagger.Binds
 import dagger.Module

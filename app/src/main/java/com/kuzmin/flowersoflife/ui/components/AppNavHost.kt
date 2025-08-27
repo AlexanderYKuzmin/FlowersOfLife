@@ -71,7 +71,7 @@ fun AppNavHost(
         }
         val startRoute = when(graph) {
             Route.AUTH_NAV_GRAPH -> Destination.AUTH_LOGIN
-            Route.PARENT_NAV_GRAPH -> Destination.PARENT_HOME
+            Route.PARENT_NAV_GRAPH -> Destination.PARENT_CHILDREN_LIST
             Route.CHILD_NAV_GRAPH -> Destination.CHILD_HOME
             else -> Destination.AUTH_LOGIN
         }

@@ -1,7 +1,7 @@
 package com.kuzmin.flowersoflife.feature.auth.di
 
-import com.kuzmin.flowersoflife.core.domain.usecases.CheckAuthUseCase
-import com.kuzmin.flowersoflife.core.domain.usecases.GetUserFromLocalStorageUseCase
+import com.kuzmin.flowersoflife.core.domain.usecases.auth.CheckAuthUseCase
+import com.kuzmin.flowersoflife.core.domain.usecases.auth.GetUserFromLocalStorageUseCase
 import com.kuzmin.flowersoflife.feature.auth.api.usecases.RegisterUserUseCase
 import com.kuzmin.flowersoflife.feature.auth.api.usecases.SaveUserDatastoreUseCase
 import com.kuzmin.flowersoflife.feature.auth.api.usecases.SignInUseCase
