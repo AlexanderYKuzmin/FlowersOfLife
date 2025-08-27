@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.data_provider.repository.api
+package com.kuzmin.flowersoflife.core.domain.repository
 
 import com.kuzmin.flowersoflife.core.domain.model.family_members.Child
 import com.kuzmin.flowersoflife.core.domain.model.financial.FinancialRecord

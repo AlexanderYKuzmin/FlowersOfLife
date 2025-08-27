@@ -7,7 +7,6 @@ import androidx.navigation.navigation
 import com.kuzmin.flowersoflife.common.constants.Destination
 import com.kuzmin.flowersoflife.common.constants.Route
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
-import com.kuzmin.flowersoflife.feature.home.ui.screen.children.ChildrenScreen
 import javax.inject.Inject
 
 class ChildNavGraph @Inject constructor() : FeatureNavGraph {
@@ -20,7 +19,7 @@ class ChildNavGraph @Inject constructor() : FeatureNavGraph {
             startDestination = Destination.CHILD_HOME
         ) {
             composable(route = Destination.CHILD_HOME) {
-                ChildrenScreen()
+                // TODO ChildrenScreen()
             }
         }
     }
