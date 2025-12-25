@@ -7,5 +7,7 @@ interface FamilyRepository {
 
     suspend fun getChildrenList(groupName: String): List<Child>
 
+    suspend fun getChildrenDetailsList(groupName: String): List<ChildDetails>
+
     suspend fun getChildDetails(childId: String): ChildDetails
 }

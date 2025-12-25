@@ -2,13 +2,13 @@ package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 
 import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.common.R.string.sign_in_title
-import com.kuzmin.flowersoflife.common.constants.Destination
 import com.kuzmin.flowersoflife.common.model.AppUiData
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.usecases.auth.GetUserFromLocalStorageUseCase
 import com.kuzmin.flowersoflife.core.local.resource_provider.ResourceProvider
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
+import com.kuzmin.flowersoflife.core.navigation.routing.Destination
 import com.kuzmin.flowersoflife.core.ui.event.UiEventFlow
 import com.kuzmin.flowersoflife.feature.auth.api.usecases.SignInUseCase
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthCredentials

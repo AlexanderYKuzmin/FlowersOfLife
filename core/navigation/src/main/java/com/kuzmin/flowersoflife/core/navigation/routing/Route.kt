@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.common.constants
+package com.kuzmin.flowersoflife.core.navigation.routing
 
 object Route {
     const val PARENT_NAV_GRAPH = "parent_nav_graph"

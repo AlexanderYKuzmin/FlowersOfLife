@@ -23,3 +23,9 @@ val OnSurface = Color(0xFFBDBDBD) // Текст неактивный
 val OnSurfaceActive = Color(0xFFFFFFFF)
 val OnSurfaceVariant = Color(0xFFFB5353)
 val InverseOnSurface = Color(0xFF5C3904)
+
+
+val Background = Color(0xFFFDFDFD)
+val DetailsCardBackground = Color(0xFFEADFFB)
+
+val ProgressColor = Color(0xFF35B84D)

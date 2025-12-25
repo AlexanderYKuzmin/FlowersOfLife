@@ -1,11 +1,9 @@
-import org.gradle.kotlin.dsl.libs
-
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlinKapt)
-    alias(libs.plugins.googleServices)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -25,6 +23,29 @@ android {
         }
     }
 
+    flavorDimensions += "environment"
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+
+            buildConfigField("String", "BASE_URL", "\"http://localhost:8080/api/\"")
+            buildConfigField("String", "ENVIRONMENT", "\"dev\"")
+
+            resValue("string", "app_name", "FlowersOfLife Dev")
+        }
+
+        create("prod") {
+            dimension = "environment"
+
+            buildConfigField("String", "BASE_URL", "\"https://api.yourdomain.com/api/v1/\"")
+            buildConfigField("String", "ENVIRONMENT", "\"prod\"")
+
+            resValue("string", "app_name", "FlowersOfLife")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -35,6 +56,11 @@ android {
         }
     }
 
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.toVersion(libs.versions.sourceCompatibility.get())
         targetCompatibility = JavaVersion.toVersion(libs.versions.targetCompatibility.get())
@@ -42,10 +68,6 @@ android {
 
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
-    }
-
-    buildFeatures {
-        compose = true
     }
 
     composeOptions {

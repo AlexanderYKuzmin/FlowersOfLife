@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
+import com.kuzmin.flowersoflife.core.domain.storage.PrefManager
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.EMAIL
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.FIRSTNAME
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.GROUP
@@ -12,7 +13,6 @@ import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.IS_ADMIN
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.PASSWORD
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.ROLE
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.UID
-import com.kuzmin.flowersoflife.core.domain.storage.PrefManager
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

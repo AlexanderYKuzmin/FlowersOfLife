@@ -3,10 +3,10 @@ package com.kuzmin.flowersoflife.navigation.graph
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import com.kuzmin.flowersoflife.common.constants.Destination
-import com.kuzmin.flowersoflife.common.constants.Route
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
+import com.kuzmin.flowersoflife.core.navigation.routing.Destination
+import com.kuzmin.flowersoflife.core.navigation.routing.Route
 
 @Composable
 fun RootFlowScreen(

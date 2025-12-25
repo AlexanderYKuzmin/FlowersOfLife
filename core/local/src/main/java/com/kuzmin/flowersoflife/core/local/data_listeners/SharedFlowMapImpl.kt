@@ -8,20 +8,20 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SharedFlowMapImpl<K, V> @Inject constructor() : SharedFlowMap<K, V> {
+class SharedFlowMapImpl<V> @Inject constructor() : SharedFlowMap<String, V> {
 
-    private val flows = ConcurrentHashMap<K, MutableSharedFlow<V?>>()
+    private val flows = ConcurrentHashMap<String, MutableSharedFlow<V?>>()
 
-    override fun emit(key: K, value: V) {
+    override fun emit(key: String, value: V) {
         val flow = flows.getOrPut(key) { MutableSharedFlow(replay = 1) }
         flow.tryEmit(value)
     }
 
-    override fun observe(key: K): Flow<V?> {
+    override fun observe(key: String): Flow<V?> {
         return flows.getOrPut(key) { MutableSharedFlow(replay = 1) }.asSharedFlow()
     }
 
-    override fun remove(key: K) {
+    override fun remove(key: String) {
         flows.remove(key)
     }
 

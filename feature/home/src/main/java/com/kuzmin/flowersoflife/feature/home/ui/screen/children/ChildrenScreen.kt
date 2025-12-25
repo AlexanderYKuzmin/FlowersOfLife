@@ -4,13 +4,22 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.kuzmin.flowersoflife.core.domain.model.family_members.Child
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.kuzmin.flowersoflife.core.domain.model.family_members.ChildDetails
+import com.kuzmin.flowersoflife.core.ui.R
+import com.kuzmin.flowersoflife.core.ui.components.dialog.AlertDialogCard
+import com.kuzmin.flowersoflife.feature.home.ui.component.ChildCardDetails
 import com.kuzmin.flowersoflife.feature.home.ui.screen.children.state.ChildrenListState
 
 @Composable
@@ -30,11 +39,28 @@ fun ChildrenScreen(
             is ChildrenListState.Loading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
 
             is ChildrenListState.Success -> {
-                ChildrenScreenContent(state.children)
+                ChildrenScreenContent(
+                    children = state.children,
+                    onChildClick = onChildClick
+                )
             }
 
             is ChildrenListState.Error -> {
-                //TODO Error Alert
+                AlertDialogCard(
+                    title = stringResource(R.string.error_title),
+                    message = state.message,
+                    confirmText = stringResource(R.string.ok_btn),
+                    onConfirm = onBackPressed,
+                    onDismissRequest = onBackPressed,
+                    icon = {
+                        Icon(
+                            painter = painterResource(R.drawable.baseline_error_outline_24),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.size(48.dp)
+                        )
+                    }
+                )
             }
         }
     }
@@ -42,7 +68,8 @@ fun ChildrenScreen(
 
 @Composable
 fun ChildrenScreenContent(
-    children: List<Child>
+    children: List<ChildDetails>,
+    onChildClick: (childId: String) -> Unit
 ) {
 
     val scrollState = rememberScrollState()
@@ -51,8 +78,11 @@ fun ChildrenScreenContent(
         modifier = Modifier.fillMaxSize()
             .verticalScroll(scrollState)
     ) {
-        repeat(children.size) { index ->
-            //TODO ChildCard
+        children.forEach { childDetails ->
+            ChildCardDetails(
+                child = childDetails,
+                onClick = { onChildClick(childDetails.child.childId) }
+            )
         }
     }
 }

@@ -61,12 +61,12 @@ class MainScreenViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
 
-            //val user = getUserFromLocalStorageUseCase()
-            /*val isAuthorized = if (user.isUserConsistent) {
+            val user = getUserFromLocalStorageUseCase()
+            val isAuthorized = if (user.isUserConsistent) {
                 false
             } else {
                 checkAuthUseCase()
-            }*/
+            }
 
             delay(5000)
             _screenState.update {

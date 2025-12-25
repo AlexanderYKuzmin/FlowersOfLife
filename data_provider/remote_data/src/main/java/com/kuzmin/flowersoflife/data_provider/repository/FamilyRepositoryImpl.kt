@@ -15,6 +15,11 @@ class FamilyRepositoryImpl @Inject constructor(
         return childrenFb.map { childFb -> FamilyMapper.toDomain(childFb) }
     }
 
+    override suspend fun getChildrenDetailsList(groupName: String): List<ChildDetails> {
+        val childrenDetailsFb = familyService.getChildrenDetailsList(groupName)
+        return childrenDetailsFb.map { detailsFb -> FamilyMapper.toDomain(detailsFb) }
+    }
+
     override suspend fun getChildDetails(childId: String): ChildDetails {
         val detailsFb = familyService.getChildDetails(childId)
         return FamilyMapper.toDomain(detailsFb)
