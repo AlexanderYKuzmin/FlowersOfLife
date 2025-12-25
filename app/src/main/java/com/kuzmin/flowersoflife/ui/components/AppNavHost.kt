@@ -12,12 +12,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.kuzmin.flowersoflife.common.constants.Destination
-import com.kuzmin.flowersoflife.common.constants.Route
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
 import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
+import com.kuzmin.flowersoflife.core.navigation.routing.Destination
+import com.kuzmin.flowersoflife.core.navigation.routing.Route
 import com.kuzmin.flowersoflife.ui.state.AppUiState
 import com.kuzmin.flowersoflife.ui.viewmodels.MainScreenViewModel
 
@@ -53,9 +53,10 @@ fun AppNavHost(
                     }
                 }
 
-                NavigationCommand.Back -> {
-                    navController.popBackStack()
+                is NavigationCommand.Back -> {
+                    navController.popBackStack() //TODO Дописать варианты возврата до экрана и т.д.
                 }
+                else -> {}
             }
         }
     }

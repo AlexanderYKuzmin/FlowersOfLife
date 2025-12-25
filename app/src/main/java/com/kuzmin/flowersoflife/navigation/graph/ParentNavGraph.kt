@@ -8,10 +8,10 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.kuzmin.flowersoflife.common.constants.Destination
-import com.kuzmin.flowersoflife.common.constants.DestinationArgs
-import com.kuzmin.flowersoflife.common.constants.Route
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
+import com.kuzmin.flowersoflife.core.navigation.routing.Destination
+import com.kuzmin.flowersoflife.core.navigation.routing.DestinationArgs
+import com.kuzmin.flowersoflife.core.navigation.routing.Route
 import com.kuzmin.flowersoflife.feature.home.ui.screen.ChildrenScreen
 import com.kuzmin.flowersoflife.feature.home.ui.screen.child_details.ChildViewModel
 import com.kuzmin.flowersoflife.feature.home.ui.screen.children.ChildrenListViewModel

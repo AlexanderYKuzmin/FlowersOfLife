@@ -2,11 +2,11 @@ package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kuzmin.flowersoflife.common.constants.Route
 import com.kuzmin.flowersoflife.common.model.AppUiData
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
+import com.kuzmin.flowersoflife.core.navigation.routing.Route
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 import com.kuzmin.flowersoflife.core.ui.event.UiEvent
 import com.kuzmin.flowersoflife.core.ui.event.UiEventFlow
@@ -59,7 +59,9 @@ abstract class AuthBaseViewModel(
     }
 
     suspend fun toStartAuth() {
-        navigationManager.navigate(NavigationCommand.Back)
+        navigationManager.navigate(
+            NavigationCommand.Back()
+        )
     }
 
     suspend fun navigateToHome() {

@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.common.constants
+package com.kuzmin.flowersoflife.core.navigation.routing
 
 object SharedMapKey {
     const val AUTHORIZED = "authorized"

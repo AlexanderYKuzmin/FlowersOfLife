@@ -3,6 +3,7 @@ package com.kuzmin.flowersoflife.core.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -30,7 +31,7 @@ private val LightColorScheme = lightColorScheme(
     primary = Primary,
     secondary = Gray,
     tertiary = PrimaryDark,
-    background = Color(0xFFFDFDFD),
+    background = Background,
     surface = Surface,
     onPrimary = OnSurface,
     onSecondary = Color.Black,
@@ -75,3 +76,15 @@ fun FlowersOfLifeTheme(
         content = content
     )
 }
+
+val ColorScheme.detailsCardBackground: Color
+    @Composable
+    get() = DetailsCardBackground
+
+val ColorScheme.progressColor: Color
+    @Composable
+    get() = ProgressColor
+
+val ColorScheme.titleTextColor: Color
+    @Composable
+    get() = TitleOnRegisterForm
