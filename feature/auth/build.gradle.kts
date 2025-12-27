@@ -11,7 +11,6 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:ui"))
     implementation(project(":core:local"))
-    api(project(":common"))
     implementation(project(":feature:api"))
 
     implementation(platform(libs.firebase.bom))

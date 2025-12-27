@@ -1,6 +1,5 @@
 plugins {
     id("flowersoflife.android-compose")
-    id("flowersoflife.android-hilt")
 }
 
 android {
@@ -9,8 +8,13 @@ android {
 
 dependencies {
     api(project(":common"))
-
     testImplementation(project(":core:test-utils"))
+
+    api(platform(libs.koin.bom))
+    api(libs.koin.android)
+    api(libs.koin.androidx.compose)
+    api(libs.koin.androidx.navigation)
+
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)

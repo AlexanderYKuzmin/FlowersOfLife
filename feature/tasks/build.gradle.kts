@@ -7,9 +7,9 @@ android {
 }
 
 dependencies {
-    api(project(":common"))
     implementation(project(":core:navigation"))
     implementation(project(":core:domain"))
+    implementation(project(":core:ui"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
