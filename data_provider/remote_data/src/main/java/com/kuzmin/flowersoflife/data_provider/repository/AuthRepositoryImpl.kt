@@ -3,15 +3,12 @@ package com.kuzmin.flowersoflife.data_provider.repository
 import com.google.firebase.auth.FirebaseUser
 import com.kuzmin.flowersoflife.core.AuthService
 import com.kuzmin.flowersoflife.core.domain.model.User
-import com.kuzmin.flowersoflife.core.domain.model.roles.RoleManager
 import com.kuzmin.flowersoflife.data_provider.mapper.UserMapper
 import com.kuzmin.flowersoflife.feature.auth.api.AuthRepository
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthCredentials
-import javax.inject.Inject
 
-class AuthRepositoryImpl @Inject constructor(
+class AuthRepositoryImpl(
     private val authService: AuthService,
-    private val roleManager: RoleManager,
     private val userMapper: UserMapper
 ) : AuthRepository {
 
@@ -40,9 +37,5 @@ class AuthRepositoryImpl @Inject constructor(
 
     override fun signOut() {
         authService.signOut()
-    }
-
-    override suspend fun getUserRole(userId: String): String? { //надо подумать , может exception выкинуть на null
-        return roleManager.getUserRole(userId)
     }
 }

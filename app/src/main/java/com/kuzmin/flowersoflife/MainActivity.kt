@@ -3,7 +3,6 @@ package com.kuzmin.flowersoflife
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
@@ -15,19 +14,14 @@ import com.kuzmin.flowersoflife.ui.screen.MainScreen
 import com.kuzmin.flowersoflife.ui.screen.SplashScreenAnimated
 import com.kuzmin.flowersoflife.ui.state.MainScreenState
 import com.kuzmin.flowersoflife.ui.viewmodels.MainScreenViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var featureNavGraph: Set<@JvmSuppressWildcards FeatureNavGraph>
-
-    @Inject
-    lateinit var uiEventFlow: UiEventFlow
-
-    private val viewModel: MainScreenViewModel by viewModels()
+    private val featureNavGraph: Set<FeatureNavGraph> by inject()
+    private val uiEventFlow: UiEventFlow by inject()
+    private val viewModel: MainScreenViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

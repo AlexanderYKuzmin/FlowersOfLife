@@ -15,7 +15,6 @@ import com.kuzmin.flowersoflife.core.ui.event.UiEvent
 import com.kuzmin.flowersoflife.core.ui.event.UiEventFlow
 import com.kuzmin.flowersoflife.ui.state.AppUiState
 import com.kuzmin.flowersoflife.ui.state.MainScreenState
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -25,10 +24,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class MainScreenViewModel @Inject constructor(
+class MainScreenViewModel(
     private val checkAuthUseCase: CheckAuthUseCase,
     private val getUserFromLocalStorageUseCase: GetUserFromLocalStorageUseCase,
     private val resourceProvider: ResourceProvider,

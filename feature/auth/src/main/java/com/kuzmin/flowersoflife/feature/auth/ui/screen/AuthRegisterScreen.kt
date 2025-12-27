@@ -28,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.kuzmin.flowersoflife.common.R
 import com.kuzmin.flowersoflife.common.ext.toDp
 import com.kuzmin.flowersoflife.core.domain.model.User
@@ -41,10 +40,11 @@ import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType
 import com.kuzmin.flowersoflife.feature.auth.ui.viewmodels.AuthRegisterViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AuthRegisterScreen(
-    authRegisterViewModel: AuthRegisterViewModel = hiltViewModel()
+    authRegisterViewModel: AuthRegisterViewModel = koinViewModel()
 ) {
     val user by authRegisterViewModel.userState.collectAsState()
 

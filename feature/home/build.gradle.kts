@@ -7,7 +7,6 @@ android {
 }
 
 dependencies {
-    api(project(":common"))
     implementation(project(":core:navigation"))
     implementation(project(":core:domain"))
     implementation(project(":core:ui"))

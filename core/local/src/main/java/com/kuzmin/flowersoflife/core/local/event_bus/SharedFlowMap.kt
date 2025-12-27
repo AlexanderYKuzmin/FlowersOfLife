@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.core.local.data_listeners
+package com.kuzmin.flowersoflife.core.local.event_bus
 
 import kotlinx.coroutines.flow.Flow
 

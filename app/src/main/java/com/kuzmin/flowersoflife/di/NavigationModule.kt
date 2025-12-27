@@ -6,28 +6,12 @@ import com.kuzmin.flowersoflife.navigation.graph.AuthNavGraph
 import com.kuzmin.flowersoflife.navigation.graph.ChildNavGraph
 import com.kuzmin.flowersoflife.navigation.graph.ParentNavGraph
 import com.kuzmin.flowersoflife.navigation.manager.NavigationManagerImpl
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dagger.multibindings.IntoSet
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface NavigationModule {
+val navigationModule = module {
+    single<FeatureNavGraph> { ParentNavGraph() }
+    single<FeatureNavGraph> { ChildNavGraph() }
+    single<FeatureNavGraph> { AuthNavGraph() }
 
-    @Binds
-    @IntoSet
-    fun bindParentNavGraph(navGraph: ParentNavGraph): FeatureNavGraph
-
-    @Binds
-    @IntoSet
-    fun bindChildNavGraph(navGraph: ChildNavGraph): FeatureNavGraph
-
-    @Binds
-    @IntoSet
-    fun bindAuthNavGraph(navGraph: AuthNavGraph): FeatureNavGraph
-
-    @Binds
-    fun bindNavigationManager(impl: NavigationManagerImpl): NavigationManager
+    single<NavigationManager> { NavigationManagerImpl() }
 }

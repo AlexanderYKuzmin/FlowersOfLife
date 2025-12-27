@@ -4,12 +4,6 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.google.gms:google-services:4.4.2")
+        classpath(libs.google.services)
     }
 }
-
-plugins {
-    alias(libs.plugins.hilt) apply false
-}
-
-// All library plugins are now managed by buildSrc convention plugins

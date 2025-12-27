@@ -35,7 +35,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.kuzmin.flowersoflife.common.R
 import com.kuzmin.flowersoflife.core.ui.components.button.BaseApproveBtnGroup
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
@@ -49,10 +48,11 @@ import com.kuzmin.flowersoflife.feature.auth.exception.IllegalLoginException
 import com.kuzmin.flowersoflife.feature.auth.exception.IllegalRouteException
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType
 import com.kuzmin.flowersoflife.feature.auth.ui.viewmodels.AuthLoginViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AuthLoginScreen(
-    viewModel: AuthLoginViewModel = hiltViewModel(),
+    viewModel: AuthLoginViewModel = koinViewModel(),
 ) {
     val authState by viewModel.authState.collectAsState()
 

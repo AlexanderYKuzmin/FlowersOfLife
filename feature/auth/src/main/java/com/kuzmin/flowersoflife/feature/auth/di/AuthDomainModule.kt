@@ -10,31 +10,12 @@ import com.kuzmin.flowersoflife.feature.auth.domain.usecases.GetUserFromLocalSto
 import com.kuzmin.flowersoflife.feature.auth.domain.usecases.RegisterUserUseCaseImpl
 import com.kuzmin.flowersoflife.feature.auth.domain.usecases.SaveUserDatastoreUseCaseImpl
 import com.kuzmin.flowersoflife.feature.auth.domain.usecases.SignInUseCaseImpl
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface AuthDomainModule {
-
-    @Binds
-    fun bindRegisterUserUseCase(registerUserUseCase: RegisterUserUseCaseImpl): RegisterUserUseCase
-
-    @Binds
-    fun bindSignInUserUseCase(signInUserUseCase: SignInUseCaseImpl): SignInUseCase
-
-    @Binds
-    fun bindCheckAuthUseCase(checkAuthUseCase: CheckAuthUseCaseImpl): CheckAuthUseCase
-
-    @Binds
-    fun bindGetUserFromLocalStorageUseCase(
-        getUserFromLocalStorageUseCase: GetUserFromLocalStorageUseCaseImpl
-    ): GetUserFromLocalStorageUseCase
-
-    @Binds
-    fun bindSaveUserDatastoreUseCase(
-        saveUserDatastoreUseCase: SaveUserDatastoreUseCaseImpl
-    ): SaveUserDatastoreUseCase
+val authDomainModule = module {
+    single<RegisterUserUseCase> { RegisterUserUseCaseImpl(get()) }
+    single<SignInUseCase> { SignInUseCaseImpl(get()) }
+    single<CheckAuthUseCase> { CheckAuthUseCaseImpl(get()) }
+    single<GetUserFromLocalStorageUseCase> { GetUserFromLocalStorageUseCaseImpl(get()) }
+    single<SaveUserDatastoreUseCase> { SaveUserDatastoreUseCaseImpl(get()) }
 }

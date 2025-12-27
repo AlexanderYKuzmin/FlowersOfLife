@@ -5,11 +5,10 @@ import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NavigationManagerImpl @Inject constructor() : NavigationManager {
+class NavigationManagerImpl : NavigationManager {
     private val _commands = MutableSharedFlow<NavigationCommand>()
     override val commands: SharedFlow<NavigationCommand> = _commands.asSharedFlow()
 

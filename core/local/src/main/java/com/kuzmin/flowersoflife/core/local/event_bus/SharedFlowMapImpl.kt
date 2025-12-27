@@ -1,14 +1,11 @@
-package com.kuzmin.flowersoflife.core.local.data_listeners
+package com.kuzmin.flowersoflife.core.local.event_bus
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import java.util.concurrent.ConcurrentHashMap
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class SharedFlowMapImpl<V> @Inject constructor() : SharedFlowMap<String, V> {
+class SharedFlowMapImpl<V> : SharedFlowMap<String, V> {
 
     private val flows = ConcurrentHashMap<String, MutableSharedFlow<V?>>()
 

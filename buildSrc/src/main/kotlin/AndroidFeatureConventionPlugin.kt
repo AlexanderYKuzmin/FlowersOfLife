@@ -9,17 +9,13 @@ import org.gradle.kotlin.dsl.getByType
 class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            // Apply base plugins
             pluginManager.apply("flowersoflife.android-library")
             pluginManager.apply("flowersoflife.android-compose")
-            pluginManager.apply("flowersoflife.android-hilt")
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
-                // Common feature dependencies
                 add("implementation", libs.findLibrary("androidx.navigation.compose").get())
-                add("implementation", libs.findLibrary("hilt.navigation").get())
             }
 
             extensions.configure<LibraryExtension> {

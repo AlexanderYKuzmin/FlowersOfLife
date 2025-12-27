@@ -15,14 +15,11 @@ import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthCredentials
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
 import com.kuzmin.flowersoflife.feature.auth.exception.IllegalLoginException
 import com.kuzmin.flowersoflife.feature.auth.validators.CredentialsValidator
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-@HiltViewModel
-open class AuthLoginViewModel @Inject constructor(
+open class AuthLoginViewModel(
     private val signInUseCase: SignInUseCase,
     private val getUserFromLocalStorageUseCase: GetUserFromLocalStorageUseCase,
     private val navigationManager: NavigationManager,

@@ -4,22 +4,17 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
-class AndroidHiltConventionPlugin : Plugin<Project> {
+class AndroidKoinConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
-            with(pluginManager) {
-                apply(libs.findPlugin("hilt").get().get().pluginId)
-                apply(libs.findPlugin("ksp").get().get().pluginId)
-            }
-
             dependencies {
-                add("implementation", libs.findLibrary("hilt.android").get())
-                add("ksp", libs.findLibrary("hilt.compiler").get())
+                add("implementation", libs.findLibrary("koin-core").get())
+                add("implementation", libs.findLibrary("koin-android").get())
+                add("implementation", libs.findLibrary("koin-androidx-compose").get())
+                add("implementation", libs.findLibrary("koin-androidx-navigation").get())
             }
         }
     }
 }
-

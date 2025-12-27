@@ -16,6 +16,4 @@ interface AuthRepository {
     suspend fun signInWithGoogle(idToken: String): Result<FirebaseUser>
 
     fun signOut()
-
-    suspend fun getUserRole(userId: String): String?
 }

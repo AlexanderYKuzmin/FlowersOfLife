@@ -10,9 +10,8 @@ import com.kuzmin.flowersoflife.core.navigation.routing.Route
 import com.kuzmin.flowersoflife.feature.auth.ui.screen.AuthLoginScreen
 import com.kuzmin.flowersoflife.feature.auth.ui.screen.AuthRegisterScreen
 import com.kuzmin.flowersoflife.feature.auth.ui.screen.AuthResetScreen
-import javax.inject.Inject
 
-class AuthNavGraph @Inject constructor() : FeatureNavGraph {
+class AuthNavGraph : FeatureNavGraph {
     override fun registerNavGraph(
         navController: NavController,
         navGraphBuilder: NavGraphBuilder

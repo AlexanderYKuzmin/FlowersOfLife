@@ -7,9 +7,8 @@ import androidx.navigation.navigation
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
 import com.kuzmin.flowersoflife.core.navigation.routing.Destination
 import com.kuzmin.flowersoflife.core.navigation.routing.Route
-import javax.inject.Inject
 
-class ChildNavGraph @Inject constructor() : FeatureNavGraph {
+class ChildNavGraph : FeatureNavGraph {
     override fun registerNavGraph(
         navController: NavController,
         navGraphBuilder: NavGraphBuilder

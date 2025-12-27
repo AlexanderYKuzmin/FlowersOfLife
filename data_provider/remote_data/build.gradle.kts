@@ -1,6 +1,5 @@
 plugins {
     id("flowersoflife.android-library")
-    id("flowersoflife.android-hilt")
 }
 
 android {
@@ -20,6 +19,11 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
+
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.androidx.navigation)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
