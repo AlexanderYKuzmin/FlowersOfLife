@@ -18,6 +18,7 @@ fun BaseTextInputField(
     label: String,
     isError: Boolean = false,
     supportingText: String? = null,
+    readOnly: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
@@ -39,7 +40,8 @@ fun BaseTextInputField(
         isError = isError,
         supportingText = {
             supportingText?.let { Text(it) }
-        }
+        },
+        readOnly = readOnly
     )
 }
 

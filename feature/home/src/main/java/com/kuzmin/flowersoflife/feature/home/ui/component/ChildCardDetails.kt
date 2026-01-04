@@ -28,25 +28,23 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kuzmin.flowersoflife.core.domain.model.family_members.ChildDetails
-import com.kuzmin.flowersoflife.core.domain.model.goals.GoalStatus
+import com.kuzmin.flowersoflife.core.domain.model.GoalStatus
+import com.kuzmin.flowersoflife.core.domain.model.aggregate.ChildDashboard
 import com.kuzmin.flowersoflife.core.ui.R
 import com.kuzmin.flowersoflife.core.ui.theme.detailsCardBackground
 import com.kuzmin.flowersoflife.core.ui.theme.progressColor
 import com.kuzmin.flowersoflife.core.ui.theme.titleTextColor
-import com.kuzmin.flowersoflife.feature.home.preview.HomePreviewMocks
 
 @Composable
 fun ChildCardDetails(
-    child: ChildDetails,
+    child: ChildDashboard,
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit = {}
 ) {
 
-    val currentGoal = child.goals.find { it.status == GoalStatus.IN_PROGRESS }
+    val currentGoal = child.goals.find { it.status == GoalStatus.ASSIGNED }
 
     Card(
         modifier = modifier
@@ -64,7 +62,9 @@ fun ChildCardDetails(
                 spotShadowColor = Color.Black.copy(alpha = 0.4f)
                 shape = RoundedCornerShape(12.dp)
             }
-            .clickable { onClick(child.child.childId) },
+            .clickable {
+                onClick(child.user.userId)
+            },
         colors = CardDefaults.cardColors(
             containerColor = colorScheme.background
         ),
@@ -72,7 +72,8 @@ fun ChildCardDetails(
         shape = RoundedCornerShape(12.dp)
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .background(
                     brush = Brush.linearGradient(
                         colors = listOf(
@@ -137,7 +138,7 @@ fun ChildCardDetails(
                                 R.string.child_card_my_goal_value,
                                 it.name,
                                 it.price
-                                ),
+                            ),
                             color = colorScheme.onSecondaryContainer,
                             fontWeight = FontWeight.Bold
                         )
@@ -147,7 +148,7 @@ fun ChildCardDetails(
                 Spacer(modifier = Modifier.size(8.dp))
 
                 LinearProgressIndicator(
-                    progress = { ((child.child.balance % 100).coerceAtLeast(1) / 100f) },
+                    progress = { ((child.wallet.balance % 100).coerceAtLeast(1) / 100f) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 2.dp),
@@ -187,7 +188,7 @@ private fun StatRow(
                 modifier = Modifier.size(16.dp),
                 contentAlignment = Alignment.Center
             ) {
-                val painterRes = when(labelRes) {
+                val painterRes = when (labelRes) {
                     R.string.child_card_earned_coins -> R.drawable.gold_coin
                     else -> null
                 }
@@ -205,6 +206,7 @@ private fun StatRow(
     }
 }
 
+/*
 @Preview(
     showBackground = true,
     apiLevel = 33
@@ -212,4 +214,4 @@ private fun StatRow(
 @Composable
 private fun ChildCardDetailsPreview() {
     ChildCardDetails(child = HomePreviewMocks.childDetails[0])
-}
+}*/

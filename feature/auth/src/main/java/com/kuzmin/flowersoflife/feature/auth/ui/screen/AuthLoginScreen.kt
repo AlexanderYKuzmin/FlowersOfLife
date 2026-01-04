@@ -36,13 +36,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kuzmin.flowersoflife.common.R
+import com.kuzmin.flowersoflife.core.domain.model.AuthCredentials
 import com.kuzmin.flowersoflife.core.ui.components.button.BaseApproveBtnGroup
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 import com.kuzmin.flowersoflife.core.ui.components.text.BasePasswordInputField
 import com.kuzmin.flowersoflife.core.ui.components.text.BaseTextInputField
 import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
 import com.kuzmin.flowersoflife.core.ui.theme.Link
-import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthCredentials
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
 import com.kuzmin.flowersoflife.feature.auth.exception.IllegalLoginException
 import com.kuzmin.flowersoflife.feature.auth.exception.IllegalRouteException
@@ -77,11 +77,11 @@ fun AuthLoginScreen(
 
             is AuthState.Success -> {
                 AuthLoginScreenCard(
-                    email = (authState as AuthState.Success).user.email,
-                    password = (authState as AuthState.Success).user.password,
+                    email = (authState as AuthState.Success).userFamily.user.email,
+                    password = "",
                     onNegativeClick = viewModel::cancelAuth,
-                    onPositiveClick = {  credentials, rememberMe ->
-                        viewModel.signInUser(credentials, rememberMe)
+                    onPositiveClick = { credentials ->
+                        viewModel.signInUser(credentials)
                     },
                     navigateToRegisterUser = viewModel::navigateToRegisterUser,
                     errors = errors
@@ -113,7 +113,7 @@ fun AuthLoginScreenCard(
     email: String = "",
     password: String = "",
     navigateToRegisterUser: () -> Unit = {},
-    onPositiveClick: (AuthCredentials, Boolean) -> Unit = { _, _ -> },
+    onPositiveClick: (AuthCredentials) -> Unit = { _ -> },
     onNegativeClick: () -> Unit = {},
     errors: Set<RegisterErrorType> = emptySet()
 ) {
@@ -189,7 +189,7 @@ fun AuthLoginScreenCard(
                     BaseApproveBtnGroup(
                         positiveText = stringResource(id = R.string.ok_btn_txt),
                         negativeText = stringResource(id = R.string.cancel_btn_txt),
-                        onPositiveClick = { onPositiveClick(credentials, rememberMe) },
+                        onPositiveClick = { onPositiveClick(credentials) },
                         onNegativeClick = { onNegativeClick() }
                     )
                 }

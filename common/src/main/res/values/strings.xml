@@ -19,6 +19,7 @@
     <string name="family_group">Group</string>
     <string name="firstname">Name</string>
     <string name="password_again">Repeat password</string>
+    <string name="family_code">Family code</string>
 
 
     <!--Errors messages-->

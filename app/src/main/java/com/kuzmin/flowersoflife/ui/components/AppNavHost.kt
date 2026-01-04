@@ -12,7 +12,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
 import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
@@ -44,7 +43,7 @@ fun AppNavHost(
         navigationManager.commands.collect { command ->
             when (command) {
                 is NavigationCommand.ToDestination -> {
-                    navController.navigate(command.destination)
+                    navController.navigate(command.buildDestination())
                 }
 
                 is NavigationCommand.ToGraph -> {
@@ -63,11 +62,12 @@ fun AppNavHost(
 
 
     if (hasEntered) {
-        val user = (appState as? AppUiState.Success)?.user ?: User()
+        val appUiState = appState as? AppUiState.Success
+        val user = appUiState?.user
         val graph = when {
-            !user.isAuthorized -> Route.AUTH_NAV_GRAPH
-            user.role == UserRole.PARENT -> Route.PARENT_NAV_GRAPH
-            user.role == UserRole.CHILD -> Route.CHILD_NAV_GRAPH
+            appUiState?.isAuthorized == false -> Route.AUTH_NAV_GRAPH
+            user?.role == UserRole.PARENT -> Route.PARENT_NAV_GRAPH
+            user?.role == UserRole.CHILD -> Route.CHILD_NAV_GRAPH
             else -> Route.AUTH_NAV_GRAPH
         }
         val startRoute = when(graph) {
@@ -88,5 +88,4 @@ fun AppNavHost(
             }
         }
     }
-
 }

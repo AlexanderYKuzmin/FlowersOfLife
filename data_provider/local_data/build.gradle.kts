@@ -10,7 +10,7 @@ dependencies {
     api(project(":common"))
     implementation(project(":core:local"))
     implementation(project(":core:domain"))
-    implementation(project(":feature:auth"))
+    implementation(project(":feature:api"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)

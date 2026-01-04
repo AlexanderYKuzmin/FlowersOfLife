@@ -18,6 +18,7 @@
     <string name="family_group">Группа</string>
     <string name="firstname">Имя пользователя</string>
     <string name="password_again">Пароль повторно</string>
+    <string name="family_code">Семейный код</string>
 
     <!--Errors messages-->
     <string name="user_not_initialized">Пользватель не проинициализирован</string>

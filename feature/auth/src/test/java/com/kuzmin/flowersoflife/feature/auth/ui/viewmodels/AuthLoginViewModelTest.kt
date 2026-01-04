@@ -1,12 +1,9 @@
 package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 
-import com.kuzmin.flowersoflife.core.domain.model.User
-import com.kuzmin.flowersoflife.core.domain.usecases.auth.GetUserFromLocalStorageUseCase
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.test_utils.MainDispatcherRule
-import com.kuzmin.flowersoflife.core.ui.event.UiEventFlowImpl
-import com.kuzmin.flowersoflife.feature.auth.api.usecases.SignInUseCase
-import io.mockk.coEvery
+import com.kuzmin.flowersoflife.feature.api.usecases.user.GetUserFromLocalUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.SignInUseCase
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
@@ -18,17 +15,15 @@ class AuthLoginViewModelTest {
     @get:Rule
     val dispatcherRule = MainDispatcherRule()
 
-    private lateinit var uiEventFlow: UiEventFlowImpl
     private lateinit var viewModel: AuthLoginViewModel
 
     private val signInUseCase = mockk<SignInUseCase>()
-    private val getUserFromLocalStorageUseCase = mockk<GetUserFromLocalStorageUseCase>()
+    private val getUserFromLocalUseCase = mockk<GetUserFromLocalUseCase>()
     private val navigationManager = mockk<NavigationManager>(relaxed = true)
 
     @Before
     fun setup() {
-        uiEventFlow = UiEventFlowImpl()
-        coEvery { getUserFromLocalStorageUseCase() } returns User()
+        //coEvery { getUserFromLocalUseCase() } returns User()
 
         /*viewModel = AuthLoginViewModel(
             signInUseCase = signInUseCase,

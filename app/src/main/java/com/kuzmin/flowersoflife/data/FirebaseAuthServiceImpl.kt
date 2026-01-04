@@ -3,9 +3,8 @@ package com.kuzmin.flowersoflife.data
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.kuzmin.flowersoflife.core.AuthService
-import com.kuzmin.flowersoflife.core.model.AuthCredentialsFb
-import com.kuzmin.flowersoflife.core.model.UserFb
+import com.kuzmin.flowersoflife.core.api.AuthService
+import com.kuzmin.flowersoflife.core.model.firebase.AuthCredentialsFb
 import kotlinx.coroutines.tasks.await
 
 class FirebaseAuthServiceImpl(
@@ -21,17 +20,16 @@ class FirebaseAuthServiceImpl(
         }
     }
 
-    override suspend fun registerWithEmail(userFb: UserFb): UserFb {
+    override suspend fun registerWithEmail(authCredentialsFb: AuthCredentialsFb): String? {
         return try {
-            val result = firebaseAuth.createUserWithEmailAndPassword(userFb.email, userFb.password).await()
+            val result = firebaseAuth.createUserWithEmailAndPassword(
+                authCredentialsFb.email,
+                authCredentialsFb.password
+            ).await()
 
             //TODO СОхранить токен в хранилище и отправить юзера на бэк в базу
-            result.user?.let {
-                //val registeredUserFb = userFb.copy(uid = it)
-                    //saveUserToDatabase(registeredUserFb)
-            }
+            result.user?.uid
 
-            userFb.copy(uid = result.user?.uid)
         } catch (e: Exception) {
             throw e // TODO обернуть в кастом исключение и пробросить дальше
         }

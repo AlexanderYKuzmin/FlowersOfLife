@@ -11,6 +11,7 @@ import com.kuzmin.flowersoflife.core.navigation.routing.Destination
 import com.kuzmin.flowersoflife.core.navigation.routing.DestinationArgs
 import com.kuzmin.flowersoflife.core.navigation.routing.Route
 import com.kuzmin.flowersoflife.feature.home.ui.screen.ChildrenScreen
+import com.kuzmin.flowersoflife.feature.home.ui.screen.child_details.ChildDetailsScreen
 
 class ParentNavGraph : FeatureNavGraph {
     override fun registerNavGraph(
@@ -26,12 +27,16 @@ class ParentNavGraph : FeatureNavGraph {
             }
 
             composable(
-                route = Destination.PARENT_CHILD_DETAILS,
-                arguments = listOf(navArgument(DestinationArgs.CHILD_ID) { type = NavType.StringType })
+                route = "${Destination.PARENT_CHILD_DETAILS}/{${DestinationArgs.CHILD_ID}}",
+                arguments = listOf(
+                    navArgument(DestinationArgs.CHILD_ID) {
+                        type = NavType.StringType
+                    }
+                )
             ) {
-                /*ChildDetailsScreen(
+                ChildDetailsScreen(
 
-                )*/
+                )
             }
         }
     }

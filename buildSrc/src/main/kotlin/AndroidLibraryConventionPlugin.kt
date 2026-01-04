@@ -1,5 +1,6 @@
 import com.android.build.gradle.LibraryExtension
 import com.kuzmin.flowersoflife.buildSrc.AppConfig
+import extensions.configureFlavors
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -27,14 +28,24 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                     consumerProguardFiles("consumer-rules.pro")
                 }
 
+                configureFlavors()
+
                 buildTypes {
+                    debug {
+                        buildConfigField("boolean", "DEBUG", "true")
+                    }
                     release {
+                        buildConfigField("boolean", "DEBUG", "false")
                         isMinifyEnabled = false
                         proguardFiles(
                             getDefaultProguardFile("proguard-android-optimize.txt"),
                             "proguard-rules.pro"
                         )
                     }
+                }
+
+                buildFeatures {
+                    buildConfig = true
                 }
 
                 compileOptions {

@@ -1,8 +1,8 @@
 package com.kuzmin.flowersoflife.feature.auth.domain.usecases
 
-import com.kuzmin.flowersoflife.feature.auth.api.AuthRepository
-import com.kuzmin.flowersoflife.feature.auth.api.usecases.SignInUseCase
-import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthCredentials
+import com.kuzmin.flowersoflife.core.domain.model.AuthCredentials
+import com.kuzmin.flowersoflife.feature.api.repository.AuthRepository
+import com.kuzmin.flowersoflife.feature.api.usecases.user.SignInUseCase
 
 class SignInUseCaseImpl(
     private val authRepository: AuthRepository

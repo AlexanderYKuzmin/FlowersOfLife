@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import java.util.concurrent.ConcurrentHashMap
 
-class SharedFlowMapImpl<V> : SharedFlowMap<String, V> {
+class SharedFlowMapImpl<V> : SharedFlowMap<V> {
 
     private val flows = ConcurrentHashMap<String, MutableSharedFlow<V?>>()
 

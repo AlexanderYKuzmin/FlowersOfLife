@@ -8,7 +8,6 @@ import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
-import com.kuzmin.flowersoflife.core.ui.event.UiEventFlow
 import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
 import com.kuzmin.flowersoflife.ui.screen.MainScreen
 import com.kuzmin.flowersoflife.ui.screen.SplashScreenAnimated
@@ -20,7 +19,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : ComponentActivity() {
 
     private val featureNavGraph: Set<FeatureNavGraph> by inject()
-    private val uiEventFlow: UiEventFlow by inject()
     private val viewModel: MainScreenViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {

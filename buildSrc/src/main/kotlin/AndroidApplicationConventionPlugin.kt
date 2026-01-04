@@ -1,6 +1,6 @@
 import com.android.build.api.dsl.ApplicationExtension
 import com.kuzmin.flowersoflife.buildSrc.AppConfig
-import com.kuzmin.flowersoflife.buildSrc.BuildFlavor
+import extensions.configureFlavors
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -39,21 +39,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     }
                 }
 
-                flavorDimensions += "environment"
-                productFlavors {
-                    BuildFlavor.ALL.forEach { flavor ->
-                        create(flavor.name) {
-                            dimension = "environment"
-                            applicationIdSuffix = flavor.applicationIdSuffix
-                            versionNameSuffix = flavor.versionNameSuffix
-
-                            buildConfigField("String", "BASE_URL", "\"${flavor.baseUrl}\"")
-                            buildConfigField("String", "ENVIRONMENT", "\"${flavor.environment}\"")
-
-                            resValue("string", "app_name", flavor.appName)
-                        }
-                    }
-                }
+                configureFlavors()
 
                 buildTypes {
                     release {
