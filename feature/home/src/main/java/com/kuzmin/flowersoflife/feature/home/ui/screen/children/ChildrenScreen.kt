@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.kuzmin.flowersoflife.core.domain.model.family_members.ChildDetails
+import com.kuzmin.flowersoflife.core.domain.model.aggregate.ChildDashboard
 import com.kuzmin.flowersoflife.core.ui.R
 import com.kuzmin.flowersoflife.core.ui.components.dialog.AlertDialogCard
 import com.kuzmin.flowersoflife.feature.home.ui.component.ChildCardDetails
@@ -72,7 +72,7 @@ fun ChildrenScreen(
 
 @Composable
 fun ChildrenScreenContent(
-    children: List<ChildDetails>,
+    children: List<ChildDashboard>,
     onChildClick: (childId: String) -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -82,10 +82,12 @@ fun ChildrenScreenContent(
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
-        children.forEach { childDetails ->
+        children.forEach { childDashboard ->
             ChildCardDetails(
-                child = childDetails,
-                onClick = { onChildClick(childDetails.child.childId) }
+                child = childDashboard,
+                onClick = {
+                    onChildClick(childDashboard.user.userId)
+                }
             )
         }
     }

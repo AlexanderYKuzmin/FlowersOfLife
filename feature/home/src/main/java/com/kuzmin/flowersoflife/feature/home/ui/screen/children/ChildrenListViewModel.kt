@@ -32,7 +32,7 @@ class ChildrenListViewModel(
 
     private fun fetchChildrenList() {
         viewModelScope.launch(ioContext) {
-            val uid = prefManager.getUser().uid
+            val uid = prefManager.getUser().userId
 
             /*uid?.let {
                 val result = repository.getChildrenDetailsList(it)

@@ -1,15 +1,10 @@
 package com.kuzmin.flowersoflife.feature.home.preview
 
+import com.kuzmin.flowersoflife.core.domain.model.Goal
+import com.kuzmin.flowersoflife.core.domain.model.GoalStatus
+import com.kuzmin.flowersoflife.core.domain.model.Task
+import com.kuzmin.flowersoflife.core.domain.model.TaskStatus
 import com.kuzmin.flowersoflife.core.domain.model.family_members.Child
-import com.kuzmin.flowersoflife.core.domain.model.family_members.ChildDetails
-import com.kuzmin.flowersoflife.core.domain.model.financial.FinancialRecord
-import com.kuzmin.flowersoflife.core.domain.model.goals.Goal
-import com.kuzmin.flowersoflife.core.domain.model.goals.GoalStatus
-import com.kuzmin.flowersoflife.core.domain.model.tasks.Task
-import com.kuzmin.flowersoflife.core.domain.model.tasks.TaskStatus.ACTIVE
-import com.kuzmin.flowersoflife.core.domain.model.tasks.TaskStatus.COMPLETED
-import com.kuzmin.flowersoflife.core.domain.model.tasks.TaskStatus.IN_PROGRESS
-import com.kuzmin.flowersoflife.core.domain.model.tasks.TaskType
 import java.time.LocalDateTime
 
 object HomePreviewMocks {
@@ -27,9 +22,9 @@ object HomePreviewMocks {
     )
 
     private fun goalsFor(childId: String): List<Goal> = listOf(
-        Goal(goalId = "g_${childId}_1", price = 1500, name = "Наушники", status = GoalStatus.IN_PROGRESS, childId = childId),
-        Goal(goalId = "g_${childId}_2", price = 600, name = "Настольная игра", status = GoalStatus.ACTIVE, childId = childId),
-        Goal(goalId = "g_${childId}_3", price = 1200, name = "Скетчбук", status = GoalStatus.CANCELED, childId = childId)
+        Goal(goalId = "g_${childId}_1", price = 1500, name = "Наушники", status = GoalStatus.CREATED, childId = childId),
+        Goal(goalId = "g_${childId}_2", price = 600, name = "Настольная игра", status = GoalStatus.ASSIGNED, childId = childId),
+        Goal(goalId = "g_${childId}_3", price = 1200, name = "Скетчбук", status = GoalStatus.COMPLETED, childId = childId)
     )
 
     private fun tasksFor(childId: String): List<Task> {
@@ -40,9 +35,7 @@ object HomePreviewMocks {
                 startDate = now.minusDays(1),
                 endDate = now.plusDays(1),
                 description = "Убрать комнату",
-                type = TaskType.SINGLE,
-                status = IN_PROGRESS,
-                createdAt = now.minusDays(2),
+                status = TaskStatus.IN_PROGRESS,
                 reward = 50,
                 fine = 0,
                 parentId = "p1",
@@ -53,9 +46,7 @@ object HomePreviewMocks {
                 startDate = now.minusDays(3),
                 endDate = now.minusDays(1),
                 description = "Погулять с собакой",
-                type = TaskType.PERIODIC,
-                status = COMPLETED,
-                createdAt = now.minusDays(5),
+                status = TaskStatus.COMPLETED,
                 reward = 30,
                 fine = 0,
                 parentId = "p1",
@@ -66,9 +57,7 @@ object HomePreviewMocks {
                 startDate = now,
                 endDate = now.plusDays(2),
                 description = "Помыть посуду",
-                type = TaskType.SINGLE,
-                status = ACTIVE,
-                createdAt = now.minusHours(12),
+                status = TaskStatus.IN_PROGRESS,
                 reward = 20,
                 fine = 0,
                 parentId = "p1",
@@ -77,7 +66,7 @@ object HomePreviewMocks {
         )
     }
 
-    val childDetails: List<ChildDetails> = listOf(
+    /*val childDetails: List<ChildDetails> = listOf(
         ChildDetails(
             child = childA,
             tasks = tasksFor(childA.childId),
@@ -90,5 +79,5 @@ object HomePreviewMocks {
             goals = goalsFor(childB.childId),
             financialRecords = emptyList<FinancialRecord>()
         )
-    )
+    )*/
 }

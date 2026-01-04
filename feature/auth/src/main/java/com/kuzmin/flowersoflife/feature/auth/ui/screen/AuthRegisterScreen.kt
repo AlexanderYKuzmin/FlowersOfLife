@@ -30,8 +30,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kuzmin.flowersoflife.common.R
 import com.kuzmin.flowersoflife.common.ext.toDp
+import com.kuzmin.flowersoflife.core.domain.extensions.orFalse
+import com.kuzmin.flowersoflife.core.domain.model.Family
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
+import com.kuzmin.flowersoflife.core.domain.model.aggregate.UserFamily
 import com.kuzmin.flowersoflife.core.ui.components.button.BaseApproveBtnGroup
 import com.kuzmin.flowersoflife.core.ui.components.checkbox.BaseCheckbox
 import com.kuzmin.flowersoflife.core.ui.components.text.BasePasswordInputField
@@ -46,7 +49,7 @@ import org.koin.androidx.compose.koinViewModel
 fun AuthRegisterScreen(
     authRegisterViewModel: AuthRegisterViewModel = koinViewModel()
 ) {
-    val user by authRegisterViewModel.userState.collectAsState()
+    val userAndFamily by authRegisterViewModel.userState.collectAsState()
 
     val errors by authRegisterViewModel.fieldErrors.collectAsState()
 
@@ -71,13 +74,13 @@ fun AuthRegisterScreen(
         }
 
         is AuthState.Success -> AuthRegisterScreen(
-            user = user,
+            userFamily = userAndFamily,
             errors = errors,
             repeatPassword = repeatPassword,
             passwordMismatch = passwordMismatch,
             onRoleChange = authRegisterViewModel::updateRole,
             onAdminChange = authRegisterViewModel::updateIsAdmin,
-            onFieldChange = authRegisterViewModel::updateUserField,
+            onUsersFieldChange = authRegisterViewModel::updateUserField,
             onRepeatPasswordChange = authRegisterViewModel::onRepeatPasswordChanged,
             registerUser = authRegisterViewModel::registerUser,
             cancelRegistration = authRegisterViewModel::cancelRegistration
@@ -89,20 +92,26 @@ fun AuthRegisterScreen(
 
 @Composable
 fun AuthRegisterScreen(
-    user: User?,
+    userFamily: UserFamily?,
     errors: Set<RegisterErrorType> = emptySet(),
     repeatPassword: String = "",
     passwordMismatch: Boolean = false,
     onRoleChange: (UserRole?) -> Unit = {},
     onAdminChange: (Boolean) -> Unit = {},
-    onFieldChange: (User.() -> User) -> Unit = {},
+    onUsersFieldChange: (User.() -> User) -> Unit = {},
+    onFamilyFieldChange: (Family.() -> Family) -> Unit = {},
     onRepeatPasswordChange: (String) -> Unit = {},
     registerUser: () -> Unit = {},
     cancelRegistration: () -> Unit = {}
 ) {
-    val isParent = user?.role == UserRole.PARENT
-    val isChild = user?.role == UserRole.CHILD
-    val isAdmin = user?.isAdmin ?: false
+    val isParent = when (userFamily?.user?.role) {
+        UserRole.PARENT -> true
+        else -> false
+    }
+
+    val isChild = !isParent
+
+    val isAdmin = userFamily?.user?.isAdmin.orFalse()
 
     val density = LocalDensity.current
     val imeVisible = WindowInsets.ime.getBottom(density) > 0
@@ -178,34 +187,34 @@ fun AuthRegisterScreen(
 
             BaseTextInputField(
                 modifier = rowModifier.padding(bottom = 4.dp),
-                value = user?.groupName ?: "",
+                value = userFamily?.family?.familyName ?: "",
                 label = stringResource(id = R.string.family_group),
                 onValueChange = {
-                    onFieldChange { copy(groupName = it) }
+                    onFamilyFieldChange { copy(familyName = it) }
                 },
-                isError = errors.contains(RegisterErrorType.GROUP_NAME_EMPTY),
-                supportingText = if (errors.contains(RegisterErrorType.GROUP_NAME_EMPTY)) {
+                isError = errors.contains(RegisterErrorType.FAMILY_NAME_EMPTY),
+                supportingText = if (errors.contains(RegisterErrorType.FAMILY_NAME_EMPTY)) {
                     stringResource(id = R.string.error_group_name_empty)
                 } else null
             )
             BaseTextInputField(
                 modifier = rowModifier.padding(bottom = 4.dp),
-                value = user?.firstName ?: "",
+                value = userFamily?.user?.name ?: "",
                 label = stringResource(id = R.string.firstname),
                 onValueChange = {
-                    onFieldChange { copy(firstName = it) }
+                    onUsersFieldChange { copy(name = it) }
                 },
-                isError = errors.contains(RegisterErrorType.FIRSTNAME_IS_EMPTY),
-                supportingText = if (errors.contains(RegisterErrorType.FIRSTNAME_IS_EMPTY)) {
+                isError = errors.contains(RegisterErrorType.USERNAME_IS_EMPTY),
+                supportingText = if (errors.contains(RegisterErrorType.USERNAME_IS_EMPTY)) {
                     stringResource(id = R.string.error_firstname_is_empty)
                 } else null
             )
             BaseTextInputField(
                 modifier = rowModifier.padding(bottom = 4.dp),
-                value = user?.email ?: "",
+                value = userFamily?.user?.email ?: "",
                 label = stringResource(id = R.string.email),
                 onValueChange = {
-                    onFieldChange { copy(email = it) }
+                    onUsersFieldChange { copy(email = it) }
                 },
                 isError = errors.contains(RegisterErrorType.EMAIL_EMPTY) || errors.contains(
                     RegisterErrorType.EMAIL_INVALID
@@ -216,12 +225,22 @@ fun AuthRegisterScreen(
                     else -> null
                 }
             )
+            BaseTextInputField(
+                modifier = rowModifier.padding(bottom = 4.dp),
+                value = userFamily?.family?.familyCode ?: "",
+                label = stringResource(id = R.string.family_code),
+                onValueChange = {
+                    onFamilyFieldChange { copy(familyCode = it) }
+                },
+                isError = false,
+                readOnly = isAdmin
+            )
             BasePasswordInputField(
                 modifier = rowModifier.padding(bottom = 8.dp),
-                value = user?.password ?: "",
+                value = userFamily?.user?.password ?: "",
                 label = stringResource(id = R.string.password),
                 onValueChange = {
-                    onFieldChange { copy(password = it) }
+                    onUsersFieldChange { copy(password = it) }
                 },
                 isError = errors.contains(RegisterErrorType.PASSWORD_EMPTY) || errors.contains(
                     RegisterErrorType.PASSWORD_WEAK
@@ -279,7 +298,19 @@ fun StyledTextOnSurface(
 fun AuthRegisterScreenPreview() {
     FlowersOfLifeTheme {
         AuthRegisterScreen(
-            user = User(role = UserRole.PARENT, isAdmin = true)
+            userFamily = UserFamily(
+                User(
+                    userId = "",
+                    role = UserRole.PARENT,
+                    isAdmin = true,
+                    familyId = ""
+                ),
+                Family(
+                    familyId = "",
+                    familyName = "",
+                    familyCode = ""
+                )
+            )
         )
     }
 }

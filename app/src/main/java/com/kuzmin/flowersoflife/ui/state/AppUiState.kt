@@ -1,7 +1,7 @@
 package com.kuzmin.flowersoflife.ui.state
 
 import androidx.compose.runtime.Immutable
-import com.kuzmin.flowersoflife.common.model.AppUiData
+import com.kuzmin.flowersoflife.common.model.TabBarUiSettings
 import com.kuzmin.flowersoflife.core.domain.model.User
 
 sealed interface AppUiState {
@@ -17,7 +17,7 @@ sealed interface AppUiState {
         val user: User? = null,
         val isAuthorized: Boolean = false,
 
-        val appUiData: AppUiData
+        val tabbarUiSettings: TabBarUiSettings
     ) : AppUiState
 
 }
