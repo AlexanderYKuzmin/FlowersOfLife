@@ -2,32 +2,28 @@ package com.kuzmin.flowersoflife.di
 
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
+import com.kuzmin.flowersoflife.core.navigation.routing.Route.AUTH_NAV_GRAPH
+import com.kuzmin.flowersoflife.core.navigation.routing.Route.CHILD_NAV_GRAPH
+import com.kuzmin.flowersoflife.core.navigation.routing.Route.PARENT_NAV_GRAPH
 import com.kuzmin.flowersoflife.navigation.graph.AuthNavGraph
 import com.kuzmin.flowersoflife.navigation.graph.ChildNavGraph
 import com.kuzmin.flowersoflife.navigation.graph.ParentNavGraph
 import com.kuzmin.flowersoflife.navigation.manager.NavigationManagerImpl
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dagger.multibindings.IntoSet
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface NavigationModule {
+val navigationModule = module {
+    single<FeatureNavGraph>(named(PARENT_NAV_GRAPH)) { ParentNavGraph() }
+    single<FeatureNavGraph>(named(CHILD_NAV_GRAPH)) { ChildNavGraph() }
+    single<FeatureNavGraph>(named(AUTH_NAV_GRAPH)) { AuthNavGraph() }
 
-    @Binds
-    @IntoSet
-    fun bindParentNavGraph(navGraph: ParentNavGraph): FeatureNavGraph
+    single<Set<FeatureNavGraph>> {
+        setOf(
+            get(named(PARENT_NAV_GRAPH)),
+            get(named(CHILD_NAV_GRAPH)),
+            get(named(AUTH_NAV_GRAPH))
+        )
+    }
 
-    @Binds
-    @IntoSet
-    fun bindChildNavGraph(navGraph: ChildNavGraph): FeatureNavGraph
-
-    @Binds
-    @IntoSet
-    fun bindAuthNavGraph(navGraph: AuthNavGraph): FeatureNavGraph
-
-    @Binds
-    fun bindNavigationManager(impl: NavigationManagerImpl): NavigationManager
+    single<NavigationManager> { NavigationManagerImpl() }
 }

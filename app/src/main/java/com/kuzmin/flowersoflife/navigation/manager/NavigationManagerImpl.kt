@@ -1,37 +1,18 @@
 package com.kuzmin.flowersoflife.navigation.manager
 
-import androidx.navigation.NavController
-import androidx.navigation.NavOptionsBuilder
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
-import javax.inject.Inject
+import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Singleton
 
 @Singleton
-class NavigationManagerImpl @Inject constructor() : NavigationManager {
+class NavigationManagerImpl : NavigationManager {
+    private val _commands = MutableSharedFlow<NavigationCommand>()
+    override val commands: SharedFlow<NavigationCommand> = _commands.asSharedFlow()
 
-    private var navController: NavController? = null
-
-    fun setNavController(controller: NavController) {
-        navController = controller
-    }
-
-    override fun navigate(destination: String) {
-        navController?.navigate(destination)
-    }
-
-    override fun navigate(route: String, builder: NavOptionsBuilder.() -> Unit) {
-        navController?.navigate(route, builder)
-    }
-
-    override fun popBackStack(): Boolean {
-        return navController?.popBackStack() ?: false
-    }
-
-    override fun popUpTo(destination: String) {
-        navController?.popBackStack(destination, false)
-    }
-
-    override fun navigateUp(): Boolean {
-        return navController?.navigateUp() ?: false
+    override suspend fun navigate(command: NavigationCommand) {
+        _commands.emit(command)
     }
 }

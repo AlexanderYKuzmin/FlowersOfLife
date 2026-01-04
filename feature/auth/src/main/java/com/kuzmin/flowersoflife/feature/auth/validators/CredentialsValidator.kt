@@ -2,8 +2,8 @@ package com.kuzmin.flowersoflife.feature.auth.validators
 
 import com.kuzmin.flowersoflife.core.domain.extensions.isEmailConsistent
 import com.kuzmin.flowersoflife.core.domain.extensions.isPasswordConsistent
+import com.kuzmin.flowersoflife.core.domain.model.AuthCredentials
 import com.kuzmin.flowersoflife.core.local.validators.Validator
-import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthCredentials
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType
 
 

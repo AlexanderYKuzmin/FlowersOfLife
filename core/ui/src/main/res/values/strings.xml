@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_title">Ошибка</string>
+    <string name="warning_title">Предупреждение</string>
+    <string name="info_title">Инфо</string>
+
+    <string name="ok_btn">Ок</string>
+
+    <!-- ChildCard -->
+    <string name="child_card_week_stats_title">Статистика за неделю:</string>
+    <string name="child_card_active_tasks">Активных заданий:</string>
+    <string name="child_card_closed_tasks">Закрытых заданий:</string>
+    <string name="child_card_earned_coins">Монет заработано:</string>
+    <string name="child_card_assessed_fines">Начислено штрафов:</string>
+    <string name="child_card_my_goal">Моя цель:</string>
+    <string name="child_card_my_goal_value">%S \U2022 %d</string>
+
+</resources>

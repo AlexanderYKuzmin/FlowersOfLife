@@ -2,10 +2,10 @@ package com.kuzmin.flowersoflife.domain.model
 
 import androidx.annotation.DrawableRes
 import com.kuzmin.flowersoflife.R
-import com.kuzmin.flowersoflife.common.constants.Destination.FINANCE
-import com.kuzmin.flowersoflife.common.constants.Destination.HOME
-import com.kuzmin.flowersoflife.common.constants.Destination.NOTIFICATIONS
-import com.kuzmin.flowersoflife.common.constants.Destination.TASKS
+import com.kuzmin.flowersoflife.core.navigation.routing.Destination.FINANCE
+import com.kuzmin.flowersoflife.core.navigation.routing.Destination.HOME
+import com.kuzmin.flowersoflife.core.navigation.routing.Destination.NOTIFICATIONS
+import com.kuzmin.flowersoflife.core.navigation.routing.Destination.TASKS
 
 sealed class BottomNavItem(
     val route: String,

@@ -1,13 +1,15 @@
 package com.kuzmin.flowersoflife.feature.auth.domain.usecases
 
+import com.kuzmin.flowersoflife.core.domain.mapper.toAuthCredentials
 import com.kuzmin.flowersoflife.core.domain.model.User
-import com.kuzmin.flowersoflife.feature.auth.api.usecases.RegisterUserUseCase
-import com.kuzmin.flowersoflife.feature.auth.api.AuthRepository
-import javax.inject.Inject
+import com.kuzmin.flowersoflife.feature.api.repository.AuthRepository
+import com.kuzmin.flowersoflife.feature.api.usecases.user.RegisterUserUseCase
 
-class RegisterUserUseCaseImpl @Inject constructor(
+class RegisterUserUseCaseImpl(
     private val authRepository: AuthRepository
 ) : RegisterUserUseCase {
 
-    override suspend operator fun invoke(user: User) = authRepository.registerWithEmail(user)
+    override suspend operator fun invoke(user: User): String? {
+        return authRepository.registerWithEmail(user.toAuthCredentials())
+    }
 }

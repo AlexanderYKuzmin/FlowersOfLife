@@ -10,13 +10,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.kuzmin.flowersoflife.feature.tasks.ui.viewmodels.TasksViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TasksScreen(
-    viewModel: TasksViewModel = hiltViewModel(),
+    viewModel: TasksViewModel = koinViewModel(),
     //onTaskClick: (taskId: String) -> Unit
 ) {
     //val uiState by viewModel.uiState.collectAsState()

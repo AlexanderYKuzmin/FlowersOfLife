@@ -10,7 +10,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.domain.model.BottomNavItem
 
 @Composable

@@ -4,13 +4,11 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.kuzmin.flowersoflife.common.constants.Destination
-import com.kuzmin.flowersoflife.common.constants.Route
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
-import com.kuzmin.flowersoflife.feature.home.ui.screen.HomeScreen
-import javax.inject.Inject
+import com.kuzmin.flowersoflife.core.navigation.routing.Destination
+import com.kuzmin.flowersoflife.core.navigation.routing.Route
 
-class ChildNavGraph @Inject constructor() : FeatureNavGraph {
+class ChildNavGraph : FeatureNavGraph {
     override fun registerNavGraph(
         navController: NavController,
         navGraphBuilder: NavGraphBuilder
@@ -20,7 +18,7 @@ class ChildNavGraph @Inject constructor() : FeatureNavGraph {
             startDestination = Destination.CHILD_HOME
         ) {
             composable(route = Destination.CHILD_HOME) {
-                HomeScreen()
+                // TODO ChildrenScreen()
             }
         }
     }
