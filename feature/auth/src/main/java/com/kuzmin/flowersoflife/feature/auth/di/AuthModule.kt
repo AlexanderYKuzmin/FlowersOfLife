@@ -7,6 +7,8 @@ import com.kuzmin.flowersoflife.feature.api.usecases.user.GetUserFromFbUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.user.GetUserFromLocalUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.user.GetUserFromRemoteDbUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.user.RegisterUserUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.SaveUserFamilyToLocalUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.SaveUserFamilyToRemoteUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.user.SaveUserToLocalUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.user.SignInUseCase
 import com.kuzmin.flowersoflife.feature.auth.domain.usecases.CheckAuthUseCaseImpl
@@ -15,6 +17,8 @@ import com.kuzmin.flowersoflife.feature.auth.domain.usecases.GetUserFromFbUseCas
 import com.kuzmin.flowersoflife.feature.auth.domain.usecases.GetUserFromLocalUseCaseImpl
 import com.kuzmin.flowersoflife.feature.auth.domain.usecases.GetUserFromRemoteDbUseCaseImpl
 import com.kuzmin.flowersoflife.feature.auth.domain.usecases.RegisterUserUseCaseImpl
+import com.kuzmin.flowersoflife.feature.auth.domain.usecases.SaveUserFamilyToLocalUseCaseImpl
+import com.kuzmin.flowersoflife.feature.auth.domain.usecases.SaveUserFamilyToRemoteUseCaseImpl
 import com.kuzmin.flowersoflife.feature.auth.domain.usecases.SaveUserToLocalUseCaseImpl
 import com.kuzmin.flowersoflife.feature.auth.domain.usecases.SignInUseCaseImpl
 import com.kuzmin.flowersoflife.feature.auth.ui.viewmodels.AuthLoginViewModel
@@ -32,6 +36,8 @@ val authModule = module {
     single<GetUserFamilyFromLocalUseCase> { GetUserFamilyFromLocalUseCaseImpl(get()) }
     single<SaveUserToLocalUseCase> { SaveUserToLocalUseCaseImpl(get()) }
     single<GetUserFromRemoteDbUseCase> { GetUserFromRemoteDbUseCaseImpl(get()) }
+    single<SaveUserFamilyToLocalUseCase> { SaveUserFamilyToLocalUseCaseImpl(get()) }
+    single<SaveUserFamilyToRemoteUseCase> { SaveUserFamilyToRemoteUseCaseImpl(get()) }
 
     viewModel {
         AuthLoginViewModel(
@@ -48,6 +54,7 @@ val authModule = module {
         AuthRegisterViewModel(
             registerUserUseCase = get(),
             saveUserFamilyToLocalUseCase = get(),
+            saveUserFamilyToRemoteUseCase = get(),
             resourceProvider = get(),
             navigationManager = get(),
             sharedFlowMap = get(named(UI_EVENT)),

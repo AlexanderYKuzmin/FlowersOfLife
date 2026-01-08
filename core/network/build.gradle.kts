@@ -24,11 +24,11 @@ dependencies {
     implementation(libs.koin.androidx.navigation)
 
     // Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.gson)
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging)
-    implementation(libs.gson)
+    api(libs.retrofit)
+    api(libs.retrofit.gson)
+    api(libs.okhttp)
+    api(libs.okhttp.logging)
+    api(libs.gson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

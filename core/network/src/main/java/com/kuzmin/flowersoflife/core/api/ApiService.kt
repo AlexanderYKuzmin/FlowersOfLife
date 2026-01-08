@@ -7,15 +7,15 @@ import retrofit2.http.POST
 
 interface ApiService {
 
-    @POST("api/users/me")
-    suspend fun saveUser(
-        @Body userDto: UserDto
-    ): Response<UserDto> //TODO Надо принять статус
-
-    @POST("api/users/child")
-    suspend fun saveChild(
+    @POST("api/users/create")
+    suspend fun createDbUser(
         @Body userDto: UserDto
     ): Response<UserDto>
 
+  /*  @POST("/users/child")
+    suspend fun saveChild(
+        @Body userDto: UserDto
+    ): Response<UserDto>
+*/
 
 }

@@ -49,7 +49,7 @@ import org.koin.androidx.compose.koinViewModel
 fun AuthRegisterScreen(
     authRegisterViewModel: AuthRegisterViewModel = koinViewModel()
 ) {
-    val userAndFamily by authRegisterViewModel.userState.collectAsState()
+    val userFamily by authRegisterViewModel.userState.collectAsState()
 
     val errors by authRegisterViewModel.fieldErrors.collectAsState()
 
@@ -74,13 +74,14 @@ fun AuthRegisterScreen(
         }
 
         is AuthState.Success -> AuthRegisterScreen(
-            userFamily = userAndFamily,
+            userFamily = userFamily,
             errors = errors,
             repeatPassword = repeatPassword,
             passwordMismatch = passwordMismatch,
             onRoleChange = authRegisterViewModel::updateRole,
             onAdminChange = authRegisterViewModel::updateIsAdmin,
             onUsersFieldChange = authRegisterViewModel::updateUserField,
+            onFamilyFieldChange = authRegisterViewModel::updateFamilyField,
             onRepeatPasswordChange = authRegisterViewModel::onRepeatPasswordChanged,
             registerUser = authRegisterViewModel::registerUser,
             cancelRegistration = authRegisterViewModel::cancelRegistration
@@ -110,7 +111,6 @@ fun AuthRegisterScreen(
     }
 
     val isChild = !isParent
-
     val isAdmin = userFamily?.user?.isAdmin.orFalse()
 
     val density = LocalDensity.current

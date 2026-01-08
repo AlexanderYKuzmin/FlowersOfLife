@@ -25,6 +25,10 @@ data class UserDto(
     val isAdmin: Boolean,
 
     @Expose
+    @SerializedName("familyName")
+    val familyName: String,
+
+    @Expose
     @SerializedName("familyCode")
     val familyCode: String? = null,
 
@@ -34,5 +38,9 @@ data class UserDto(
 
     @Expose
     @SerializedName("emailVerified")
-    val emailVerified: String
+    val emailVerified: Boolean,
+
+    @Expose
+    @SerializedName("walletId")
+    val walletId: String? = null
 )
