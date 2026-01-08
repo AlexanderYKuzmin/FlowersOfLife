@@ -21,7 +21,7 @@ sealed class BuildFlavor(
         name = "dev",
         applicationIdSuffix = ".dev",
         versionNameSuffix = "-dev",
-        baseUrl = "http://localhost:8080/api/",
+        baseUrl = "http://195.133.48.244:8081",
         environment = "dev",
         appName = "FlowersOfLife Dev",
     )

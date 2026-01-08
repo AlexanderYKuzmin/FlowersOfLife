@@ -7,4 +7,6 @@ interface UserRepository {
     fun getUserById(userId: String): User?
 
     fun getUserFamilyById(userId: String): UserFamily?
+
+    suspend fun saveUserFamily(userFamily: UserFamily): User?
 }

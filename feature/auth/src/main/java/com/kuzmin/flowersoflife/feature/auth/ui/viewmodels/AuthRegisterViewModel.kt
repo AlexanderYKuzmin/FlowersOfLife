@@ -1,5 +1,6 @@
 package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.common.R.string.sign_up_title
 import com.kuzmin.flowersoflife.common.R.string.unsuccessful_registration
@@ -17,6 +18,7 @@ import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 import com.kuzmin.flowersoflife.core.ui.event.UiEvent
 import com.kuzmin.flowersoflife.feature.api.usecases.user.RegisterUserUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.user.SaveUserFamilyToLocalUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.SaveUserFamilyToRemoteUseCase
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
 import com.kuzmin.flowersoflife.feature.auth.exception.ServerRegisterException
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.ServerRegisterErrorType
@@ -33,6 +35,7 @@ class AuthRegisterViewModel(
     private val resourceProvider: ResourceProvider,
     private val registerUserUseCase: RegisterUserUseCase,
     private val saveUserFamilyToLocalUseCase: SaveUserFamilyToLocalUseCase,
+    private val saveUserFamilyToRemoteUseCase: SaveUserFamilyToRemoteUseCase,
     sharedFlowMap: SharedFlowMap<UiEvent>
 ) : AuthBaseViewModel(navigationManager, sharedFlowMap) {
 
@@ -142,8 +145,9 @@ class AuthRegisterViewModel(
             val uid = registerUserUseCase(userAndFamily.user)
 
             if (uid != null) {
-                //setAuthState(AuthState.Success(registeredUser))
-                //TODO Созранить пользователя и данные по семье в базе данных. Сделать useCase для сохранения. Создать новый репозиторий UserRepository
+                val savedUser = saveUserFamilyToRemoteUseCase(
+                    userFamily = userAndFamily
+                )
 
                 saveUserFamilyToLocalUseCase(
                     userAndFamily.copy(
@@ -152,8 +156,9 @@ class AuthRegisterViewModel(
                 )
 
                 navigateToHome()
+                Log.d("CAB-15", "user registered. User id: ${savedUser?.userId}")
                 showSnackMessage(
-                    resourceProvider.getString(user_registered),
+                    resourceProvider.getString(user_registered) + " ${savedUser?.userId}",
                     SnackbarMessageType.INFO
                 )
             } else {

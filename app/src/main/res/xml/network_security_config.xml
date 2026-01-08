@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- cleartext permitted for dev environment -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">195.133.48.244</domain>
+    </domain-config>
+
+    <!-- safe config for prod -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

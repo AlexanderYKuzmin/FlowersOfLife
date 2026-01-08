@@ -38,5 +38,5 @@
     <string name="illegal_login_error">Неверный логин или пароль</string>
 
     <!-- INFO MESSAGES -->
-    <string name="user_registered">Пользователь зарегистрирован</string>
+    <string name="user_registered">Пользователь зарегистрирован - %1$s</string>
 </resources>
