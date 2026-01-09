@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -41,12 +40,16 @@ import com.kuzmin.flowersoflife.core.ui.components.button.BaseApproveBtnGroup
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 import com.kuzmin.flowersoflife.core.ui.components.text.BasePasswordInputField
 import com.kuzmin.flowersoflife.core.ui.components.text.BaseTextInputField
-import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
-import com.kuzmin.flowersoflife.core.ui.theme.Link
+import com.kuzmin.flowersoflife.core.ui.theme.KabTheme
+import com.kuzmin.flowersoflife.core.ui.theme.SemiBold16
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
 import com.kuzmin.flowersoflife.feature.auth.exception.IllegalLoginException
 import com.kuzmin.flowersoflife.feature.auth.exception.IllegalRouteException
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType
+import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType.EMAIL_EMPTY
+import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType.EMAIL_INVALID
+import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType.PASSWORD_EMPTY
+import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType.PASSWORD_WEAK
 import com.kuzmin.flowersoflife.feature.auth.ui.viewmodels.AuthLoginViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -118,7 +121,6 @@ fun AuthLoginScreenCard(
     errors: Set<RegisterErrorType> = emptySet()
 ) {
     var credentials by remember { mutableStateOf(AuthCredentials(email, password)) }
-    val rememberMe by remember { mutableStateOf(false) }
 
     val density = LocalDensity.current
     val imeVisible = WindowInsets.ime.getBottom(density) > 0
@@ -129,7 +131,7 @@ fun AuthLoginScreenCard(
                 .align(Alignment.Center)
                 .fillMaxWidth(0.9f),
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+            colors = CardDefaults.cardColors(containerColor = KabTheme.colors.simpleCardBgd),
             elevation = CardDefaults.cardElevation(8.dp)
         ) {
             Column(
@@ -143,10 +145,10 @@ fun AuthLoginScreenCard(
                         credentials = credentials.copy(email = it)
                     },
                     label = stringResource(id = R.string.email),
-                    isError = errors.contains(RegisterErrorType.EMAIL_EMPTY) || errors.contains(RegisterErrorType.EMAIL_INVALID),
+                    isError = errors.contains(EMAIL_EMPTY) || errors.contains(EMAIL_INVALID),
                     supportingText = when {
-                        errors.contains(RegisterErrorType.EMAIL_EMPTY) -> stringResource(id = R.string.error_email_empty)
-                        errors.contains(RegisterErrorType.EMAIL_INVALID) -> stringResource(id = R.string.error_email_invalid)
+                        errors.contains(EMAIL_EMPTY) -> stringResource(id = R.string.error_email_empty)
+                        errors.contains(EMAIL_INVALID) -> stringResource(id = R.string.error_email_invalid)
                         else -> null
                     }
                 )
@@ -155,14 +157,13 @@ fun AuthLoginScreenCard(
                     value = credentials.password,
                     onValueChange = { credentials = credentials.copy(password = it) },
                     label = stringResource(id = R.string.password),
-                    isError = errors.contains(RegisterErrorType.PASSWORD_EMPTY) || errors.contains(RegisterErrorType.PASSWORD_WEAK),
+                    isError = errors.contains(PASSWORD_EMPTY) || errors.contains(PASSWORD_WEAK),
                     supportingText = when {
-                        errors.contains(RegisterErrorType.PASSWORD_EMPTY) -> stringResource(id = R.string.error_password_empty)
-                        errors.contains(RegisterErrorType.PASSWORD_WEAK) -> stringResource(id = R.string.error_password_weak)
+                        errors.contains(PASSWORD_EMPTY) -> stringResource(id = R.string.error_password_empty)
+                        errors.contains(PASSWORD_WEAK) -> stringResource(id = R.string.error_password_weak)
                         else -> null
                     }
                 )
-
 
                 if (!imeVisible) {
                     Row(
@@ -174,8 +175,8 @@ fun AuthLoginScreenCard(
                     ) {
                         Text(
                             text = stringResource(id = R.string.register),
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                color = Link,
+                            style = SemiBold16.copy(
+                                color = KabTheme.colors.infoText,
                                 textDecoration = TextDecoration.Underline
                             ),
                             modifier = Modifier.clickable(
@@ -204,7 +205,7 @@ fun AuthLoginScreenCard(
 )
 @Composable
 fun AuthLoginScreenPreview() {
-    FlowersOfLifeTheme {
+    KabTheme {
         AuthLoginScreenCard(
             email = "gpBzK@example.com",
             password = "123456"

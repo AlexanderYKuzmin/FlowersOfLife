@@ -1,31 +1,25 @@
 package com.kuzmin.flowersoflife.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
-
-// Основная палитра
+// Tint/Color/Adj/Component/Variant
 val Primary = Color(0xFFFF3B3B)
 val PrimaryDark = Color(0xFFBF3030)
 val Surface = Color(0xFFFB5353)
-val Gray = Color(0xFF979797)
-val Link = Color(0xFF0000EE)
-
-val ErrorColor = Color(0xFFF44336)
-val InfoColor = Color(0xFF2196F3)
-val WarningColor = Color(0xFFFFC107)
-
-//Form
-val RegisterFormContainer = Color(0xFFFCF8F8)
-
-// Текст
-val TitleOnRegisterForm = Color(0xFF1B1A1A)
-
-val OnSurface = Color(0xFFBDBDBD) // Текст неактивный
-val OnSurfaceActive = Color(0xFFFFFFFF)
-val OnSurfaceVariant = Color(0xFFFB5353)
-val InverseOnSurface = Color(0xFF5C3904)
-
-
-val Background = Color(0xFFFDFDFD)
-val DetailsCardBackground = Color(0xFFEADFFB)
-
-val ProgressColor = Color(0xFF35B84D)
+val SimpleCardBgd = Color(0xFFEEEEEE)
+val PrimaryText = Color(0xFFF3F3F3)
+val PrimaryOnCardText = Color(0xFF080808)
+val PrimaryDimmedText = Color(0xFF424242)
+val SuccessText = Color(0xFF35B84D)
+val ErrorText = Color(0xFFFF3B3B)
+val InfoText = Color(0xFF6200EE)
+val WarningText = Color(0xFFFFB504)
+val SuccessProgress = Color(0xFF35B84D)
+val ProgressBgd = Color(0xFFEEEEEE)
+val ProgressBgdDark = Color(0xFFDBDBDB)
+val YellowPaleTag = Color(0xFFFFE4BA)
+val RedPaleTag = Color(0xFFFF9A9A)
+val FrameActive = Color(0xFFFB5353)
+val FrameInactive = Color(0xFF979797)
+val GrayLight = Color(0xFFDBDBDB)
+val CardDetailsGradStart = Color(0xFFEEEEEE)
+val CardDetailsGradEnd = Color(0xFFEADFFB)

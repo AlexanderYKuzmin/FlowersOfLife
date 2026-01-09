@@ -14,7 +14,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,15 +26,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.kuzmin.flowersoflife.core.domain.model.GoalStatus
 import com.kuzmin.flowersoflife.core.domain.model.aggregate.ChildDashboard
 import com.kuzmin.flowersoflife.core.ui.R
-import com.kuzmin.flowersoflife.core.ui.theme.detailsCardBackground
-import com.kuzmin.flowersoflife.core.ui.theme.progressColor
-import com.kuzmin.flowersoflife.core.ui.theme.titleTextColor
+import com.kuzmin.flowersoflife.core.ui.theme.Bold20
+import com.kuzmin.flowersoflife.core.ui.theme.KabTheme
+import com.kuzmin.flowersoflife.core.ui.theme.Regular16
 
 @Composable
 fun ChildCardDetails(
@@ -66,7 +65,7 @@ fun ChildCardDetails(
                 onClick(child.user.userId)
             },
         colors = CardDefaults.cardColors(
-            containerColor = colorScheme.background
+            containerColor = KabTheme.colors.simpleCardBgd
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         shape = RoundedCornerShape(12.dp)
@@ -77,8 +76,8 @@ fun ChildCardDetails(
                 .background(
                     brush = Brush.linearGradient(
                         colors = listOf(
-                            colorScheme.background,
-                            colorScheme.detailsCardBackground
+                            KabTheme.colors.cardDetailsGradStart,
+                            KabTheme.colors.cardDetailsGradEnd
                         ),
                         start = Offset(0f, 0f),
                         end = Offset(0f, Float.POSITIVE_INFINITY)
@@ -97,7 +96,7 @@ fun ChildCardDetails(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_info),
                             contentDescription = null,
-                            tint = colorScheme.primary,
+                            tint = KabTheme.colors.surface,
                             modifier = Modifier.size(36.dp)
                         )
                     }
@@ -106,18 +105,15 @@ fun ChildCardDetails(
 
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = stringResource(R.string.child_card_week_stats_title),
-                            color = colorScheme.onSecondaryContainer,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
+                            text = child.user.name,
+                            color = KabTheme.colors.primaryText,
+                            style = Bold20
                         )
 
                         Spacer(modifier = Modifier.size(6.dp))
 
-                        StatRow(labelRes = R.string.child_card_active_tasks, value = "15")
-                        StatRow(labelRes = R.string.child_card_closed_tasks, value = "7")
-                        StatRow(labelRes = R.string.child_card_earned_coins, value = "15")
-                        StatRow(labelRes = R.string.child_card_assessed_fines, value = "15")
+                        StatRow(labelRes = R.string.child_card_balance, value = "15")
+                        StatRow(labelRes = R.string.child_card_active_tasks, value = "7")
                     }
                 }
 
@@ -126,8 +122,8 @@ fun ChildCardDetails(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = stringResource(R.string.child_card_my_goal),
-                        color = colorScheme.onSecondaryContainer,
-                        fontWeight = FontWeight.SemiBold
+                        color = KabTheme.colors.primaryText,
+                        style = Bold20
                     )
 
                     Spacer(modifier = Modifier.size(6.dp))
@@ -139,7 +135,7 @@ fun ChildCardDetails(
                                 it.name,
                                 it.price
                             ),
-                            color = colorScheme.onSecondaryContainer,
+                            color = KabTheme.colors.primaryText,
                             fontWeight = FontWeight.Bold
                         )
                     }
@@ -152,8 +148,8 @@ fun ChildCardDetails(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 2.dp),
-                    trackColor = colorScheme.onSurface.copy(alpha = 0.2f),
-                    color = colorScheme.progressColor
+                    trackColor = KabTheme.colors.progressBgdDark,
+                    color = KabTheme.colors.successProgress
                 )
             }
         }
@@ -163,6 +159,8 @@ fun ChildCardDetails(
 
 @Composable
 private fun StatRow(
+    valueTextColor: Color = KabTheme.colors.primaryText,
+    textStyle: TextStyle = Regular16,
     labelRes: Int,
     value: String
 ) {
@@ -174,14 +172,13 @@ private fun StatRow(
     ) {
         Text(
             text = stringResource(labelRes),
-            color = colorScheme.onSecondaryContainer,
-            fontSize = 16.sp,
-            modifier = Modifier.weight(1f)
+            color = KabTheme.colors.primaryText,
+            style = Regular16
         )
         Row {
             Text(
                 text = value,
-                color = colorScheme.titleTextColor,
+                color = valueTextColor,
                 fontWeight = FontWeight.SemiBold
             )
             Box(

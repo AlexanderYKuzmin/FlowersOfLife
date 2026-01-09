@@ -7,13 +7,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
+import com.kuzmin.flowersoflife.core.ui.theme.Bold18
+import com.kuzmin.flowersoflife.core.ui.theme.KabTheme
 
 @Composable
 fun PrimaryButton(
@@ -30,13 +30,13 @@ fun PrimaryButton(
         enabled = enabled,
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onSurface
+            containerColor = KabTheme.colors.surface,
+            contentColor = KabTheme.colors.primaryText
         )
     ) {
         Text(
             text,
-            style = MaterialTheme.typography.titleLarge
+            style = Bold18
         )
     }
 }
@@ -44,7 +44,7 @@ fun PrimaryButton(
 @Preview(showBackground = true)
 @Composable
 fun PrimaryButtonPreview() {
-    FlowersOfLifeTheme(dynamicColor = false) {
+    KabTheme {
         Box(modifier = Modifier.padding(16.dp)) {
             PrimaryButton(text = "OK", onClick = {})
         }

@@ -6,9 +6,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.TypedSnackbarVisuals
-import com.kuzmin.flowersoflife.core.ui.theme.ErrorColor
-import com.kuzmin.flowersoflife.core.ui.theme.InfoColor
-import com.kuzmin.flowersoflife.core.ui.theme.WarningColor
+import com.kuzmin.flowersoflife.core.ui.theme.KabTheme
 
 @Composable
 fun CustomSnackbarHost(
@@ -18,9 +16,9 @@ fun CustomSnackbarHost(
         val type = (snackbarData.visuals as? TypedSnackbarVisuals)?.type ?: SnackbarMessageType.INFO
 
         val backgroundColor = when (type) {
-            SnackbarMessageType.INFO -> InfoColor
-            SnackbarMessageType.WARNING -> WarningColor
-            SnackbarMessageType.ERROR -> ErrorColor
+            SnackbarMessageType.INFO -> KabTheme.colors.infoText
+            SnackbarMessageType.WARNING -> KabTheme.colors.warningText
+            SnackbarMessageType.ERROR -> KabTheme.colors.errorText
         }
 
         Snackbar(

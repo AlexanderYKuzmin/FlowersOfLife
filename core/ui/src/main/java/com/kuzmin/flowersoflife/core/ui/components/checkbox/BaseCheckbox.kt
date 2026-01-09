@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
+import com.kuzmin.flowersoflife.core.ui.theme.KabTheme
 
 @Composable
 fun BaseCheckbox(
@@ -38,7 +38,7 @@ fun BaseCheckbox(
     ) {
         if (label != null) {
             Text(
-                text = label ?: "",
+                text = label,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.inverseOnSurface
             )
@@ -58,7 +58,7 @@ fun BaseCheckbox(
 )
 @Composable
 fun BaseCheckboxPreview() {
-    FlowersOfLifeTheme {
+    KabTheme {
         BaseCheckbox(
             checked = true,
             onCheckedChange = {},

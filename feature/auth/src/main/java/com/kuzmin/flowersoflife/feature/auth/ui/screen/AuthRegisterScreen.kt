@@ -1,5 +1,6 @@
 package com.kuzmin.flowersoflife.feature.auth.ui.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -23,7 +25,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,7 +43,7 @@ import com.kuzmin.flowersoflife.core.ui.components.button.BaseApproveBtnGroup
 import com.kuzmin.flowersoflife.core.ui.components.checkbox.BaseCheckbox
 import com.kuzmin.flowersoflife.core.ui.components.text.BasePasswordInputField
 import com.kuzmin.flowersoflife.core.ui.components.text.BaseTextInputField
-import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
+import com.kuzmin.flowersoflife.core.ui.theme.KabTheme
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
 import com.kuzmin.flowersoflife.feature.auth.exception.errors.RegisterErrorType
 import com.kuzmin.flowersoflife.feature.auth.ui.viewmodels.AuthRegisterViewModel
@@ -57,38 +61,53 @@ fun AuthRegisterScreen(
     val passwordMismatch = authRegisterViewModel.isPasswordMismatch()
 
     val authState by authRegisterViewModel.authState.collectAsState()
-    when (authState) {
-        is AuthState.Loading -> {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.3f)),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        }
 
-        is AuthState.Error -> {
-            // TODO: handle error
-        }
-
-        is AuthState.Success -> AuthRegisterScreen(
-            userFamily = userFamily,
-            errors = errors,
-            repeatPassword = repeatPassword,
-            passwordMismatch = passwordMismatch,
-            onRoleChange = authRegisterViewModel::updateRole,
-            onAdminChange = authRegisterViewModel::updateIsAdmin,
-            onUsersFieldChange = authRegisterViewModel::updateUserField,
-            onFamilyFieldChange = authRegisterViewModel::updateFamilyField,
-            onRepeatPasswordChange = authRegisterViewModel::onRepeatPasswordChanged,
-            registerUser = authRegisterViewModel::registerUser,
-            cancelRegistration = authRegisterViewModel::cancelRegistration
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .imePadding()
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.tech_bgd_narrow),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
         )
 
-        else -> Unit
+        when (authState) {
+            is AuthState.Loading -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.3f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+
+            is AuthState.Error -> {
+                // TODO: handle error
+            }
+
+            is AuthState.Success -> AuthRegisterScreen(
+                userFamily = userFamily,
+                errors = errors,
+                repeatPassword = repeatPassword,
+                passwordMismatch = passwordMismatch,
+                onRoleChange = authRegisterViewModel::updateRole,
+                onAdminChange = authRegisterViewModel::updateIsAdmin,
+                onUsersFieldChange = authRegisterViewModel::updateUserField,
+                onFamilyFieldChange = authRegisterViewModel::updateFamilyField,
+                onRepeatPasswordChange = authRegisterViewModel::onRepeatPasswordChanged,
+                registerUser = authRegisterViewModel::registerUser,
+                cancelRegistration = authRegisterViewModel::cancelRegistration
+            )
+
+            else -> Unit
+        }
     }
+
 }
 
 @Composable
@@ -119,7 +138,7 @@ fun AuthRegisterScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
     ) {
         Column(
             modifier = Modifier
@@ -296,7 +315,7 @@ fun StyledTextOnSurface(
 @Preview(showBackground = true)
 @Composable
 fun AuthRegisterScreenPreview() {
-    FlowersOfLifeTheme {
+    KabTheme {
         AuthRegisterScreen(
             userFamily = UserFamily(
                 User(

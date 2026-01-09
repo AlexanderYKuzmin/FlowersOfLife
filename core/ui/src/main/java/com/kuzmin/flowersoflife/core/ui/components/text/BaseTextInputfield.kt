@@ -1,7 +1,6 @@
 package com.kuzmin.flowersoflife.core.ui.components.text
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -9,7 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
+import com.kuzmin.flowersoflife.core.ui.theme.KabTheme
+import com.kuzmin.flowersoflife.core.ui.theme.Regular16
 
 @Composable
 fun BaseTextInputField(
@@ -25,17 +25,17 @@ fun BaseTextInputField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(label) },
-        textStyle = MaterialTheme.typography.bodyLarge,
+        textStyle = Regular16,
         modifier = modifier.fillMaxWidth(),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = MaterialTheme.colorScheme.surface,
-            unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
+            focusedBorderColor = KabTheme.colors.frameActive,
+            unfocusedBorderColor = KabTheme.colors.frameInactive,
             unfocusedContainerColor = Color.Transparent,
             focusedContainerColor = Color.Transparent,
-            unfocusedLabelColor = MaterialTheme.colorScheme.secondary,
-            focusedLabelColor = MaterialTheme.colorScheme.surface,
-            focusedTextColor = MaterialTheme.colorScheme.onSecondaryContainer,
-            unfocusedTextColor = MaterialTheme.colorScheme.onSecondaryContainer
+            unfocusedLabelColor = KabTheme.colors.frameInactive,
+            focusedLabelColor = KabTheme.colors.frameActive,
+            focusedTextColor = KabTheme.colors.primaryText,
+            unfocusedTextColor = KabTheme.colors.primaryDimmedText
         ),
         isError = isError,
         supportingText = {
@@ -50,7 +50,7 @@ fun BaseTextInputField(
 )
 @Composable
 fun BaseTextInputFieldPreview() {
-    FlowersOfLifeTheme {
+    KabTheme {
         BaseTextInputField(
             value = "Test",
             label = "Test"

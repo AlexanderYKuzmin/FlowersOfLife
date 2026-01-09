@@ -12,6 +12,7 @@
     <string name="child_card_closed_tasks">Закрытых заданий:</string>
     <string name="child_card_earned_coins">Монет заработано:</string>
     <string name="child_card_assessed_fines">Начислено штрафов:</string>
+    <string name="child_card_balance">Баланс:</string>
     <string name="child_card_my_goal">Моя цель:</string>
     <string name="child_card_my_goal_value">%S \U2022 %d</string>
 

@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.kuzmin.flowersoflife.core.ui.R
-import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
+import com.kuzmin.flowersoflife.core.ui.theme.KabTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -139,7 +139,7 @@ fun AlertDialogCard(
 )
 @Composable
 fun AlertDialogCardPreview() {
-    FlowersOfLifeTheme {
+    KabTheme {
         AlertDialogCard(
             title = "Ошибка",
             message = "Непредвиденная ошибка",
