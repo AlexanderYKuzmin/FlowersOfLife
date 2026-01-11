@@ -34,7 +34,7 @@ fun BaseTextInputField(
             focusedContainerColor = Color.Transparent,
             unfocusedLabelColor = KabTheme.colors.frameInactive,
             focusedLabelColor = KabTheme.colors.frameActive,
-            focusedTextColor = KabTheme.colors.primaryText,
+            focusedTextColor = KabTheme.colors.primaryOnCardText,
             unfocusedTextColor = KabTheme.colors.primaryDimmedText
         ),
         isError = isError,

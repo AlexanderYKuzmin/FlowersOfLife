@@ -1,8 +1,8 @@
 package com.kuzmin.flowersoflife.ui.state
 
 import androidx.compose.runtime.Immutable
-import com.kuzmin.flowersoflife.common.model.TabBarUiSettings
-import com.kuzmin.flowersoflife.core.domain.model.User
+import com.kuzmin.flowersoflife.common.model.TopBarUiSettings
+import com.kuzmin.flowersoflife.core.domain.model.aggregate.UserFamily
 
 sealed interface AppUiState {
     data object Loading : AppUiState
@@ -14,10 +14,10 @@ sealed interface AppUiState {
         val isLogoutButtonVisible: Boolean = false,
         val isLoading: Boolean = false,
         val isInternetAvailable: Boolean = true,
-        val user: User? = null,
+        val userFamily: UserFamily? = null,
         val isAuthorized: Boolean = false,
 
-        val tabbarUiSettings: TabBarUiSettings
+        val topBarUiSettings: TopBarUiSettings
     ) : AppUiState
 
 }

@@ -2,8 +2,8 @@ package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.test_utils.MainDispatcherRule
-import com.kuzmin.flowersoflife.feature.api.usecases.user.GetUserFromLocalUseCase
-import com.kuzmin.flowersoflife.feature.api.usecases.user.SignInUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.local.GetUserFromLocalUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.SignInUseCase
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before

@@ -7,19 +7,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kuzmin.flowersoflife.R
-import com.kuzmin.flowersoflife.common.model.TabBarUiSettings
+import com.kuzmin.flowersoflife.common.model.TopBarUiSettings
 import com.kuzmin.flowersoflife.core.ui.theme.Bold22
 import com.kuzmin.flowersoflife.core.ui.theme.KabTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreenTopBar(
-    tabbarUiSettings: TabBarUiSettings = TabBarUiSettings(),
+    tabbarUiSettings: TopBarUiSettings = TopBarUiSettings(),
     onNavigationIconClick: () -> Unit,
     onBackClick: () -> Unit
 ) {
@@ -37,15 +36,15 @@ fun MainScreenTopBar(
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_menu_24),
                         contentDescription = stringResource(id = R.string.menu_icon_description),
-                        tint = Color.Unspecified
+                        tint = KabTheme.colors.primaryText
                     )
                 }
             } else if (tabbarUiSettings.isBackVisible) {
                 IconButton(onClick = onBackClick) {
                     Icon(
-                        painter = painterResource(id = com.google.android.material.R.drawable.material_ic_keyboard_arrow_left_black_24dp),
+                        painter = painterResource(id = R.drawable.outline_arrow_back_24),
                         contentDescription = stringResource(id = R.string.back_icon_description),
-                        tint = Color.Unspecified
+                        tint = KabTheme.colors.primaryText
                     )
                 }
             }
@@ -67,7 +66,7 @@ fun MainScreenTopBar(
 private fun MainScreenTopBarPreview() {
     KabTheme {
         MainScreenTopBar(
-            tabbarUiSettings = TabBarUiSettings(),
+            tabbarUiSettings = TopBarUiSettings(),
             onNavigationIconClick = {},
             onBackClick = {}
         )

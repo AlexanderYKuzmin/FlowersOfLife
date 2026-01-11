@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxColors
 import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kuzmin.flowersoflife.core.ui.theme.KabTheme
+import com.kuzmin.flowersoflife.core.ui.theme.SemiBold18
 
 @Composable
 fun BaseCheckbox(
@@ -25,9 +25,9 @@ fun BaseCheckbox(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     colors: CheckboxColors = CheckboxDefaults.colors(
-        checkedColor = MaterialTheme.colorScheme.primary,
-        uncheckedColor = MaterialTheme.colorScheme.outline,
-        checkmarkColor = MaterialTheme.colorScheme.onPrimary
+        checkedColor = KabTheme.colors.primary,
+        uncheckedColor = KabTheme.colors.frameInactive,
+        checkmarkColor = KabTheme.colors.primaryText
     )
 ) {
     Row(
@@ -39,8 +39,8 @@ fun BaseCheckbox(
         if (label != null) {
             Text(
                 text = label,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.inverseOnSurface
+                style = SemiBold18,
+                color = KabTheme.colors.primaryOnCardText
             )
             Spacer(modifier = Modifier.width(8.dp))
         }

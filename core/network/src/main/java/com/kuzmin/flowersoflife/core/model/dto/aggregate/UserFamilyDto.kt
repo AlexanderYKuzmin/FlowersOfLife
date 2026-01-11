@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import com.kuzmin.flowersoflife.core.model.dto.FamilyDto
 import com.kuzmin.flowersoflife.core.model.dto.UserDto
 
-data class UserAndFamilyDto(
+data class UserFamilyDto(
     @Expose
     @SerializedName("user")
     val user: UserDto,

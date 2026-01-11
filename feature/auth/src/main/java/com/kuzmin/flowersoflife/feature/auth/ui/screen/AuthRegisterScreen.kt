@@ -16,11 +16,11 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -33,7 +33,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kuzmin.flowersoflife.common.R
-import com.kuzmin.flowersoflife.common.ext.toDp
 import com.kuzmin.flowersoflife.core.domain.extensions.orFalse
 import com.kuzmin.flowersoflife.core.domain.model.Family
 import com.kuzmin.flowersoflife.core.domain.model.User
@@ -51,16 +50,18 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AuthRegisterScreen(
-    authRegisterViewModel: AuthRegisterViewModel = koinViewModel()
+    viewModel: AuthRegisterViewModel = koinViewModel()
 ) {
-    val userFamily by authRegisterViewModel.userState.collectAsState()
+    val userFamily by viewModel.userState.collectAsState()
 
-    val errors by authRegisterViewModel.fieldErrors.collectAsState()
+    val errors by viewModel.fieldErrors.collectAsState()
 
-    val repeatPassword by authRegisterViewModel.repeatPassword.collectAsState()
-    val passwordMismatch = authRegisterViewModel.isPasswordMismatch()
+    val repeatPassword by viewModel.repeatPassword.collectAsState()
+    val passwordMismatch = viewModel.isPasswordMismatch()
 
-    val authState by authRegisterViewModel.authState.collectAsState()
+    val authState by viewModel.authState.collectAsState()
+
+    LaunchedEffect(Unit) { viewModel.notifyTopBarDataChanged() }
 
     Box(
         modifier = Modifier
@@ -95,13 +96,12 @@ fun AuthRegisterScreen(
                 errors = errors,
                 repeatPassword = repeatPassword,
                 passwordMismatch = passwordMismatch,
-                onRoleChange = authRegisterViewModel::updateRole,
-                onAdminChange = authRegisterViewModel::updateIsAdmin,
-                onUsersFieldChange = authRegisterViewModel::updateUserField,
-                onFamilyFieldChange = authRegisterViewModel::updateFamilyField,
-                onRepeatPasswordChange = authRegisterViewModel::onRepeatPasswordChanged,
-                registerUser = authRegisterViewModel::registerUser,
-                cancelRegistration = authRegisterViewModel::cancelRegistration
+                onRoleChange = viewModel::updateRole,
+                onUsersFieldChange = viewModel::updateUserField,
+                onFamilyFieldChange = viewModel::updateFamilyField,
+                onRepeatPasswordChange = viewModel::onRepeatPasswordChanged,
+                registerUser = viewModel::registerUser,
+                cancelRegistration = viewModel::cancelRegistration
             )
 
             else -> Unit
@@ -117,7 +117,6 @@ fun AuthRegisterScreen(
     repeatPassword: String = "",
     passwordMismatch: Boolean = false,
     onRoleChange: (UserRole?) -> Unit = {},
-    onAdminChange: (Boolean) -> Unit = {},
     onUsersFieldChange: (User.() -> User) -> Unit = {},
     onFamilyFieldChange: (Family.() -> Family) -> Unit = {},
     onRepeatPasswordChange: (String) -> Unit = {},
@@ -130,7 +129,6 @@ fun AuthRegisterScreen(
     }
 
     val isChild = !isParent
-    val isAdmin = userFamily?.user?.isAdmin.orFalse()
 
     val density = LocalDensity.current
     val imeVisible = WindowInsets.ime.getBottom(density) > 0
@@ -151,18 +149,16 @@ fun AuthRegisterScreen(
 
             if (!imeVisible) {
                 Spacer(modifier = Modifier.height(16.dp))
-                Row(modifier = rowModifier, horizontalArrangement = Arrangement.SpaceBetween) {
+                Row(
+                    modifier = rowModifier,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     StyledTextOnSurface(text = stringResource(id = R.string.i_am_parent))
                     BaseCheckbox(
                         checked = isParent,
                         onCheckedChange = {
                             onRoleChange(if (it) UserRole.PARENT else null)
-                        },
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = MaterialTheme.colorScheme.primary,
-                            uncheckedColor = MaterialTheme.colorScheme.outline,
-                            checkmarkColor = MaterialTheme.colorScheme.onPrimary
-                        )
+                        }
                     )
                 }
 
@@ -175,29 +171,7 @@ fun AuthRegisterScreen(
                         checked = isChild,
                         onCheckedChange = {
                             onRoleChange(if (it) UserRole.CHILD else null)
-                        },
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = MaterialTheme.colorScheme.primary,
-                            uncheckedColor = MaterialTheme.colorScheme.outline,
-                            checkmarkColor = MaterialTheme.colorScheme.onPrimary
-                        )
-                    )
-                }
-
-                Row(modifier = rowModifier, horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(
-                        text = stringResource(id = R.string.i_am_admin),
-                        fontWeight = FontWeight.Bold
-                    )
-                    BaseCheckbox(
-                        checked = isAdmin,
-                        onCheckedChange = { onAdminChange(it) },
-                        enabled = true,
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = MaterialTheme.colorScheme.primary,
-                            uncheckedColor = MaterialTheme.colorScheme.outline,
-                            checkmarkColor = MaterialTheme.colorScheme.onPrimary
-                        )
+                        }
                     )
                 }
             }
@@ -209,7 +183,7 @@ fun AuthRegisterScreen(
                 value = userFamily?.family?.familyName ?: "",
                 label = stringResource(id = R.string.family_group),
                 onValueChange = {
-                    onFamilyFieldChange { copy(familyName = it) }
+                    onFamilyFieldChange { copy(familyName = it.trim()) }
                 },
                 isError = errors.contains(RegisterErrorType.FAMILY_NAME_EMPTY),
                 supportingText = if (errors.contains(RegisterErrorType.FAMILY_NAME_EMPTY)) {
@@ -219,9 +193,9 @@ fun AuthRegisterScreen(
             BaseTextInputField(
                 modifier = rowModifier.padding(bottom = 4.dp),
                 value = userFamily?.user?.name ?: "",
-                label = stringResource(id = R.string.firstname),
+                label = stringResource(id = R.string.username),
                 onValueChange = {
-                    onUsersFieldChange { copy(name = it) }
+                    onUsersFieldChange { copy(name = it.trim()) }
                 },
                 isError = errors.contains(RegisterErrorType.USERNAME_IS_EMPTY),
                 supportingText = if (errors.contains(RegisterErrorType.USERNAME_IS_EMPTY)) {
@@ -244,7 +218,7 @@ fun AuthRegisterScreen(
                     else -> null
                 }
             )
-            BaseTextInputField(
+           /* BaseTextInputField(
                 modifier = rowModifier.padding(bottom = 4.dp),
                 value = userFamily?.family?.familyCode ?: "",
                 label = stringResource(id = R.string.family_code),
@@ -253,7 +227,7 @@ fun AuthRegisterScreen(
                 },
                 isError = false,
                 readOnly = isAdmin
-            )
+            )*/
             BasePasswordInputField(
                 modifier = rowModifier.padding(bottom = 8.dp),
                 value = userFamily?.user?.password ?: "",
@@ -283,15 +257,10 @@ fun AuthRegisterScreen(
 
         if (!imeVisible) Spacer(modifier = Modifier.weight(0.02f))
 
-        val imeBottom = WindowInsets.ime.getBottom(LocalDensity.current).toDp()
-
         BaseApproveBtnGroup(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(
-                    top = 8.dp,
-                    bottom = if (imeVisible) (imeBottom - 32.dp).coerceAtLeast(0.dp) else 16.dp
-                ),
+                .padding(top = 8.dp, bottom = 16.dp),
             positiveText = stringResource(id = R.string.ok_btn_txt),
             negativeText = stringResource(id = R.string.cancel_btn_txt),
             onPositiveClick = registerUser,

@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.R
-import com.kuzmin.flowersoflife.common.model.TabBarUiSettings
+import com.kuzmin.flowersoflife.common.model.TopBarUiSettings
 import com.kuzmin.flowersoflife.core.domain.usecases.auth.CheckAuthUseCase
 import com.kuzmin.flowersoflife.core.local.event_bus.FlowKey.UI_EVENT
 import com.kuzmin.flowersoflife.core.local.event_bus.SharedFlowMap
@@ -13,8 +13,8 @@ import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarData
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 import com.kuzmin.flowersoflife.core.ui.event.UiEvent
-import com.kuzmin.flowersoflife.feature.api.usecases.user.GetUserFromFbUseCase
-import com.kuzmin.flowersoflife.feature.api.usecases.user.GetUserFromRemoteDbUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.GetUserFamilyFromRemoteUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.GetUserFromFbUseCase
 import com.kuzmin.flowersoflife.ui.state.AppUiState
 import com.kuzmin.flowersoflife.ui.state.MainScreenState
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 class MainScreenViewModel(
     private val checkAuthUseCase: CheckAuthUseCase,
     private val getUserFromFbUseCase: GetUserFromFbUseCase,
-    private val getUserFromDbUseCase: GetUserFromRemoteDbUseCase,
+    private val getUserFamilyFromRemoteUseCase: GetUserFamilyFromRemoteUseCase,
     private val resourceProvider: ResourceProvider,
     private val sharedFlowMap: SharedFlowMap<UiEvent>,
     private val navigationManager: NavigationManager
@@ -64,24 +64,37 @@ class MainScreenViewModel(
         viewModelScope.launch(ioContext) {
             val userFb = getUserFromFbUseCase()
 
-            val user = if (userFb != null) {
-                getUserFromDbUseCase(userFb.userId)
+            val userFamily = if (userFb != null) {
+                getUserFamilyFromRemoteUseCase(userFb.userId)
             } else {
                 null
             }
 
             delay(3000)
+            Log.d("CAB-2-1", "MainScreenViewModel. userFamily: $userFamily")
             _screenState.update {
                 MainScreenState.SuccessEmpty
             }
 
-            Log.d("CAB-13", "init main screen view model USER = $user")
             _appState.value = AppUiState.Success(
-                user = user,
-                isAuthorized = userFb != null,
-                tabbarUiSettings = TabBarUiSettings()
+                userFamily = userFamily,
+                isAuthorized = userFamily != null,
+                topBarUiSettings = TopBarUiSettings(
+                    title = resourceProvider.getString(R.string.app_name),
+                    isHamburgerVisible = true,
+                    isBackVisible = false
+                )
             )
         }
+    }
+
+    fun notifyTopbarStateChange() {
+        val state = appState.value as? AppUiState.Success ?: return
+        _appState.value = state.copy(
+            topBarUiSettings = TopBarUiSettings(
+                title = resourceProvider.getString(R.string.app_name),
+            )
+        )
     }
 
     private fun observeUiEvents() {
@@ -100,7 +113,7 @@ class MainScreenViewModel(
                     is UiEvent.UpdateAppState -> {
                         val state = appState.value as? AppUiState.Success ?: return@collect
                         _appState.update {
-                            state.copy(tabbarUiSettings = event.tabBarUiSettings)
+                            state.copy(topBarUiSettings = event.topBarUiSettings)
                         }
                     }
 

@@ -20,6 +20,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -60,6 +61,8 @@ fun AuthLoginScreen(
     val authState by viewModel.authState.collectAsState()
 
     val errors by viewModel.fieldErrors.collectAsState()
+
+    LaunchedEffect(key1 = Unit) { viewModel.notifyTopBarDataChanged() }
 
     Box(
         modifier = Modifier

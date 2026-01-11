@@ -15,8 +15,8 @@
     <string name="i_am_admin">Я - администратор</string>
     <string name="i_am_parent">Я - родитель</string>
     <string name="i_am_child">Я - ребенок</string>
-    <string name="family_group">Группа</string>
-    <string name="firstname">Имя пользователя</string>
+    <string name="family_group">Семья</string>
+    <string name="username">Имя пользователя</string>
     <string name="password_again">Пароль повторно</string>
     <string name="family_code">Семейный код</string>
 
@@ -24,7 +24,7 @@
     <string name="user_not_initialized">Пользватель не проинициализирован</string>
     <string name="unsuccessful_registration">Ошибка при регистрации</string>
 
-    <string name="error_group_name_empty">Введите название семейной группы</string>
+    <string name="error_group_name_empty">Введите название семьи</string>
     <string name="error_firstname_is_empty">Введите имя</string>
     <string name="error_email_empty">Введите email</string>
     <string name="error_email_invalid">Некорректный email</string>

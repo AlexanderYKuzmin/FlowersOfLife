@@ -2,7 +2,7 @@ package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 
 import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.common.R.string.sign_in_title
-import com.kuzmin.flowersoflife.common.model.TabBarUiSettings
+import com.kuzmin.flowersoflife.common.model.TopBarUiSettings
 import com.kuzmin.flowersoflife.core.domain.model.AuthCredentials
 import com.kuzmin.flowersoflife.core.domain.model.Family
 import com.kuzmin.flowersoflife.core.domain.model.User
@@ -13,9 +13,9 @@ import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
 import com.kuzmin.flowersoflife.core.navigation.routing.Destination
 import com.kuzmin.flowersoflife.core.ui.event.UiEvent
-import com.kuzmin.flowersoflife.feature.api.usecases.user.GetUserFamilyFromLocalUseCase
-import com.kuzmin.flowersoflife.feature.api.usecases.user.GetUserFromLocalUseCase
-import com.kuzmin.flowersoflife.feature.api.usecases.user.SignInUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.local.GetUserFamilyFromLocalUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.local.GetUserFromLocalUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.SignInUseCase
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
 import com.kuzmin.flowersoflife.feature.auth.exception.IllegalLoginException
 import com.kuzmin.flowersoflife.feature.auth.validators.CredentialsValidator
@@ -35,14 +35,6 @@ open class AuthLoginViewModel(
     init {
         setAuthState(AuthState.Loading)
         viewModelScope.launch(ioCoroutineContext) {
-            updateTopbarState(
-                TabBarUiSettings(
-                    isHamburgerVisible = false,
-                    isBackVisible = false,
-                    title = resourceProvider.getString(sign_in_title)
-                )
-            )
-
             val userAndFamily = getUserFamilyFromLocalUseCase()
 
             withContext(Dispatchers.Main) {
@@ -53,6 +45,16 @@ open class AuthLoginViewModel(
                 )
             }
         }
+    }
+
+    suspend fun notifyTopBarDataChanged() {
+        updateTopbarState(
+            TopBarUiSettings(
+                isHamburgerVisible = false,
+                isBackVisible = false,
+                title = resourceProvider.getString(sign_in_title)
+            )
+        )
     }
 
     fun navigateToRegisterUser() {

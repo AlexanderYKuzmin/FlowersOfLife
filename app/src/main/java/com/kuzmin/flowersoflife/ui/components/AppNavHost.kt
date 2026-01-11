@@ -1,10 +1,10 @@
 package com.kuzmin.flowersoflife.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -14,27 +14,24 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
+import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
 import com.kuzmin.flowersoflife.core.navigation.routing.Destination
 import com.kuzmin.flowersoflife.core.navigation.routing.Route
 import com.kuzmin.flowersoflife.ui.state.AppUiState
-import com.kuzmin.flowersoflife.ui.viewmodels.MainScreenViewModel
 
 @Composable
 fun AppNavHost(
-    viewModel: MainScreenViewModel,
+    appState: AppUiState.Success,
     navController: NavHostController,
+    navigationManager: NavigationManager,
     featureNavGraphs: Set<@JvmSuppressWildcards FeatureNavGraph>,
     paddingValues: PaddingValues
 ) {
-    val appState by viewModel.appState.collectAsState()
-
-    val navigationManager = viewModel.getNavigationManager()
-
     var hasEntered by remember { mutableStateOf(false) }
 
     LaunchedEffect(appState) {
-        if (!hasEntered && appState is AppUiState.Success) {
+        if (!hasEntered) {
             hasEntered = true
         }
     }
@@ -62,10 +59,10 @@ fun AppNavHost(
 
 
     if (hasEntered) {
-        val appUiState = appState as? AppUiState.Success
-        val user = appUiState?.user
+        val user = appState.userFamily?.user
+        Log.d("CAB-2-1", "AppNavHost. user: $user")
         val graph = when {
-            appUiState?.isAuthorized == false -> Route.AUTH_NAV_GRAPH
+            !appState.isAuthorized -> Route.AUTH_NAV_GRAPH
             user?.role == UserRole.PARENT -> Route.PARENT_NAV_GRAPH
             user?.role == UserRole.CHILD -> Route.CHILD_NAV_GRAPH
             else -> Route.AUTH_NAV_GRAPH
