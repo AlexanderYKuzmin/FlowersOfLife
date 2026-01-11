@@ -11,7 +11,7 @@ val mainScreenModule = module {
         MainScreenViewModel(
             checkAuthUseCase = get(),
             getUserFromFbUseCase = get(),
-            getUserFromDbUseCase = get(),
+            getUserFamilyFromRemoteUseCase = get(),
             resourceProvider = get(),
             sharedFlowMap = get(named(UI_EVENT)),
             navigationManager = get()

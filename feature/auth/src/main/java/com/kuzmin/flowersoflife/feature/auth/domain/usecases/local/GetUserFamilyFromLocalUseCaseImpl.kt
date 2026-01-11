@@ -1,8 +1,8 @@
-package com.kuzmin.flowersoflife.feature.auth.domain.usecases
+package com.kuzmin.flowersoflife.feature.auth.domain.usecases.local
 
 import com.kuzmin.flowersoflife.core.domain.model.aggregate.UserFamily
 import com.kuzmin.flowersoflife.core.domain.storage.PrefManager
-import com.kuzmin.flowersoflife.feature.api.usecases.user.GetUserFamilyFromLocalUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.local.GetUserFamilyFromLocalUseCase
 
 class GetUserFamilyFromLocalUseCaseImpl(
     private val prefManager: PrefManager

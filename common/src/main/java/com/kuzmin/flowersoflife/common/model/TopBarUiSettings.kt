@@ -1,6 +1,6 @@
 package com.kuzmin.flowersoflife.common.model
 
-data class TabBarUiSettings(
+data class TopBarUiSettings(
     val title: String = "",
     val profilePhotoUrl: String? = null,
     val isBackVisible: Boolean = true,

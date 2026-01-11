@@ -1,90 +1,35 @@
 package com.kuzmin.flowersoflife.core.ui.theme
 
-import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.core.view.WindowCompat
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.compositionLocalOf
 
-private val DarkColorScheme = darkColorScheme(
-    primary = PrimaryDark,
-    secondary = Surface,
-    tertiary = PrimaryDark,
-    background = Color(0xFF111111),
-    surface = Surface,
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White
-)
-
-private val LightColorScheme = lightColorScheme(
-    primary = Primary,
-    secondary = Gray,
-    tertiary = PrimaryDark,
-    background = Background,
-    surface = Surface,
-    onPrimary = OnSurface,
-    onSecondary = Color.Black,
-    onTertiary = OnSurface,
-    onPrimaryContainer = OnSurface,
-    onSurfaceVariant = OnSurfaceVariant, //label
-    onTertiaryContainer = Color.Blue, //todo check
-    onSurface = Color.White,
-    inverseOnSurface = Color.Black,
-    secondaryContainer = RegisterFormContainer,
-    onSecondaryContainer = TitleOnRegisterForm
-)
-
-@Composable
-fun FlowersOfLifeTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false,
-    content: @Composable () -> Unit
-) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            val window = (view.context as Activity).window
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-            window.statusBarColor = android.graphics.Color.TRANSPARENT
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
-        }
-    }
-
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+private val LocalColors = compositionLocalOf<KabColorScheme> {
+    error("No colors provided! Make sure to wrap all usages of LxpDriverColors components in Theme.")
 }
 
-val ColorScheme.detailsCardBackground: Color
-    @Composable
-    get() = DetailsCardBackground
+@Composable
+fun KabTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    colors: KabColorScheme = if (darkTheme) {
+        KabColorScheme.defaultDarkColors()
+    } else {
+        KabColorScheme.defaultLightColors()
+    },
+    content: @Composable () -> Unit
+) {
+    CompositionLocalProvider(
+        LocalColors provides colors
+    ) {
+        content()
+    }
+}
 
-val ColorScheme.progressColor: Color
-    @Composable
-    get() = ProgressColor
-
-val ColorScheme.titleTextColor: Color
-    @Composable
-    get() = TitleOnRegisterForm
+object KabTheme {
+    val colors: KabColorScheme
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalColors.current
+}

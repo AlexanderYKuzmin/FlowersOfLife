@@ -1,4 +1,4 @@
-package com.kuzmin.flowersoflife.feature.auth.domain.usecases
+package com.kuzmin.flowersoflife.feature.auth.domain.usecases.remote
 
 import com.kuzmin.flowersoflife.core.domain.usecases.auth.CheckAuthUseCase
 import com.kuzmin.flowersoflife.feature.api.repository.AuthRepository

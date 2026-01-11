@@ -10,7 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kuzmin.flowersoflife.common.R
-import com.kuzmin.flowersoflife.core.ui.theme.FlowersOfLifeTheme
+import com.kuzmin.flowersoflife.core.ui.theme.KabTheme
 
 @Composable
 fun BaseApproveBtnGroup(
@@ -42,7 +42,7 @@ fun BaseApproveBtnGroup(
 @Preview(showBackground = true)
 @Composable
 fun BaseApproveBtnGroupPreview() {
-    FlowersOfLifeTheme(dynamicColor = false) {
+    KabTheme {
         BaseApproveBtnGroup(
             positiveText = stringResource(id = R.string.ok_btn_txt),
             negativeText = stringResource(id = R.string.cancel_btn_txt),

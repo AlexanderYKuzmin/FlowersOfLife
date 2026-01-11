@@ -8,6 +8,21 @@
     <string name="finance">Счет</string>
     <string name="notifications">Уведомления</string>
 
+    <!-- Drawer -->
+    <string name="family">Семья</string>
+    <string name="parent">Родитель</string>
+    <string name="child">Ребенок</string>
+    <string name="actions">Действия</string>
+    <string name="goals">Цели</string>
+    <string name="children">Дети</string>
+    <string name="adults">Взрослые</string>
+    <string name="registration">Регистрация</string>
+    <string name="logout">Выход</string>
+    <string name="settings">Настройки</string>
+    <string name="profile">Профиль</string>
+    <string name="help">Помощь</string>
+    <string name="about">О нас</string>
+
     <!--Messaged-->
     <string name="unknown_error">Неизвестная ошибка</string>
 </resources>

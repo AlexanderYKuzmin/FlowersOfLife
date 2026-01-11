@@ -1,26 +1,24 @@
 package com.kuzmin.flowersoflife.ui.screen
 
-import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.kuzmin.flowersoflife.common.ext.setSystemBarsAppearance
-import com.kuzmin.flowersoflife.common.model.TabBarUiSettings
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
+import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.ui.components.snackbarhost.CustomSnackbarHost
 import com.kuzmin.flowersoflife.core.ui.extensions.showTypedSnackbar
+import com.kuzmin.flowersoflife.core.ui.theme.KabTheme
 import com.kuzmin.flowersoflife.ui.components.AppNavHost
 import com.kuzmin.flowersoflife.ui.components.DrawerContent
 import com.kuzmin.flowersoflife.ui.components.MainScreenTopBar
@@ -40,41 +38,62 @@ fun MainScreen(
 
     val appState by viewModel.appState.collectAsState()
 
-    val activity = LocalActivity.current
-    val statusBarColor = MaterialTheme.colorScheme.surface
-    val navigationBarColor = MaterialTheme.colorScheme.surface
+    val navigationManager = viewModel.getNavigationManager()
 
     val snackbarHostState = remember { SnackbarHostState() }
 
-    SideEffect {
-        activity?.setSystemBarsAppearance(
-            statusBarColor = statusBarColor,
-            navigationBarColor = navigationBarColor
-        )
-    }
-
     LaunchedEffect(Unit) {
+        viewModel.notifyTopbarStateChange()
         viewModel.snackbarState.collect { snackbarData ->
             snackbarHostState.showTypedSnackbar(snackbarData)
         }
     }
 
+    when(val appUiState = appState) {
+        is AppUiState.Success -> {
+            MainScreenContent(
+                appState = appUiState,
+                snackbarHostState = snackbarHostState,
+                navController = navController,
+                navigationManager = navigationManager,
+                featureNavGraph = featureNavGraph,
+            )
+        }
+        is AppUiState.Error -> {
+            // TODO: show error screen
+        }
+        else -> {}
+    }
+
+}
+
+@Composable
+fun MainScreenContent(
+    appState: AppUiState.Success,
+    snackbarHostState: SnackbarHostState,
+    navController: NavHostController,
+    navigationManager: NavigationManager,
+    featureNavGraph: Set<@JvmSuppressWildcards FeatureNavGraph>,
+) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    val currentState = appState as? AppUiState.Success
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            DrawerContent()
+            DrawerContent(
+                modifier = Modifier.fillMaxWidth(0.7f),
+                userFamily = appState.userFamily,
+            )
         }
     ) {
 
         Scaffold(
+            containerColor = KabTheme.colors.primary,
             snackbarHost = { CustomSnackbarHost(snackbarHostState) },
             topBar = {
                 MainScreenTopBar(
-                    tabbarUiSettings = currentState?.tabbarUiSettings ?: TabBarUiSettings(),
+                    tabbarUiSettings = appState.topBarUiSettings,
                     onNavigationIconClick = {
                         scope.launch { drawerState.open() }
                     },
@@ -84,21 +103,17 @@ fun MainScreen(
                 )
             },
             bottomBar = {
-                when(appState) {
-                    is AppUiState.Success -> {
-                        if ((appState as AppUiState.Success).isAuthorized) {
-                            ParentBottomNavigationBar(
-                                navController = navController
-                            )
-                        }
-                    }
-                    else -> {}
+                if (appState.isAuthorized) {
+                    ParentBottomNavigationBar(
+                        navController = navController
+                    )
                 }
             }
         ) { innerPadding ->
             AppNavHost(
-                viewModel = viewModel,
+                appState = appState,
                 navController = navController,
+                navigationManager = navigationManager,
                 featureNavGraphs = featureNavGraph,
                 paddingValues = innerPadding
             )

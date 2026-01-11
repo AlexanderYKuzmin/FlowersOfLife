@@ -1,6 +1,6 @@
 package com.kuzmin.flowersoflife.core.ui.event
 
-import com.kuzmin.flowersoflife.common.model.TabBarUiSettings
+import com.kuzmin.flowersoflife.common.model.TopBarUiSettings
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 
 sealed class UiEvent {
@@ -9,5 +9,5 @@ sealed class UiEvent {
         val type: SnackbarMessageType = SnackbarMessageType.INFO
     ) : UiEvent()
 
-    data class UpdateAppState(val tabBarUiSettings: TabBarUiSettings) : UiEvent()
+    data class UpdateAppState(val topBarUiSettings: TopBarUiSettings) : UiEvent()
 }

@@ -12,8 +12,6 @@ object RegisterUserContextualValidator : ContextualValidator<UserFamily, String,
         with(userFamily) {
             if (family.familyName.isBlank()) add(RegisterErrorType.FAMILY_NAME_EMPTY)
 
-            if (family.familyCode.isBlank() && !user.isAdmin) add(RegisterErrorType.FAMILY_CODE_EMPTY)
-
             if (user.name.isBlank()) add(RegisterErrorType.USERNAME_IS_EMPTY)
 
             if (user.email.isBlank()) add(RegisterErrorType.EMAIL_EMPTY)

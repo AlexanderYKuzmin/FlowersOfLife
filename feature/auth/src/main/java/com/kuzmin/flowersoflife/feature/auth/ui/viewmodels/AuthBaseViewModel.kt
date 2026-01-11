@@ -2,7 +2,7 @@ package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kuzmin.flowersoflife.common.model.TabBarUiSettings
+import com.kuzmin.flowersoflife.common.model.TopBarUiSettings
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.local.event_bus.FlowKey.UI_EVENT
 import com.kuzmin.flowersoflife.core.local.event_bus.SharedFlowMap
@@ -51,11 +51,11 @@ abstract class AuthBaseViewModel(
         _authState.value = block(_authState.value)
     }
 
-    protected suspend fun updateTopbarState(tabBarUiSettings: TabBarUiSettings) {
+    protected suspend fun updateTopbarState(topBarUiSettings: TopBarUiSettings) {
         sharedFlowMap.emit(
             UI_EVENT,
             UiEvent.UpdateAppState(
-                tabBarUiSettings = tabBarUiSettings
+                topBarUiSettings = topBarUiSettings
             )
         )
     }

@@ -1,10 +1,13 @@
 package com.kuzmin.flowersoflife.data_provider.mapper
 
 import com.kuzmin.flowersoflife.core.domain.model.AuthCredentials
+import com.kuzmin.flowersoflife.core.domain.model.Family
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.domain.model.aggregate.UserFamily
+import com.kuzmin.flowersoflife.core.model.dto.FamilyDto
 import com.kuzmin.flowersoflife.core.model.dto.UserDto
+import com.kuzmin.flowersoflife.core.model.dto.aggregate.UserFamilyDto
 import com.kuzmin.flowersoflife.core.model.firebase.AuthCredentialsFb
 import com.kuzmin.flowersoflife.core.model.firebase.UserFb
 
@@ -51,6 +54,21 @@ fun UserDto.toUserModel(): User {
         isAdmin = isAdmin,
         familyId = familyId,
         walletId = walletId
+    )
+}
+
+fun FamilyDto.toFamilyModel(): Family {
+    return Family(
+        familyId = familyId,
+        familyName = familyName,
+        familyCode = familyCode
+    )
+}
+
+fun UserFamilyDto.toUserFamily(): UserFamily {
+    return UserFamily(
+        user = user.toUserModel(),
+        family = family.toFamilyModel()
     )
 }
 

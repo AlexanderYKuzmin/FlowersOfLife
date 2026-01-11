@@ -1,12 +1,11 @@
 package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.common.R.string.sign_up_title
 import com.kuzmin.flowersoflife.common.R.string.unsuccessful_registration
 import com.kuzmin.flowersoflife.common.R.string.user_not_initialized
 import com.kuzmin.flowersoflife.common.R.string.user_registered
-import com.kuzmin.flowersoflife.common.model.TabBarUiSettings
+import com.kuzmin.flowersoflife.common.model.TopBarUiSettings
 import com.kuzmin.flowersoflife.core.domain.model.Family
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
@@ -16,12 +15,10 @@ import com.kuzmin.flowersoflife.core.local.resource_provider.ResourceProvider
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 import com.kuzmin.flowersoflife.core.ui.event.UiEvent
-import com.kuzmin.flowersoflife.feature.api.usecases.user.RegisterUserUseCase
-import com.kuzmin.flowersoflife.feature.api.usecases.user.SaveUserFamilyToLocalUseCase
-import com.kuzmin.flowersoflife.feature.api.usecases.user.SaveUserFamilyToRemoteUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.local.SaveUserFamilyToLocalUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.RegisterUserUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.SaveUserFamilyToRemoteUseCase
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
-import com.kuzmin.flowersoflife.feature.auth.exception.ServerRegisterException
-import com.kuzmin.flowersoflife.feature.auth.exception.errors.ServerRegisterErrorType
 import com.kuzmin.flowersoflife.feature.auth.validators.RegisterUserContextualValidator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -41,7 +38,10 @@ class AuthRegisterViewModel(
 
     val userState: StateFlow<UserFamily?> = authState
         .map { (it as? AuthState.Success)?.userFamily }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000), null
+        )
 
     private val _repeatPassword = MutableStateFlow("")
     val repeatPassword: StateFlow<String> = _repeatPassword
@@ -63,15 +63,16 @@ class AuthRegisterViewModel(
                 )
             )
         }
-        viewModelScope.launch {
-            updateTopbarState(
-                TabBarUiSettings(
-                    isHamburgerVisible = false,
-                    isBackVisible = true,
-                    title = resourceProvider.getString(sign_up_title)
-                )
+    }
+
+    suspend fun notifyTopBarDataChanged() {
+        updateTopbarState(
+            TopBarUiSettings(
+                isHamburgerVisible = false,
+                isBackVisible = true,
+                title = resourceProvider.getString(sign_up_title)
             )
-        }
+        )
     }
 
     fun updateRole(role: UserRole?) {
@@ -83,19 +84,6 @@ class AuthRegisterViewModel(
             )
         )
         setAuthState(AuthState.Success(updated))
-    }
-
-    fun updateIsAdmin(isAdmin: Boolean) {
-        val userAndFamily = (authState.value as? AuthState.Success)?.userFamily ?: return
-        if (userAndFamily.user.role == UserRole.PARENT) {
-            setAuthState(
-                AuthState.Success(
-                    userAndFamily.copy(
-                        user = userAndFamily.user.copy(isAdmin = isAdmin)
-                    )
-                )
-            )
-        }
     }
 
     fun updateUserField(update: User.() -> User) {
@@ -111,10 +99,10 @@ class AuthRegisterViewModel(
 
     fun updateFamilyField(update: Family.() -> Family) {
         updateAuthState {
-            val userAndFamily = (it as? AuthState.Success)?.userFamily ?: return@updateAuthState it
+            val userFamily = (it as? AuthState.Success)?.userFamily ?: return@updateAuthState it
             AuthState.Success(
-                userFamily = userAndFamily.copy(
-                    family = userAndFamily.family.update()
+                userFamily = userFamily.copy(
+                    family = userFamily.family.update()
                 )
             )
         }
@@ -125,51 +113,68 @@ class AuthRegisterViewModel(
     }
 
     fun isPasswordMismatch(): Boolean {
-        val userPassword = (authState.value as? AuthState.Success)?.userFamily?.user?.password.orEmpty()
+        val userPassword =
+            (authState.value as? AuthState.Success)?.userFamily?.user?.password.orEmpty()
         return _repeatPassword.value.isNotBlank() && _repeatPassword.value != userPassword
     }
 
     fun registerUser() {
-        val userAndFamily = (authState.value as? AuthState.Success)?.userFamily
+        val userFamily = (authState.value as? AuthState.Success)?.userFamily
             ?: throw IllegalStateException(resourceProvider.getString(user_not_initialized))
 
         setAuthState(AuthState.Loading)
 
         viewModelScope.launch(ioCoroutineContext) {
-            val errors = RegisterUserContextualValidator.validate(userAndFamily, repeatPassword.value)
+            val errors =
+                RegisterUserContextualValidator.validate(userFamily, repeatPassword.value)
             if (errors.isNotEmpty()) {
                 setErrors(errors)
+                setAuthState(AuthState.Success(userFamily))
                 return@launch
             }
 
-            val uid = registerUserUseCase(userAndFamily.user)
+            val uid = registerUserUseCase(userFamily.user)
 
             if (uid != null) {
                 val savedUser = saveUserFamilyToRemoteUseCase(
-                    userFamily = userAndFamily
+                    userFamily = userFamily
                 )
 
                 saveUserFamilyToLocalUseCase(
-                    userAndFamily.copy(
-                        user = userAndFamily.user.copy(userId = uid)
+                    userFamily.copy(
+                        user = userFamily.user.copy(userId = uid)
                     )
                 )
 
                 navigateToHome()
-                Log.d("CAB-15", "user registered. User id: ${savedUser?.userId}")
                 showSnackMessage(
                     resourceProvider.getString(user_registered) + " ${savedUser?.userId}",
                     SnackbarMessageType.INFO
                 )
+
+                updateAuthState {
+                    AuthState.Success(
+                        userFamily.copy(
+                            user = userFamily.user.copy(userId = uid),
+                        )
+                    )
+                }
             } else {
-                setAuthState(
+                /*setAuthState(
                     AuthState.Error(
                         ServerRegisterException(
                             ServerRegisterErrorType.UNKNOWN_ERROR,
                             resourceProvider.getString(unsuccessful_registration)
                         )
                     )
+                )*/
+                showSnackMessage(
+                    resourceProvider.getString(unsuccessful_registration),
+                    SnackbarMessageType.ERROR
                 )
+                updateAuthState {
+                    AuthState.Success(userFamily)
+                }
             }
         }
     }
