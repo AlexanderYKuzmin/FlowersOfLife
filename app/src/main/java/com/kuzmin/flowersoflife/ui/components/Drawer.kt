@@ -3,6 +3,7 @@ package com.kuzmin.flowersoflife.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
@@ -36,10 +37,10 @@ fun DrawerContent(
 
     Column(
         modifier = modifier
+            .fillMaxHeight()
             .background(KabTheme.colors.surface)
             .padding(vertical = 16.dp)
     ) {
-        // Header section
         Column(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 24.dp)
         ) {

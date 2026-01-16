@@ -33,7 +33,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kuzmin.flowersoflife.common.R
-import com.kuzmin.flowersoflife.core.domain.extensions.orFalse
 import com.kuzmin.flowersoflife.core.domain.model.Family
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
@@ -218,16 +217,6 @@ fun AuthRegisterScreen(
                     else -> null
                 }
             )
-           /* BaseTextInputField(
-                modifier = rowModifier.padding(bottom = 4.dp),
-                value = userFamily?.family?.familyCode ?: "",
-                label = stringResource(id = R.string.family_code),
-                onValueChange = {
-                    onFamilyFieldChange { copy(familyCode = it) }
-                },
-                isError = false,
-                readOnly = isAdmin
-            )*/
             BasePasswordInputField(
                 modifier = rowModifier.padding(bottom = 8.dp),
                 value = userFamily?.user?.password ?: "",

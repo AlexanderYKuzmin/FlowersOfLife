@@ -40,6 +40,8 @@ data class KabColorScheme(
 
     val cardDetailsGradStart: Color,
     val cardDetailsGradEnd: Color,
+    val cardChildGradEnd: Color,
+    val cardChildGradStart: Color
 ) {
     companion object {
         @Composable
@@ -65,6 +67,8 @@ data class KabColorScheme(
             grayLight = GrayLight,
             cardDetailsGradStart = CardDetailsGradStart,
             cardDetailsGradEnd = CardDetailsGradEnd,
+            cardChildGradEnd = CardChildGradEnd,
+            cardChildGradStart = CardChildGradStart
         )
 
         @Composable
@@ -90,6 +94,8 @@ data class KabColorScheme(
             grayLight = GrayLight,
             cardDetailsGradStart = CardDetailsGradStart,
             cardDetailsGradEnd = CardDetailsGradEnd,
+            cardChildGradEnd = CardChildGradEnd,
+            cardChildGradStart = CardChildGradStart
         )
     }
 }

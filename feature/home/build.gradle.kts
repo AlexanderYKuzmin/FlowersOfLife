@@ -11,6 +11,8 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:ui"))
     implementation(project(":data_provider:remote_data"))
+    implementation(project(":data_provider:local_data"))
+    implementation(project(":feature:api"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

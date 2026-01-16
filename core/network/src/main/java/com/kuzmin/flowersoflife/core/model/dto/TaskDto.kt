@@ -35,4 +35,8 @@ data class TaskDto(
     @Expose
     @SerializedName("childId")
     val childId: String,
+
+    @Expose
+    @SerializedName("parentId")
+    val parentId: String,
 )

@@ -5,36 +5,32 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
 import com.kuzmin.flowersoflife.core.navigation.routing.Destination
 import com.kuzmin.flowersoflife.core.navigation.routing.Route
-import com.kuzmin.flowersoflife.ui.state.AppUiState
 
 @Composable
 fun AppNavHost(
-    appState: AppUiState.Success,
+    user: User?,
     navController: NavHostController,
     navigationManager: NavigationManager,
     featureNavGraphs: Set<@JvmSuppressWildcards FeatureNavGraph>,
     paddingValues: PaddingValues
 ) {
-    var hasEntered by remember { mutableStateOf(false) }
+    //var hasEntered by remember { mutableStateOf(false) }
 
-    LaunchedEffect(appState) {
+    /*LaunchedEffect(appState) {
         if (!hasEntered) {
             hasEntered = true
         }
-    }
+    }*/
 
     LaunchedEffect(Unit) {
         navigationManager.commands.collect { command ->
@@ -58,13 +54,13 @@ fun AppNavHost(
     }
 
 
-    if (hasEntered) {
-        val user = appState.userFamily?.user
+    /*if (hasEntered) {*/
+        //val user = appState.userFamily?.user
         Log.d("CAB-2-1", "AppNavHost. user: $user")
         val graph = when {
-            !appState.isAuthorized -> Route.AUTH_NAV_GRAPH
-            user?.role == UserRole.PARENT -> Route.PARENT_NAV_GRAPH
-            user?.role == UserRole.CHILD -> Route.CHILD_NAV_GRAPH
+            user == null -> Route.AUTH_NAV_GRAPH
+            user.role == UserRole.PARENT -> Route.PARENT_NAV_GRAPH
+            user.role == UserRole.CHILD -> Route.CHILD_NAV_GRAPH
             else -> Route.AUTH_NAV_GRAPH
         }
         val startRoute = when(graph) {
@@ -84,5 +80,5 @@ fun AppNavHost(
                 featureNavGraph.registerNavGraph(navController, this)
             }
         }
-    }
+    //}
 }

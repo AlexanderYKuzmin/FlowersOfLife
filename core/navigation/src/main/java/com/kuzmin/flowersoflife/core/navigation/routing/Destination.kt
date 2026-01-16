@@ -9,11 +9,13 @@ object Destination {
     const val AUTH_REGISTER = "auth_register"
     const val AUTH_RESET = "auth_reset"
 
-    const val PARENT_CHILDREN_LIST = "parent_children_list"
+    const val PARENT_CHILDREN_LIST = "home"
     const val PARENT_CHILD_DETAILS = "parent_child_details"
 
-    const val PARENT_FINANCE = "parent_finance"
+    const val PARENT_FINANCE = "finance"
+
     const val PARENT_TASKS = "parent_tasks"
+
     const val PARENT_NOTIFICATIONS = "parent_notifications"
 
     const val CHILD_HOME = "child_home"

@@ -41,12 +41,12 @@ fun ChildrenScreen(
             is ChildrenListState.Loading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
 
             is ChildrenListState.Success -> {
-                ChildrenScreenContent(
+                /*ChildrenScreenContent(
                     children = uiState.children,
                     onChildClick = { childId ->
                         viewModel.onChildClick(childId)
                     }
-                )
+                )*/
             }
 
             is ChildrenListState.Error -> {

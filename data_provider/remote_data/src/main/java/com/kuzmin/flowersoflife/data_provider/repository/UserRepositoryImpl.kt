@@ -1,6 +1,5 @@
 package com.kuzmin.flowersoflife.data_provider.repository
 
-import android.util.Log
 import com.kuzmin.flowersoflife.core.api.ApiService
 import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.aggregate.UserFamily
@@ -19,7 +18,6 @@ class UserRepositoryImpl(
 
     override suspend fun getUserFamilyById(userId: String): UserFamily? {
         val result = apiService.getUserById(userId)
-        Log.d("Cab-15", "Get UserFamily result: ${result.body()}")
         return result.body()?.toUserFamily()
     }
 
