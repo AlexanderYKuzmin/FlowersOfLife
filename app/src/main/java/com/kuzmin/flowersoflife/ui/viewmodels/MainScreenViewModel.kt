@@ -1,9 +1,8 @@
 package com.kuzmin.flowersoflife.ui.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kuzmin.flowersoflife.R
+import com.kuzmin.flowersoflife.common.R
 import com.kuzmin.flowersoflife.common.model.TopBarUiSettings
 import com.kuzmin.flowersoflife.core.domain.usecases.auth.CheckAuthUseCase
 import com.kuzmin.flowersoflife.core.local.event_bus.FlowKey.UI_EVENT
@@ -13,6 +12,7 @@ import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarData
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 import com.kuzmin.flowersoflife.core.ui.event.UiEvent
+import com.kuzmin.flowersoflife.feature.api.usecases.user.local.SaveUserFamilyToLocalUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.GetUserFamilyFromRemoteUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.GetUserFromFbUseCase
 import com.kuzmin.flowersoflife.ui.state.AppUiState
@@ -31,6 +31,7 @@ class MainScreenViewModel(
     private val checkAuthUseCase: CheckAuthUseCase,
     private val getUserFromFbUseCase: GetUserFromFbUseCase,
     private val getUserFamilyFromRemoteUseCase: GetUserFamilyFromRemoteUseCase,
+    private val saveUserFamilyToLocalUseCase: SaveUserFamilyToLocalUseCase,
     private val resourceProvider: ResourceProvider,
     private val sharedFlowMap: SharedFlowMap<UiEvent>,
     private val navigationManager: NavigationManager
@@ -70,8 +71,11 @@ class MainScreenViewModel(
                 null
             }
 
+            userFamily?.let {
+                launch { saveUserFamilyToLocalUseCase(it) }
+            }
+
             delay(3000)
-            Log.d("CAB-2-1", "MainScreenViewModel. userFamily: $userFamily")
             _screenState.update {
                 MainScreenState.SuccessEmpty
             }

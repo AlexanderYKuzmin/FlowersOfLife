@@ -82,14 +82,13 @@ fun MainScreenContent(
         drawerState = drawerState,
         drawerContent = {
             DrawerContent(
-                modifier = Modifier.fillMaxWidth(0.7f),
+                modifier = Modifier.fillMaxWidth(0.6f),
                 userFamily = appState.userFamily,
             )
         }
     ) {
 
         Scaffold(
-            containerColor = KabTheme.colors.primary,
             snackbarHost = { CustomSnackbarHost(snackbarHostState) },
             topBar = {
                 MainScreenTopBar(
@@ -111,7 +110,7 @@ fun MainScreenContent(
             }
         ) { innerPadding ->
             AppNavHost(
-                appState = appState,
+                user = appState.userFamily?.user,
                 navController = navController,
                 navigationManager = navigationManager,
                 featureNavGraphs = featureNavGraph,

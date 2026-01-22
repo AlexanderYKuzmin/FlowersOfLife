@@ -15,7 +15,11 @@ sealed interface NavigationCommand {
             }
         }
     }
-    data class ToGraph(val targetRoute: String, val popUpTo: String, val inclusive: Boolean = false) : NavigationCommand
+    data class ToGraph(
+        val targetRoute: String,
+        val popUpTo: String,
+        val inclusive: Boolean = false
+    ) : NavigationCommand
     data class Back(val route: String? = null, val inclusive: Boolean = false) : NavigationCommand
     data class Replace(val destination: String, val popUpTo: String) : NavigationCommand
 }

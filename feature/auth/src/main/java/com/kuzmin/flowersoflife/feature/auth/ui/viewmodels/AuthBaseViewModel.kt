@@ -78,7 +78,10 @@ abstract class AuthBaseViewModel(
             else -> throw IllegalRouteException()
         }
 
-        navigationManager.navigate(NavigationCommand.ToGraph(route, Route.AUTH_NAV_GRAPH))
+        navigationManager.navigate(
+            NavigationCommand.ToGraph(
+                route, Route.AUTH_NAV_GRAPH)
+        )
     }
 
 

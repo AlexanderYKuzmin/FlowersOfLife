@@ -52,8 +52,7 @@ fun UserDto.toUserModel(): User {
         role = UserRole.fromValue(role),
         name = name,
         isAdmin = isAdmin,
-        familyId = familyId,
-        walletId = walletId
+        familyId = familyId
     )
 }
 

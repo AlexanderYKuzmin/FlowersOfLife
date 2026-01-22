@@ -2,10 +2,11 @@ package com.kuzmin.flowersoflife.feature.home.ui.screen.children
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kuzmin.flowersoflife.core.domain.storage.PrefManager
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
 import com.kuzmin.flowersoflife.core.navigation.routing.Destination
+import com.kuzmin.flowersoflife.feature.api.usecases.home.GetChildrenDashboardUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.local.GetFamilyFromLocalUseCase
 import com.kuzmin.flowersoflife.feature.home.ui.screen.children.state.ChildrenListState
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +15,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ChildrenListViewModel(
-    private val prefManager: PrefManager,
+    private val getFamilyFromLocalUseCase: GetFamilyFromLocalUseCase,
+    private val getChildrenDashboardUseCase: GetChildrenDashboardUseCase,
     private val navigationManager: NavigationManager
 ) : ViewModel() {
     private val _state = MutableStateFlow<ChildrenListState>(ChildrenListState.Loading)
@@ -27,22 +29,20 @@ class ChildrenListViewModel(
     private val ioContext = Dispatchers.IO + coroutineExceptionHandler
 
     init {
-        fetchChildrenList()
+        fetchChildrenDashboard()
     }
 
-    private fun fetchChildrenList() {
+    private fun fetchChildrenDashboard() {
         viewModelScope.launch(ioContext) {
-            val uid = prefManager.getUser().userId
+            _state.value = ChildrenListState.Loading
 
-            /*uid?.let {
-                val result = repository.getChildrenDetailsList(it)
+            val family = getFamilyFromLocalUseCase()
 
-                _state.update {
-                    ChildrenListState.Success(
-                        children = result
-                    )
-                }
-            } ?: throw Exception("uid is null")*/
+            val childrenList = getChildrenDashboardUseCase(family.familyId)
+
+            _state.value = ChildrenListState.Success(
+                children = childrenList
+            )
         }
     }
 

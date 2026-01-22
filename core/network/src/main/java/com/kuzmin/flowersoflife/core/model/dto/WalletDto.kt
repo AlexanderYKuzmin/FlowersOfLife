@@ -14,5 +14,5 @@ data class WalletDto(
 
     @Expose
     @SerializedName("childId")
-    val childId: String
+    val userId: String
 )

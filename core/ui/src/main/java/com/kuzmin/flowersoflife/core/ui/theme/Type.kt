@@ -230,6 +230,13 @@ val Bold22 = TextStyle(
     lineHeight = 26.sp
 )
 
+val Bold24 = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Bold,
+    fontSize = 24.sp,
+    lineHeight = 28.sp
+)
+
 val Bold32 = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Bold,

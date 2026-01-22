@@ -10,8 +10,8 @@ data class User(
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis(),
     val familyId: String,
-    val walletId: String? = null,
-    val password: String = ""
+    val password: String = "",
+    val avatarUrl: String? = null
 ) {
     val isUserConsistent: Boolean
         get() =

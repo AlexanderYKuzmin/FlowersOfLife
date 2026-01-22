@@ -14,7 +14,7 @@ import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.FAMILY_I
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.IS_ADMIN
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.NAME
 import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.ROLE
-import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.UID
+import com.kuzmin.flowersoflife.data_provider.local_repo.UserDataScheme.USER_ID
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -30,7 +30,7 @@ class PrefManagerImpl @Inject constructor(
                 val email = prefs[EMAIL] ?: ""
                 val role = prefs[ROLE]
                 val isAdmin = prefs[IS_ADMIN] ?: false
-                val uid = prefs[UID] ?: ""
+                val uid = prefs[USER_ID] ?: ""
                 val familyId = prefs[FAMILY_ID] ?: ""
 
                 User(
@@ -56,8 +56,8 @@ class PrefManagerImpl @Inject constructor(
                 prefs[EMAIL] = email
                 prefs[ROLE] = role?.name ?: throw RuntimeException("Role can't be null")
                 prefs[IS_ADMIN] = isAdmin
-                prefs[UID] = userId ?: ""
-                prefs[FAMILY_ID] = familyId ?: ""
+                prefs[USER_ID] = userId
+                prefs[FAMILY_ID] = familyId
             }
         }
     }

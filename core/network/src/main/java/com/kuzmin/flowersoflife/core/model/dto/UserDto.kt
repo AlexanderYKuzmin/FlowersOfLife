@@ -38,9 +38,5 @@ data class UserDto(
 
     @Expose
     @SerializedName("emailVerified")
-    val emailVerified: Boolean,
-
-    @Expose
-    @SerializedName("walletId")
-    val walletId: String? = null
+    val emailVerified: Boolean
 )
