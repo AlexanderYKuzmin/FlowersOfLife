@@ -10,9 +10,12 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:domain"))
     implementation(project(":core:ui"))
+    implementation(project(":core:local"))
     implementation(project(":data_provider:remote_data"))
     implementation(project(":data_provider:local_data"))
     implementation(project(":feature:api"))
+
+    implementation(libs.coil.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

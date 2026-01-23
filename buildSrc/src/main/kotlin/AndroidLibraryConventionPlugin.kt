@@ -17,6 +17,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply(libs.findPlugin("androidLibrary").get().get().pluginId)
                 apply(libs.findPlugin("kotlinAndroid").get().get().pluginId)
+                apply(libs.findPlugin("kotlinParcelize").get().get().pluginId)
             }
 
             extensions.configure<LibraryExtension> {

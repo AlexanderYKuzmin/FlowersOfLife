@@ -117,7 +117,10 @@ class MainScreenViewModel(
                     is UiEvent.UpdateAppState -> {
                         val state = appState.value as? AppUiState.Success ?: return@collect
                         _appState.update {
-                            state.copy(topBarUiSettings = event.topBarUiSettings)
+                            state.copy(
+                                topBarUiSettings = event.topBarUiSettings,
+                                isBottomNavVisible = event.isBottomNavVisible
+                            )
                         }
                     }
 

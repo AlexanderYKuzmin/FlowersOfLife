@@ -24,19 +24,22 @@ fun AppNavHost(
     featureNavGraphs: Set<@JvmSuppressWildcards FeatureNavGraph>,
     paddingValues: PaddingValues
 ) {
-    //var hasEntered by remember { mutableStateOf(false) }
-
-    /*LaunchedEffect(appState) {
-        if (!hasEntered) {
-            hasEntered = true
-        }
-    }*/
 
     LaunchedEffect(Unit) {
         navigationManager.commands.collect { command ->
             when (command) {
                 is NavigationCommand.ToDestination -> {
+                    Log.d("CAB-2-2", "ToDestination. buildDestination: ${command.buildDestination()}")
+
                     navController.navigate(command.buildDestination())
+                }
+
+                is NavigationCommand.ToDestinationParcelable -> {
+                    command.parcelableArgs?.forEach { (key, value) ->
+                        navController.currentBackStackEntry?.savedStateHandle?.set(key, value)
+                    }
+
+                    navController.navigate(command.destination)
                 }
 
                 is NavigationCommand.ToGraph -> {
@@ -53,32 +56,27 @@ fun AppNavHost(
         }
     }
 
+    val graph = when {
+        user == null -> Route.AUTH_NAV_GRAPH
+        user.role == UserRole.PARENT -> Route.PARENT_NAV_GRAPH
+        user.role == UserRole.CHILD -> Route.CHILD_NAV_GRAPH
+        else -> Route.AUTH_NAV_GRAPH
+    }
+    val startRoute = when(graph) {
+        Route.AUTH_NAV_GRAPH -> Destination.AUTH_LOGIN
+        Route.PARENT_NAV_GRAPH -> Destination.PARENT_CHILDREN_LIST
+        Route.CHILD_NAV_GRAPH -> Destination.CHILD_HOME
+        else -> Destination.AUTH_LOGIN
+    }
+    NavHost(
+        navController = navController,
+        startDestination = graph,
+        route = startRoute,
+        modifier = Modifier.padding(paddingValues)
+    ) {
 
-    /*if (hasEntered) {*/
-        //val user = appState.userFamily?.user
-        Log.d("CAB-2-1", "AppNavHost. user: $user")
-        val graph = when {
-            user == null -> Route.AUTH_NAV_GRAPH
-            user.role == UserRole.PARENT -> Route.PARENT_NAV_GRAPH
-            user.role == UserRole.CHILD -> Route.CHILD_NAV_GRAPH
-            else -> Route.AUTH_NAV_GRAPH
+        featureNavGraphs.forEach { featureNavGraph ->
+            featureNavGraph.registerNavGraph(navController, this)
         }
-        val startRoute = when(graph) {
-            Route.AUTH_NAV_GRAPH -> Destination.AUTH_LOGIN
-            Route.PARENT_NAV_GRAPH -> Destination.PARENT_CHILDREN_LIST
-            Route.CHILD_NAV_GRAPH -> Destination.CHILD_HOME
-            else -> Destination.AUTH_LOGIN
-        }
-        NavHost(
-            navController = navController,
-            startDestination = graph,
-            route = startRoute,
-            modifier = Modifier.padding(paddingValues)
-        ) {
-
-            featureNavGraphs.forEach { featureNavGraph ->
-                featureNavGraph.registerNavGraph(navController, this)
-            }
-        }
-    //}
+    }
 }

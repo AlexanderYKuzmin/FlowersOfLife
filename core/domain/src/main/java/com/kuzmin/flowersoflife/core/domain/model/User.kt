@@ -13,7 +13,7 @@ data class User(
     val password: String = "",
     val avatarUrl: String? = null
 ) {
-    val isUserConsistent: Boolean
+    val isConsistent: Boolean
         get() =
             name.isNotEmpty() && email.isNotEmpty() &&
             role != null

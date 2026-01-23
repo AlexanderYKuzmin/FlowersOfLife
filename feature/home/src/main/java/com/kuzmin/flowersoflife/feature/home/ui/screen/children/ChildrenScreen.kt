@@ -20,9 +20,9 @@ import androidx.compose.ui.unit.dp
 import com.kuzmin.flowersoflife.core.domain.model.aggregate.ChildDashboard
 import com.kuzmin.flowersoflife.core.ui.R
 import com.kuzmin.flowersoflife.core.ui.components.dialog.AlertDialogCard
-import com.kuzmin.flowersoflife.feature.home.ui.component.ChildCardDetails
-import com.kuzmin.flowersoflife.feature.home.ui.screen.children.ChildrenListViewModel
-import com.kuzmin.flowersoflife.feature.home.ui.screen.children.state.ChildrenListState
+import com.kuzmin.flowersoflife.feature.home.ui.component.ChildCard
+import com.kuzmin.flowersoflife.feature.home.ui.screen.children.state.BaseChildrenListState
+import com.kuzmin.flowersoflife.feature.home.ui.screen.children.viewmodel.ChildrenListViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -38,18 +38,18 @@ fun ChildrenScreen(
             .imePadding()
     ) {
         when(val uiState = state.value) {
-            is ChildrenListState.Loading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            is BaseChildrenListState.Loading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
 
-            is ChildrenListState.Success -> {
-                /*ChildrenScreenContent(
+            is BaseChildrenListState.Success -> {
+                ChildrenScreenContent(
                     children = uiState.children,
-                    onChildClick = { childId ->
-                        viewModel.onChildClick(childId)
+                    onChildClick = { childDashboard ->
+                        viewModel.onChildClick(childDashboard)
                     }
-                )*/
+                )
             }
 
-            is ChildrenListState.Error -> {
+            is BaseChildrenListState.Error -> {
                 AlertDialogCard(
                     title = stringResource(R.string.error_title),
                     message = uiState.message,
@@ -73,7 +73,7 @@ fun ChildrenScreen(
 @Composable
 fun ChildrenScreenContent(
     children: List<ChildDashboard>,
-    onChildClick: (childId: String) -> Unit
+    onChildClick: (child: ChildDashboard) -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -83,11 +83,9 @@ fun ChildrenScreenContent(
             .verticalScroll(scrollState)
     ) {
         children.forEach { childDashboard ->
-            ChildCardDetails(
+            ChildCard(
                 child = childDashboard,
-                onClick = {
-                    onChildClick(childDashboard.user.userId)
-                }
+                onChildClick = { onChildClick(childDashboard) }
             )
         }
     }

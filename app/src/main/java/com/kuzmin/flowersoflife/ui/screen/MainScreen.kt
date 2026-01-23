@@ -18,7 +18,6 @@ import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.ui.components.snackbarhost.CustomSnackbarHost
 import com.kuzmin.flowersoflife.core.ui.extensions.showTypedSnackbar
-import com.kuzmin.flowersoflife.core.ui.theme.KabTheme
 import com.kuzmin.flowersoflife.ui.components.AppNavHost
 import com.kuzmin.flowersoflife.ui.components.DrawerContent
 import com.kuzmin.flowersoflife.ui.components.MainScreenTopBar

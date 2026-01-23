@@ -17,7 +17,7 @@ import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 import com.kuzmin.flowersoflife.core.ui.event.UiEvent
 import com.kuzmin.flowersoflife.feature.api.usecases.user.local.SaveUserFamilyToLocalUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.RegisterUserUseCase
-import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.SaveUserFamilyToRemoteUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.SaveUserFamilyRemoteUseCase
 import com.kuzmin.flowersoflife.feature.auth.domain.model.AuthState
 import com.kuzmin.flowersoflife.feature.auth.validators.RegisterUserContextualValidator
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +32,7 @@ class AuthRegisterViewModel(
     private val resourceProvider: ResourceProvider,
     private val registerUserUseCase: RegisterUserUseCase,
     private val saveUserFamilyToLocalUseCase: SaveUserFamilyToLocalUseCase,
-    private val saveUserFamilyToRemoteUseCase: SaveUserFamilyToRemoteUseCase,
+    private val saveUserFamilyRemoteUseCase: SaveUserFamilyRemoteUseCase,
     sharedFlowMap: SharedFlowMap<UiEvent>
 ) : AuthBaseViewModel(navigationManager, sharedFlowMap) {
 
@@ -66,7 +66,7 @@ class AuthRegisterViewModel(
     }
 
     suspend fun notifyTopBarDataChanged() {
-        updateTopbarState(
+        updateAppState(
             TopBarUiSettings(
                 isHamburgerVisible = false,
                 isBackVisible = true,
@@ -136,7 +136,7 @@ class AuthRegisterViewModel(
             val uid = registerUserUseCase(userFamily.user)
 
             if (uid != null) {
-                val savedUser = saveUserFamilyToRemoteUseCase(
+                val savedUser = saveUserFamilyRemoteUseCase(
                     userFamily = userFamily
                 )
 

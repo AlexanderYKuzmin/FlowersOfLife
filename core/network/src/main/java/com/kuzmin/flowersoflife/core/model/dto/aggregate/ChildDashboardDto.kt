@@ -26,6 +26,6 @@ data class ChildDashboardDto(
     val goals: List<GoalDto>,
 
     @Expose(serialize = false, deserialize = true)
-    @SerializedName("financialRecords")
+    @SerializedName("financeRecords")
     val financialRecords: List<FinancialRecordDto>
 )

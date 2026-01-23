@@ -3,9 +3,13 @@
     <string name="app_name">Дети при деле</string>
     <string name="sign_in_title">Авторизация</string>
     <string name="sign_up_title">Регистрация</string>
+    <string name="children_title">Дети</string>
+    <string name="child_title">Ребенок</string>
 
     <string name="ok_btn_txt">Войти</string>
     <string name="cancel_btn_txt">Отмена</string>
+    <string name="save_btn_txt">Сохранить</string>
+    <string name="add_photo_btn_txt">Добавить фото</string>
 
     <string name="email">Email</string>
     <string name="password">Пароль</string>
@@ -32,6 +36,7 @@
     <string name="error_password_weak">Пароль слишком простой</string>
     <string name="error_password_mismatch">Пароли не совпадают</string>
     <string name="error_role_not_selected">Выберите роль</string>
+    <string name="error_child_name_empty">Введите имя ребенка</string>
 
     <string name="unknown_error">Неизвестная ошибка</string>
     <string name="illegal_route_error">Ошибка маршрутизации приложения</string>

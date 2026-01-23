@@ -1,0 +1,118 @@
+package com.kuzmin.flowersoflife.feature.home.ui.screen.children.viewmodel
+
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
+import com.kuzmin.flowersoflife.common.R
+import com.kuzmin.flowersoflife.common.model.TopBarUiSettings
+import com.kuzmin.flowersoflife.core.domain.model.family_members.Child
+import com.kuzmin.flowersoflife.core.local.event_bus.SharedFlowMap
+import com.kuzmin.flowersoflife.core.local.resource_provider.ResourceProvider
+import com.kuzmin.flowersoflife.core.navigation.NavigationManager
+import com.kuzmin.flowersoflife.core.navigation.routing.DestinationArgs
+import com.kuzmin.flowersoflife.core.ui.event.UiEvent
+import com.kuzmin.flowersoflife.feature.api.usecases.home.SaveNewChildUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.home.UpdateChildRemoteUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.GetUserFromRemoteUseCase
+import com.kuzmin.flowersoflife.feature.home.domain.mapper.toChild
+import com.kuzmin.flowersoflife.feature.home.domain.mapper.toChildUi
+import com.kuzmin.flowersoflife.feature.home.exception.error.ChildEditErrorType
+import com.kuzmin.flowersoflife.feature.home.ui.model.ChildUi
+import com.kuzmin.flowersoflife.feature.home.ui.screen.children.state.BaseChildState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+
+class ChildEditViewModel(
+    savedStateHandle: SavedStateHandle,
+    private val navigationManager: NavigationManager,
+    private val getUserFromRemoteUseCase: GetUserFromRemoteUseCase,
+    private val updateChildUseCase: UpdateChildRemoteUseCase,
+    private val saveNewChildUseCase: SaveNewChildUseCase,
+    sharedFlowMap: SharedFlowMap<UiEvent>,
+    private val resourceProvider: ResourceProvider
+) : BaseChildViewModel<ChildUi, BaseChildState<ChildUi>>(sharedFlowMap) {
+
+    override val _state: MutableStateFlow<BaseChildState<ChildUi>> =
+        MutableStateFlow(BaseChildState.Loading)
+
+    override val state: StateFlow<BaseChildState<ChildUi>> = _state.asStateFlow()
+    private val _errors = MutableStateFlow<Set<ChildEditErrorType>>(emptySet())
+    val errors = _errors.asStateFlow()
+
+    init {
+        val child: Child? = savedStateHandle[DestinationArgs.CHILD]
+        _state.value = BaseChildState.Success(
+            data = child?.toChildUi() ?: ChildUi(
+                childId = null,
+                childName = "",
+                balance = 0,
+                photoUrl = null
+            )
+        )
+
+        viewModelScope.launch {
+            updateAppState(
+                topBarUiSettings = TopBarUiSettings(
+                    title = resourceProvider.getString(R.string.child_title),
+                    isBackVisible = true,
+                    isHamburgerVisible = false
+                ),
+                isBottomNavVisible = false
+            )
+        }
+    }
+
+    private fun fetchChild(childId: String) {
+        viewModelScope.launch(ioContext) {
+            _state.value = BaseChildState.Loading
+
+            val user = getUserFromRemoteUseCase(childId)
+
+            /*_state.value = ChildEditState.Success(
+                //child = user.toChildUi()
+            )*/
+        }
+    }
+
+    fun onChildChange(block: ChildUi.() -> ChildUi) {
+        updateIfSuccess {
+            block(it)
+        }
+    }
+
+    fun onAddPhotoClick() {
+
+    }
+
+    fun onSaveClick() {
+        viewModelScope.launch(ioContext) {
+            val childUi = getIfSuccess {
+                getSuccessData(state.value)
+            } ?: return@launch
+
+            saveNewChildUseCase(
+                child = childUi.toChild()
+            )
+        }
+    }
+
+    fun onCancelClick() {
+
+    }
+
+    override fun getSuccessData(state: BaseChildState<ChildUi>): ChildUi? {
+        return when (state) {
+            is BaseChildState.Success -> state.data
+            else -> null
+        }
+    }
+
+    override fun createSuccessState(data: ChildUi): BaseChildState<ChildUi> {
+        return BaseChildState.Success(data = data)
+    }
+
+    override fun handleException(throwable: Throwable) {
+        TODO("Not yet implemented")
+    }
+}

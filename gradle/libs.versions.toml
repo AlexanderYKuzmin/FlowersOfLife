@@ -38,6 +38,8 @@ material = "1.12.0"
 
 javapoet = "1.13.0"
 
+coil = "2.7.0"
+
 # Testing
 junit = "4.13.2"
 androidx-junit = "1.2.1"
@@ -98,6 +100,7 @@ androidx-datastore = { module = "androidx.datastore:datastore-preferences", vers
 
 # UI
 material = { module = "com.google.android.material:material", version.ref = "material" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 # Testing
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -112,6 +115,7 @@ androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "google-services" }

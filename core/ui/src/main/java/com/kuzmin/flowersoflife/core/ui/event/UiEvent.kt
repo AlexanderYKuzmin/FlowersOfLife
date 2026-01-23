@@ -9,5 +9,8 @@ sealed class UiEvent {
         val type: SnackbarMessageType = SnackbarMessageType.INFO
     ) : UiEvent()
 
-    data class UpdateAppState(val topBarUiSettings: TopBarUiSettings) : UiEvent()
+    data class UpdateAppState(
+        val topBarUiSettings: TopBarUiSettings,
+        val isBottomNavVisible: Boolean = true
+    ) : UiEvent()
 }

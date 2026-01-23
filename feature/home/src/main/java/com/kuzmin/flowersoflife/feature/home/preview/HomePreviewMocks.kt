@@ -12,13 +12,15 @@ object HomePreviewMocks {
     private val childA = Child(
         childId = "c1",
         balance = 250,
-        name = "Алиса"
+        name = "Алиса",
+        photoUrl = null
     )
 
     private val childB = Child(
         childId = "c2",
         balance = 380,
-        name = "Борис"
+        name = "Борис",
+        photoUrl = null
     )
 
     private fun goalsFor(childId: String): List<Goal> = listOf(
