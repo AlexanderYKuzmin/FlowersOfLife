@@ -10,6 +10,7 @@ import com.kuzmin.flowersoflife.core.domain.model.User
 import com.kuzmin.flowersoflife.core.domain.model.UserRole
 import com.kuzmin.flowersoflife.core.domain.model.Wallet
 import com.kuzmin.flowersoflife.core.domain.model.aggregate.ChildDashboard
+import com.kuzmin.flowersoflife.feature.home.ui.model.ChildUi
 import java.time.LocalDateTime
 
 val mockUser = User(
@@ -121,4 +122,10 @@ val mockChildDashboard = ChildDashboard(
     tasks = mockTasks,
     goals = mockGoals,
     financialRecords = mockFinances
+)
+
+val mockChildUi = ChildUi(
+    childId = "1",
+    childName = "Gonzo",
+    balance = 0
 )

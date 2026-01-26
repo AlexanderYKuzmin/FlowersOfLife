@@ -10,7 +10,11 @@ object Destination {
     const val AUTH_RESET = "auth_reset"
 
     const val PARENT_CHILDREN_LIST = "home"
-    const val PARENT_CHILD_DETAILS = "parent_child_details"
+    const val PARENT_EDIT_CHILD = "parent_edit_child"
+
+    const val PARENT_FAMILY_DASHBOARD = "parent_family_dashboard"
+
+    const val PARENT_CHILD_DASHBOARD = "parent_child_dashboard"
 
     const val PARENT_FINANCE = "finance"
 
@@ -33,4 +37,6 @@ object Destination {
 object DestinationArgs {
     //Parent route
     const val CHILD_ID = "childId"
+
+    const val CHILD = "child"
 }

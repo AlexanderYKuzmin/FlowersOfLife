@@ -1,5 +1,7 @@
 package com.kuzmin.flowersoflife.core.navigation.model
 
+import android.os.Parcelable
+
 sealed interface NavigationCommand {
     class ToDestination(
         private val destination: String,
@@ -15,6 +17,12 @@ sealed interface NavigationCommand {
             }
         }
     }
+
+    data class ToDestinationParcelable(
+        val destination: String,
+        val parcelableArgs: Map<String, Parcelable>? = null
+    ) : NavigationCommand
+
     data class ToGraph(
         val targetRoute: String,
         val popUpTo: String,

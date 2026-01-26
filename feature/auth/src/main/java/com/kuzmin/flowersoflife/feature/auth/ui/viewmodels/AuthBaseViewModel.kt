@@ -51,11 +51,15 @@ abstract class AuthBaseViewModel(
         _authState.value = block(_authState.value)
     }
 
-    protected suspend fun updateTopbarState(topBarUiSettings: TopBarUiSettings) {
+    protected suspend fun updateAppState(
+        topBarUiSettings: TopBarUiSettings,
+        isBottomNavVisible: Boolean = true
+    ) {
         sharedFlowMap.emit(
             UI_EVENT,
             UiEvent.UpdateAppState(
-                topBarUiSettings = topBarUiSettings
+                topBarUiSettings = topBarUiSettings,
+                isBottomNavVisible = isBottomNavVisible
             )
         )
     }

@@ -1,5 +1,6 @@
 plugins {
     id("flowersoflife.android-library")
+    id("org.jetbrains.kotlin.plugin.parcelize")
 }
 
 android {

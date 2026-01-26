@@ -16,6 +16,7 @@ sealed interface AppUiState {
         val isInternetAvailable: Boolean = true,
         val userFamily: UserFamily? = null,
         val isAuthorized: Boolean = false,
+        val isBottomNavVisible: Boolean = true,
 
         val topBarUiSettings: TopBarUiSettings
     ) : AppUiState

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -20,7 +21,11 @@ fun SecondaryButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    colors: ButtonColors = ButtonDefaults.outlinedButtonColors(
+        containerColor = KabTheme.colors.surface,
+        contentColor = KabTheme.colors.primaryText
+    )
 ) {
     OutlinedButton(
         onClick = onClick,
@@ -30,10 +35,7 @@ fun SecondaryButton(
         enabled = enabled,
         shape = RoundedCornerShape(12.dp),
         border = null,
-        colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = KabTheme.colors.surface,
-            contentColor = KabTheme.colors.primaryText
-        )
+        colors = colors
     ) {
         Text(
             text,

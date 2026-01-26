@@ -26,24 +26,15 @@ class PrefManagerImpl @Inject constructor(
     override suspend fun getUser(): User {
         with(UserDataScheme) {
             return dataStore.data.map { prefs ->
-                val firstname = prefs[NAME] ?: ""
-                val email = prefs[EMAIL] ?: ""
-                val role = prefs[ROLE]
-                val isAdmin = prefs[IS_ADMIN] ?: false
-                val uid = prefs[USER_ID] ?: ""
-                val familyId = prefs[FAMILY_ID] ?: ""
-
                 User(
-                    name = firstname,
-                    email = email,
-                    role = role?.let {
-                        UserRole.valueOf(
-                            role
-                        )
+                    name = prefs[NAME] ?: "",
+                    email = prefs[EMAIL] ?: "",
+                    role = prefs[ROLE]?.let { roleString ->
+                        UserRole.fromValue(roleString)
                     },
-                    isAdmin = isAdmin,
-                    userId = uid,
-                    familyId = familyId
+                    isAdmin = prefs[IS_ADMIN] ?: false,
+                    userId = prefs[USER_ID] ?: "",
+                    familyId = prefs[FAMILY_ID] ?: ""
                 )
             }.first()
         }
@@ -69,14 +60,10 @@ class PrefManagerImpl @Inject constructor(
     override suspend fun getFamily(): Family {
         with(FamilyDataScheme) {
             return dataStore.data.map { prefs ->
-                val familyId = prefs[FAMILY_ID] ?: ""
-                val name = prefs[FAMILY_NAME] ?: ""
-                val familyCode = prefs[FAMILY_CODE] ?: ""
-
                 Family(
-                    familyId = familyId,
-                    familyName = name,
-                    familyCode = familyCode
+                    familyId = prefs[FAMILY_ID] ?: "",
+                    familyName = prefs[FAMILY_NAME] ?: "",
+                    familyCode = prefs[FAMILY_CODE] ?: ""
                 )
             }.first()
         }

@@ -1,6 +1,5 @@
 package com.kuzmin.flowersoflife.ui.components
 
-import android.util.Log
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -32,7 +31,6 @@ fun ParentBottomNavigationBar(
     ) {
         val currentRoute = currentRoute(navController)
         items.forEach { item ->
-            Log.d("CAB", "Bottom navigation bar. Current route = $currentRoute, item.route = ${item.route}")
             NavigationBarItem(
                 icon = {
                     Icon(
