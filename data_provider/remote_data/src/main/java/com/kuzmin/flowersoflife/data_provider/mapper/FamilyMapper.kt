@@ -10,5 +10,6 @@ fun Child.toChildDto(family: Family): ChildDto {
         role = UserRole.CHILD.value,
         name = name,
         familyId = family.familyId,
+        familyName = family.familyName
     )
 }

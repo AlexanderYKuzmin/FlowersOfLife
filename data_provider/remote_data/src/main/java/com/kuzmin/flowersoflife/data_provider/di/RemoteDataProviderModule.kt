@@ -1,5 +1,7 @@
 package com.kuzmin.flowersoflife.data_provider.di
 
+import com.kuzmin.flowersoflife.core.api.ApiService
+import com.kuzmin.flowersoflife.core.domain.storage.PrefManager
 import com.kuzmin.flowersoflife.data_provider.repository.AggregateRepositoryImpl
 import com.kuzmin.flowersoflife.data_provider.repository.AuthRepositoryImpl
 import com.kuzmin.flowersoflife.data_provider.repository.FamilyRepositoryImpl
@@ -21,6 +23,6 @@ val remoteDataProviderModule = module {
         AggregateRepositoryImpl(get())
     }
     single<FamilyRepository> {
-        FamilyRepositoryImpl(get())
+        FamilyRepositoryImpl(get<ApiService>(), get<PrefManager>())
     }
 }

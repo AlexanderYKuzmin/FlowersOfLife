@@ -25,6 +25,8 @@
     <string name="password_again">Repeat password</string>
     <string name="family_code">Family code</string>
 
+    <!--Home-->
+    <string name="child_name">Child`s name</string>
 
     <!--Errors messages-->
     <string name="user_not_initialized">User is not initialized</string>
@@ -40,11 +42,22 @@
     <string name="error_role_not_selected">Please select a role</string>
     <string name="error_child_name_empty">Please enter a child name</string>
 
-
     <string name="unknown_error">Unknown error</string>
     <string name="illegal_route_error">Wrong application routing</string>
     <string name="illegal_login_error">Wrong login or password</string>
 
     <!-- INFO MESSAGES -->
     <string name="user_registered">User is signed up - %1$s</string>
+
+    <!--WARNING MESSAGE-->
+    <string name="remove_child_message">Remove this child?</string>
+
+    <!--Alert Dialog-->
+    <string name="error_title">Error</string>
+    <string name="warning_title">Warning</string>
+    <string name="info_title">Info</string>
+
+    <string name="ok_btn">Ок</string>
+    <string name="cancel_btn">Cancel</string>
+
 </resources>

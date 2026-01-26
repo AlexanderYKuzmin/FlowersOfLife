@@ -10,8 +10,9 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
-abstract class BaseChildrenListviewModel<UI, STATE>(
+abstract class BaseChildrenListviewModel<ITEM, STATE>(
     private val sharedFlowMap: SharedFlowMap<UiEvent>
 ) : ViewModel() {
 
@@ -26,33 +27,44 @@ abstract class BaseChildrenListviewModel<UI, STATE>(
 
     protected abstract fun handleException(throwable: Throwable)
 
-    protected abstract fun getSuccessData(state: STATE): List<UI>?
-    protected abstract fun createSuccessState(data: List<UI>): STATE
-
-    protected fun updateIfSuccess(block: (List<UI>) -> List<UI>) {
-        val currentState = _state.value
-        val currentData = getSuccessData(currentState)
-        if (currentData != null) {
-            _state.value = createSuccessState(block(currentData))
+    protected inline fun <reified SUCCESS_STATE: STATE> updateIfSuccess(
+        crossinline block: (SUCCESS_STATE) -> SUCCESS_STATE
+    ) {
+        _state.update { currentState ->
+            (currentState as? SUCCESS_STATE)?.let { block(it) } ?: currentState
         }
     }
 
-    protected fun <R> getIfSuccess(block: (List<UI>) -> R): R? {
-        val currentState = _state.value
-        val currentData = getSuccessData(currentState)
-        return currentData?.let(block)
+    protected inline fun <reified SUCCESS_STATE: STATE> doIfSuccess(
+        crossinline block: (SUCCESS_STATE) -> Unit
+    ) {
+        _state.value?.let {
+            if (it is SUCCESS_STATE) block(it)
+        }
     }
 
-    protected fun doIfSuccess(block: (List<UI>) -> Unit) {
-        val currentState = _state.value
-        val currentData = getSuccessData(currentState)
-        currentData?.let(block)
+    protected inline fun <reified SUCCESS_STATE: STATE, R> getIfSuccess(
+        crossinline block: (SUCCESS_STATE) -> R
+    ): R? {
+        return (_state.value as? SUCCESS_STATE)?.let(block)
     }
 
-    protected fun updateItem(predicate: (UI) -> Boolean, update: (UI) -> UI) {
-        updateIfSuccess { list ->
-            list.map { item ->
-                if (predicate(item)) update(item) else item
+    protected abstract fun getChildrenList(state: STATE): List<ITEM>?
+    protected abstract fun updateChildrenList(state: STATE, newList: List<ITEM>): STATE
+
+    protected fun updateItem(
+        predicate: (ITEM) -> Boolean,
+        update: (ITEM) -> ITEM
+    ) {
+        _state.update { currentState ->
+            val currentList = getChildrenList(currentState)
+            if (currentList != null) {
+                val updatedList = currentList.map { item ->
+                    if (predicate(item)) update(item) else item
+                }
+                updateChildrenList(currentState, updatedList)
+            } else {
+                currentState
             }
         }
     }

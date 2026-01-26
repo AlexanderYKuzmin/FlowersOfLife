@@ -53,6 +53,15 @@ val Regular20 = TextStyle(
     lineHeight = 24.sp,
     letterSpacing = 0.12.sp
 )
+
+val Regular24 = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Normal,
+    fontSize = 24.sp,
+    lineHeight = 28.sp,
+    letterSpacing = 0.12.sp
+)
+
 val Regular32 = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
@@ -165,6 +174,30 @@ val SemiBold18 = TextStyle(
     fontSize = 18.sp,
     lineHeight = 22.sp,
     letterSpacing = 0.09.sp
+)
+
+val SemiBold20 = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 20.sp,
+    lineHeight = 24.sp,
+    letterSpacing = 0.12.sp
+)
+
+val SemiBold22 = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 22.sp,
+    lineHeight = 26.sp,
+    letterSpacing = 0.12.sp
+)
+
+val SemiBold24 = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 24.sp,
+    lineHeight = 28.sp,
+    letterSpacing = 0.12.sp
 )
 
 val SemiBold28 = TextStyle(

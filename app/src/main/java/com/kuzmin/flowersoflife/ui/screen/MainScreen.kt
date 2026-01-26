@@ -1,5 +1,6 @@
 package com.kuzmin.flowersoflife.ui.screen
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
@@ -19,6 +20,7 @@ import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.ui.components.snackbarhost.CustomSnackbarHost
 import com.kuzmin.flowersoflife.core.ui.extensions.showTypedSnackbar
 import com.kuzmin.flowersoflife.ui.components.AppNavHost
+import com.kuzmin.flowersoflife.ui.components.DrawerAction
 import com.kuzmin.flowersoflife.ui.components.DrawerContent
 import com.kuzmin.flowersoflife.ui.components.MainScreenTopBar
 import com.kuzmin.flowersoflife.ui.components.ParentBottomNavigationBar
@@ -48,7 +50,7 @@ fun MainScreen(
         }
     }
 
-    when(val appUiState = appState) {
+    when (val appUiState = appState) {
         is AppUiState.Success -> {
             MainScreenContent(
                 appState = appUiState,
@@ -56,11 +58,14 @@ fun MainScreen(
                 navController = navController,
                 navigationManager = navigationManager,
                 featureNavGraph = featureNavGraph,
+                onDrawerActionClick = viewModel::onDrawerActionClick
             )
         }
+
         is AppUiState.Error -> {
             // TODO: show error screen
         }
+
         else -> {}
     }
 
@@ -73,6 +78,7 @@ fun MainScreenContent(
     navController: NavHostController,
     navigationManager: NavigationManager,
     featureNavGraph: Set<@JvmSuppressWildcards FeatureNavGraph>,
+    onDrawerActionClick: (DrawerAction) -> Unit
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -83,6 +89,15 @@ fun MainScreenContent(
             DrawerContent(
                 modifier = Modifier.fillMaxWidth(0.6f),
                 userFamily = appState.userFamily,
+                onActionClick = { action ->
+                    scope.launch {
+                        drawerState.animateTo(
+                            targetValue = DrawerValue.Closed,
+                            anim = tween(durationMillis = 600)
+                        )
+                    }
+                    onDrawerActionClick(action)
+                }
             )
         }
     ) {
@@ -101,7 +116,7 @@ fun MainScreenContent(
                 )
             },
             bottomBar = {
-                if (appState.isAuthorized) {
+                if (appState.isBottomNavVisible) {
                     ParentBottomNavigationBar(
                         navController = navController
                     )

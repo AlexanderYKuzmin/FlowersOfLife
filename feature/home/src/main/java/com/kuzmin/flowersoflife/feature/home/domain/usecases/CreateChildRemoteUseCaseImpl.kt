@@ -2,11 +2,11 @@ package com.kuzmin.flowersoflife.feature.home.domain.usecases
 
 import com.kuzmin.flowersoflife.core.domain.model.family_members.Child
 import com.kuzmin.flowersoflife.feature.api.repository.FamilyRepository
-import com.kuzmin.flowersoflife.feature.api.usecases.home.SaveNewChildUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.home.CreateChildRemoteUseCase
 
-class SaveNewChildUseCaseImpl(
+class CreateChildRemoteUseCaseImpl(
     private val familyRepository: FamilyRepository
-) : SaveNewChildUseCase {
+) : CreateChildRemoteUseCase {
     override suspend fun invoke(child: Child) {
         familyRepository.saveChild(child)
     }

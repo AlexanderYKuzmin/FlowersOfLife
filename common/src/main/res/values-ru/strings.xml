@@ -24,6 +24,9 @@
     <string name="password_again">Пароль повторно</string>
     <string name="family_code">Семейный код</string>
 
+    <!--Home-->
+    <string name="child_name">Имя ребенка</string>
+
     <!--Errors messages-->
     <string name="user_not_initialized">Пользватель не проинициализирован</string>
     <string name="unsuccessful_registration">Ошибка при регистрации</string>
@@ -44,4 +47,15 @@
 
     <!-- INFO MESSAGES -->
     <string name="user_registered">Пользователь зарегистрирован - %1$s</string>
+
+    <!--WARNING MESSAGE-->
+    <string name="remove_child_message">Удалить ребенка из списка?</string>
+
+    <!--Alert Dialog-->
+    <string name="error_title">Ошибка</string>
+    <string name="warning_title">Внимание</string>
+    <string name="info_title">Инфо</string>
+
+    <string name="ok_btn">Ок</string>
+    <string name="cancel_btn">Отмена</string>
 </resources>

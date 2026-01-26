@@ -33,6 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.kuzmin.flowersoflife.core.ui.R
 import com.kuzmin.flowersoflife.core.ui.theme.KabTheme
+import com.kuzmin.flowersoflife.core.ui.theme.Regular24
+import com.kuzmin.flowersoflife.core.ui.theme.SemiBold20
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,7 +85,7 @@ fun AlertDialogCard(
                     if (!title.isNullOrBlank()) {
                         Text(
                             text = title,
-                            style = MaterialTheme.typography.titleLarge
+                            style = Regular24,
                         )
                         Spacer(Modifier.height(8.dp))
                     }
@@ -94,7 +96,7 @@ fun AlertDialogCard(
                 } else if (!message.isNullOrBlank()) {
                     Text(
                         text = message,
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = SemiBold20,
                         modifier = Modifier
                             .padding(top = 8.dp, bottom = 8.dp, start = 12.dp, end = 12.dp)
                             .weight(1f, fill = false)
@@ -109,8 +111,13 @@ fun AlertDialogCard(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     if (!dismissText.isNullOrBlank() && onDismiss != null) {
-                        TextButton(onClick = onDismiss) {
-                            Text(dismissText)
+                        TextButton(
+                            onClick = onDismiss
+                        ) {
+                            Text(
+                                text = dismissText,
+                                color = KabTheme.colors.primaryDimmedText
+                            )
                         }
                         Spacer(Modifier.width(8.dp))
                     }
@@ -119,11 +126,11 @@ fun AlertDialogCard(
                             onClick = onConfirm,
                             modifier = Modifier.padding(4.dp),
                             shape = RoundedCornerShape(10.dp),
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+                            border = BorderStroke(1.dp, KabTheme.colors.primary)
                         ) {
                             Text(
                                 text = confirmText,
-                                color = MaterialTheme.colorScheme.primary
+                                color = KabTheme.colors.primary
                             )
                         }
                     }
@@ -144,6 +151,7 @@ fun AlertDialogCardPreview() {
             title = "Ошибка",
             message = "Непредвиденная ошибка",
             confirmText = "OK",
+            dismissText = "Cancel",
             onConfirm = {},
             onDismissRequest = {},
             icon = {

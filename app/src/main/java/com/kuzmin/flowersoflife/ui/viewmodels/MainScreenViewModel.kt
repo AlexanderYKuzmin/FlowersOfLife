@@ -1,5 +1,6 @@
 package com.kuzmin.flowersoflife.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.common.R
@@ -9,12 +10,15 @@ import com.kuzmin.flowersoflife.core.local.event_bus.FlowKey.UI_EVENT
 import com.kuzmin.flowersoflife.core.local.event_bus.SharedFlowMap
 import com.kuzmin.flowersoflife.core.local.resource_provider.ResourceProvider
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
+import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
+import com.kuzmin.flowersoflife.core.navigation.routing.Destination
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarData
 import com.kuzmin.flowersoflife.core.ui.components.snackbar.SnackbarMessageType
 import com.kuzmin.flowersoflife.core.ui.event.UiEvent
 import com.kuzmin.flowersoflife.feature.api.usecases.user.local.SaveUserFamilyToLocalUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.GetUserFamilyFromRemoteUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.GetUserFromFbUseCase
+import com.kuzmin.flowersoflife.ui.components.DrawerAction
 import com.kuzmin.flowersoflife.ui.state.AppUiState
 import com.kuzmin.flowersoflife.ui.state.MainScreenState
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -115,6 +119,7 @@ class MainScreenViewModel(
                     }
 
                     is UiEvent.UpdateAppState -> {
+                        Log.d("CAB-2-1", "UI Event update app state: 1) is bottom visible ${event.isBottomNavVisible}")
                         val state = appState.value as? AppUiState.Success ?: return@collect
                         _appState.update {
                             state.copy(
@@ -162,4 +167,39 @@ class MainScreenViewModel(
     }
 
     fun getNavigationManager(): NavigationManager = navigationManager
+
+    fun onDrawerActionClick(action: DrawerAction) {
+        viewModelScope.launch {
+            when (action) {
+                DrawerAction.ACTIONS -> {
+                    /*navigationManager.navigate(
+                        NavigationCommand.ToDestination(
+                            destination = Destination.PARENT_TASKS
+                        )
+                    )*/
+                }
+                DrawerAction.GOALS -> {
+                    // TODO: добавить навигацию на экран целей
+                    /*navigationManager.navigate(
+                        NavigationCommand.ToDestination(
+                            destination = Destination.PARENT_GOALS // если есть
+                        )
+                    )*/
+                }
+                DrawerAction.CHILDREN -> {
+                    navigationManager.navigate(
+                        NavigationCommand.ToDestination(
+                            destination = Destination.PARENT_CHILDREN_LIST
+                        )
+                    )
+                }
+                DrawerAction.ADULTS -> {
+                }
+                DrawerAction.REGISTRATION -> {
+                }
+                DrawerAction.LOGOUT -> {
+                }
+            }
+        }
+    }
 }

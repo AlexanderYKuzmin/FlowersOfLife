@@ -5,14 +5,17 @@ import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.common.R
 import com.kuzmin.flowersoflife.common.model.TopBarUiSettings
 import com.kuzmin.flowersoflife.core.domain.model.family_members.Child
+import com.kuzmin.flowersoflife.core.local.event_bus.FlowKey
 import com.kuzmin.flowersoflife.core.local.event_bus.SharedFlowMap
 import com.kuzmin.flowersoflife.core.local.resource_provider.ResourceProvider
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
+import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
 import com.kuzmin.flowersoflife.core.navigation.routing.DestinationArgs
 import com.kuzmin.flowersoflife.core.ui.event.UiEvent
-import com.kuzmin.flowersoflife.feature.api.usecases.home.SaveNewChildUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.home.CreateChildRemoteUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.home.UpdateChildRemoteUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.GetUserFromRemoteUseCase
+import com.kuzmin.flowersoflife.feature.home.domain.event.ChildEvent
 import com.kuzmin.flowersoflife.feature.home.domain.mapper.toChild
 import com.kuzmin.flowersoflife.feature.home.domain.mapper.toChildUi
 import com.kuzmin.flowersoflife.feature.home.exception.error.ChildEditErrorType
@@ -28,7 +31,8 @@ class ChildEditViewModel(
     private val navigationManager: NavigationManager,
     private val getUserFromRemoteUseCase: GetUserFromRemoteUseCase,
     private val updateChildUseCase: UpdateChildRemoteUseCase,
-    private val saveNewChildUseCase: SaveNewChildUseCase,
+    private val createChildRemoteUseCase: CreateChildRemoteUseCase,
+    private val childEventFlowMap: SharedFlowMap<ChildEvent>,
     sharedFlowMap: SharedFlowMap<UiEvent>,
     private val resourceProvider: ResourceProvider
 ) : BaseChildViewModel<ChildUi, BaseChildState<ChildUi>>(sharedFlowMap) {
@@ -91,8 +95,14 @@ class ChildEditViewModel(
                 getSuccessData(state.value)
             } ?: return@launch
 
-            saveNewChildUseCase(
+            createChildRemoteUseCase(
                 child = childUi.toChild()
+            )
+
+            childEventFlowMap.emit(FlowKey.CHILD_EVENT, ChildEvent.Created)
+
+            navigationManager.navigate(
+                NavigationCommand.Back()
             )
         }
     }
