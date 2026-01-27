@@ -38,5 +38,8 @@ interface ApiService {
         @Path("id") id: String
     ): Response<List<ChildDashboardDto>>
 
-
+    @GET("api/family/dashboard/child/{id}")
+    suspend fun getChildDashboard(
+        @Path("id") id: String
+    ): Response<ChildDashboardDto>
 }

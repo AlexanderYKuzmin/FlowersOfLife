@@ -27,6 +27,8 @@
     <!--Home-->
     <string name="child_name">Имя ребенка</string>
 
+    <string name="goal_name">Цель:</string>
+
     <!--Errors messages-->
     <string name="user_not_initialized">Пользватель не проинициализирован</string>
     <string name="unsuccessful_registration">Ошибка при регистрации</string>

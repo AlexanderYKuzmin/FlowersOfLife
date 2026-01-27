@@ -28,6 +28,8 @@
     <!--Home-->
     <string name="child_name">Child`s name</string>
 
+    <string name="goal_name">The Goal:</string>
+
     <!--Errors messages-->
     <string name="user_not_initialized">User is not initialized</string>
     <string name="unsuccessful_registration">Registration failed</string>

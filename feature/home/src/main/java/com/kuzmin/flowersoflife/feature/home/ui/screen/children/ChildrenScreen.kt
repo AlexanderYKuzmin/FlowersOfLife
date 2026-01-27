@@ -34,14 +34,14 @@ import com.kuzmin.flowersoflife.feature.home.ui.mock.mockChildDashboard
 import com.kuzmin.flowersoflife.feature.home.ui.mock.mockUser
 import com.kuzmin.flowersoflife.feature.home.ui.mock.mockWallet
 import com.kuzmin.flowersoflife.feature.home.ui.screen.children.state.BaseChildrenListState
-import com.kuzmin.flowersoflife.feature.home.ui.screen.children.viewmodel.ChildrenListViewModel
+import com.kuzmin.flowersoflife.feature.home.ui.screen.children.viewmodel.ChildrenViewModel
 import org.koin.androidx.compose.koinViewModel
 import com.kuzmin.flowersoflife.core.ui.R as CoreUiRes
 
 @Composable
 fun ChildrenScreen(
     modifier: Modifier = Modifier,
-    viewModel: ChildrenListViewModel = koinViewModel(),
+    viewModel: ChildrenViewModel = koinViewModel(),
 ) {
     val state = viewModel.state.collectAsState()
 
@@ -58,8 +58,8 @@ fun ChildrenScreen(
             is BaseChildrenListState.Success -> {
                 ChildrenScreenContent(
                     children = uiState.children,
-                    onChildClick = { childDashboard ->
-                        viewModel.onChildClick(childDashboard)
+                    onChildClick = { childId ->
+                        viewModel.onChildClick(childId)
                     },
                     onRemove = { childDashboard ->
                         viewModel.onRemoveChild(childDashboard)
@@ -111,7 +111,7 @@ fun ChildrenScreen(
 @Composable
 fun ChildrenScreenContent(
     children: List<ChildDashboard>,
-    onChildClick: (child: ChildDashboard?) -> Unit,
+    onChildClick: (childId: String?) -> Unit,
     onRemove: (child: ChildDashboard) -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -138,7 +138,11 @@ fun ChildrenScreenContent(
                 ) {
                     ChildCard(
                         child = childDashboard,
-                        onChildClick = { onChildClick(childDashboard) }
+                        onChildClick = {
+                            onChildClick(
+                                childDashboard.user.userId
+                            )
+                        }
                     )
                 }
             }

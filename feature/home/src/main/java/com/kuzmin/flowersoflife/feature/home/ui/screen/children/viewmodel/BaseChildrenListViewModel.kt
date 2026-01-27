@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-abstract class BaseChildrenListviewModel<ITEM, STATE>(
+abstract class BaseChildrenListViewModel<ITEM, STATE>(
     private val sharedFlowMap: SharedFlowMap<UiEvent>
 ) : ViewModel() {
 

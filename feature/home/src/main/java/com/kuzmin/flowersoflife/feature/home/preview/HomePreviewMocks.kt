@@ -25,7 +25,7 @@ object HomePreviewMocks {
 
     private fun goalsFor(childId: String): List<Goal> = listOf(
         Goal(goalId = "g_${childId}_1", price = 1500, name = "Наушники", status = GoalStatus.CREATED, childId = childId),
-        Goal(goalId = "g_${childId}_2", price = 600, name = "Настольная игра", status = GoalStatus.ASSIGNED, childId = childId),
+        Goal(goalId = "g_${childId}_2", price = 600, name = "Настольная игра", status = GoalStatus.ACCEPTED, childId = childId),
         Goal(goalId = "g_${childId}_3", price = 1200, name = "Скетчбук", status = GoalStatus.COMPLETED, childId = childId)
     )
 

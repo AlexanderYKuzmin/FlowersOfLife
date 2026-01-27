@@ -10,13 +10,11 @@ import com.kuzmin.flowersoflife.core.local.resource_provider.ResourceProvider
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
 import com.kuzmin.flowersoflife.core.navigation.routing.Destination
-import com.kuzmin.flowersoflife.core.navigation.routing.DestinationArgs
 import com.kuzmin.flowersoflife.core.ui.event.UiEvent
 import com.kuzmin.flowersoflife.feature.api.usecases.home.DeleteChildRemoteUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.home.GetChildrenDashboardUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.user.local.GetFamilyFromLocalUseCase
 import com.kuzmin.flowersoflife.feature.home.domain.event.ChildEvent
-import com.kuzmin.flowersoflife.feature.home.domain.mapper.toChild
 import com.kuzmin.flowersoflife.feature.home.ui.screen.children.state.BaseChildrenListState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +23,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
-class ChildrenListViewModel(
+class ChildrenViewModel(
     private val getFamilyFromLocalUseCase: GetFamilyFromLocalUseCase,
     private val getChildrenDashboardUseCase: GetChildrenDashboardUseCase,
     private val deleteChildRemoteUseCase: DeleteChildRemoteUseCase,
@@ -33,7 +31,7 @@ class ChildrenListViewModel(
     private val childEventFlowMap: SharedFlowMap<ChildEvent>,
     sharedFlowMap: SharedFlowMap<UiEvent>,
     private val resourceProvider: ResourceProvider,
-) : BaseChildrenListviewModel<ChildDashboard, BaseChildrenListState<ChildDashboard>>(sharedFlowMap) {
+) : BaseChildrenListViewModel<ChildDashboard, BaseChildrenListState<ChildDashboard>>(sharedFlowMap) {
 
     override val _state: MutableStateFlow<BaseChildrenListState<ChildDashboard>> =
         MutableStateFlow(BaseChildrenListState.Loading)
@@ -58,14 +56,12 @@ class ChildrenListViewModel(
         }
     }
 
-    fun onChildClick(childDashboard: ChildDashboard?) {
+    fun onChildClick(childId: String?) {
         viewModelScope.launch {
             navigationManager.navigate(
-                NavigationCommand.ToDestinationParcelable(
+                NavigationCommand.ToDestination(
                     destination = Destination.PARENT_EDIT_CHILD,
-                    parcelableArgs = childDashboard?.let {
-                        mapOf(DestinationArgs.CHILD to childDashboard.toChild())
-                    }
+                    args = listOf(childId ?: "")
                 )
             )
         }

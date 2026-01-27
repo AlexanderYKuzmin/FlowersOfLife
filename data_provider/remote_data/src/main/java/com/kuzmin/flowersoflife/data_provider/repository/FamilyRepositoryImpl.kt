@@ -10,6 +10,9 @@ class FamilyRepositoryImpl(
     private val apiService: ApiService,
     private val prefManager: PrefManager
 ) : FamilyRepository {
+    override suspend fun getChild(childId: String): Child? {
+        TODO("Not yet implemented")
+    }
     override suspend fun saveChild(child: Child): String? {
         val result = apiService.createChild(
             child.toChildDto(

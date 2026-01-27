@@ -81,7 +81,7 @@ val mockGoals = listOf<Goal>(
         goalId = "goal_002",
         price = 600,
         name = "Настольная игра",
-        status = GoalStatus.ASSIGNED,
+        status = GoalStatus.ACCEPTED,
         childId = "child_001"
     ),
     Goal(

@@ -15,7 +15,7 @@ data class Goal(
 enum class GoalStatus(val value: String) {
     CREATED("created"),
     COMPLETED("completed"),
-    ASSIGNED("assigned");
+    ACCEPTED("accepted");
 
     companion object {
         fun fromValue(value: String): GoalStatus? {

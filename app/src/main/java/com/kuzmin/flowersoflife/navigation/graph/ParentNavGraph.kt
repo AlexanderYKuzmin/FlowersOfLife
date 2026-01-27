@@ -6,15 +6,16 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.kuzmin.flowersoflife.core.domain.model.family_members.Child
 import com.kuzmin.flowersoflife.core.navigation.FeatureNavGraph
 import com.kuzmin.flowersoflife.core.navigation.routing.Destination
 import com.kuzmin.flowersoflife.core.navigation.routing.DestinationArgs
 import com.kuzmin.flowersoflife.core.navigation.routing.Route
+import com.kuzmin.flowersoflife.feature.finance.ui.screen.FinanceScreen
 import com.kuzmin.flowersoflife.feature.home.ui.screen.ChildrenScreen
 import com.kuzmin.flowersoflife.feature.home.ui.screen.children.ChildDashboardDetailsScreen
 import com.kuzmin.flowersoflife.feature.home.ui.screen.children.ChildEditScreen
 import com.kuzmin.flowersoflife.feature.home.ui.screen.children.HomeChildrenDashboardScreen
+import com.kuzmin.flowersoflife.feature.tasks.ui.screen.TasksScreen
 
 class ParentNavGraph : FeatureNavGraph {
     override fun registerNavGraph(
@@ -37,7 +38,6 @@ class ParentNavGraph : FeatureNavGraph {
                 ChildDashboardDetailsScreen()
             }
 
-
             composable(
                 route = Destination.PARENT_CHILDREN_LIST
             ) {
@@ -45,18 +45,26 @@ class ParentNavGraph : FeatureNavGraph {
             }
 
             composable(
-                route = Destination.PARENT_EDIT_CHILD,
+                route = "${Destination.PARENT_EDIT_CHILD}/{${DestinationArgs.CHILD_ID}}",
                 arguments = listOf(
-                    navArgument(DestinationArgs.CHILD) {
-                        type = NavType.ParcelableType(
-                            type = Child::class.java
-                        )
-                        nullable = true
+                    navArgument(DestinationArgs.CHILD_ID) {
+                        type = NavType.StringType
                     }
                 )
             ) {
                 ChildEditScreen()
             }
+
+            composable(
+                route = Destination.PARENT_TASKS
+            ) {
+                TasksScreen()
+            }
+
+            composable(route = Destination.PARENT_FINANCE) {
+                FinanceScreen()
+            }
+
         }
     }
 }

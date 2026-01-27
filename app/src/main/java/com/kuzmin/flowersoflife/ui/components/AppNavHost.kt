@@ -1,6 +1,5 @@
 package com.kuzmin.flowersoflife.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -29,17 +28,18 @@ fun AppNavHost(
         navigationManager.commands.collect { command ->
             when (command) {
                 is NavigationCommand.ToDestination -> {
-                    Log.d("CAB-2-2", "ToDestination. buildDestination: ${command.buildDestination()}")
-
                     navController.navigate(command.buildDestination())
                 }
 
                 is NavigationCommand.ToDestinationParcelable -> {
+                    /*navController.navigate(command.destination)
                     command.parcelableArgs?.forEach { (key, value) ->
                         navController.currentBackStackEntry?.savedStateHandle?.set(key, value)
-                    }
-
-                    navController.navigate(command.destination)
+                    }*/
+                    /*navController.navigate(command.destination)
+                    command.parcelableArgs?.forEach { (key, value) ->
+                        navController.getBackStackEntry(command.destination).savedStateHandle[key] = value
+                    }*/ // TODO Не сработало
                 }
 
                 is NavigationCommand.ToGraph -> {
