@@ -3,6 +3,7 @@ package com.kuzmin.flowersoflife.feature.api.repository
 import com.kuzmin.flowersoflife.core.domain.model.family_members.Child
 
 interface FamilyRepository {
+    suspend fun getChild(childId: String): Child?
     suspend fun saveChild(child: Child): String?
 
     suspend fun updateChild(child: Child)

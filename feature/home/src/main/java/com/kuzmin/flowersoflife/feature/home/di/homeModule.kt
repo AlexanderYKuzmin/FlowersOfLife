@@ -4,16 +4,19 @@ import com.kuzmin.flowersoflife.core.local.event_bus.FlowKey.CHILD_EVENT
 import com.kuzmin.flowersoflife.core.local.event_bus.FlowKey.UI_EVENT
 import com.kuzmin.flowersoflife.feature.api.usecases.home.CreateChildRemoteUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.home.DeleteChildRemoteUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.home.GetChildDashboardRemoteUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.home.GetChildrenDashboardUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.home.UpdateChildRemoteUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.user.local.GetFamilyFromLocalUseCase
 import com.kuzmin.flowersoflife.feature.home.domain.usecases.CreateChildRemoteUseCaseImpl
 import com.kuzmin.flowersoflife.feature.home.domain.usecases.DeleteChildRemoteUseCaseImpl
+import com.kuzmin.flowersoflife.feature.home.domain.usecases.GetChildDashboardRemoteUseCaseImpl
 import com.kuzmin.flowersoflife.feature.home.domain.usecases.GetChildrenDashboardUseCaseImpl
 import com.kuzmin.flowersoflife.feature.home.domain.usecases.GetFamilyFromLocalUseCaseImpl
 import com.kuzmin.flowersoflife.feature.home.domain.usecases.UpdateChildRemoteUseCaseImpl
 import com.kuzmin.flowersoflife.feature.home.ui.screen.children.viewmodel.ChildEditViewModel
-import com.kuzmin.flowersoflife.feature.home.ui.screen.children.viewmodel.ChildrenListViewModel
+import com.kuzmin.flowersoflife.feature.home.ui.screen.children.viewmodel.ChildrenViewModel
+import com.kuzmin.flowersoflife.feature.home.ui.screen.children.viewmodel.HomeChildrenDashboardViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -24,9 +27,10 @@ val homeModule = module {
     single<CreateChildRemoteUseCase> { CreateChildRemoteUseCaseImpl(get()) }
     single<UpdateChildRemoteUseCase> { UpdateChildRemoteUseCaseImpl(get()) }
     single<DeleteChildRemoteUseCase> { DeleteChildRemoteUseCaseImpl(get()) }
+    single<GetChildDashboardRemoteUseCase> { GetChildDashboardRemoteUseCaseImpl(get()) }
 
     viewModel {
-        ChildrenListViewModel(
+        ChildrenViewModel(
             getFamilyFromLocalUseCase = get(),
             getChildrenDashboardUseCase = get(),
             deleteChildRemoteUseCase = get(),
@@ -40,13 +44,22 @@ val homeModule = module {
     viewModel {
         ChildEditViewModel(
             savedStateHandle = get(),
-            getUserFromRemoteUseCase = get(),
             createChildRemoteUseCase = get(),
+            getChildDashboardRemoteUseCase = get(),
             updateChildUseCase = get(),
             navigationManager = get(),
             resourceProvider = get(),
             sharedFlowMap = get(named(UI_EVENT)),
             childEventFlowMap = get(named(CHILD_EVENT))
+        )
+    }
+
+    viewModel {
+        HomeChildrenDashboardViewModel(
+            getChildrenDashboardUseCase = get(),
+            getFamilyFromLocalUseCase = get(),
+            navigationManager = get(),
+            sharedFlowMap = get(named(UI_EVENT)),
         )
     }
 }

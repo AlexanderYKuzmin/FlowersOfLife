@@ -43,7 +43,7 @@ fun ChildCardDetails(
     onClick: (String) -> Unit = {}
 ) {
 
-    val currentGoal = child.goals.find { it.status == GoalStatus.ASSIGNED }
+    val currentGoal = child.goals.find { it.status == GoalStatus.ACCEPTED }
 
     Card(
         modifier = modifier

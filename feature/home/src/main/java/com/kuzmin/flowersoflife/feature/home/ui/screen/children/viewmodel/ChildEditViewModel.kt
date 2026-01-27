@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.common.R
 import com.kuzmin.flowersoflife.common.model.TopBarUiSettings
-import com.kuzmin.flowersoflife.core.domain.model.family_members.Child
 import com.kuzmin.flowersoflife.core.local.event_bus.FlowKey
 import com.kuzmin.flowersoflife.core.local.event_bus.SharedFlowMap
 import com.kuzmin.flowersoflife.core.local.resource_provider.ResourceProvider
@@ -13,8 +12,8 @@ import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
 import com.kuzmin.flowersoflife.core.navigation.routing.DestinationArgs
 import com.kuzmin.flowersoflife.core.ui.event.UiEvent
 import com.kuzmin.flowersoflife.feature.api.usecases.home.CreateChildRemoteUseCase
+import com.kuzmin.flowersoflife.feature.api.usecases.home.GetChildDashboardRemoteUseCase
 import com.kuzmin.flowersoflife.feature.api.usecases.home.UpdateChildRemoteUseCase
-import com.kuzmin.flowersoflife.feature.api.usecases.user.remote.GetUserFromRemoteUseCase
 import com.kuzmin.flowersoflife.feature.home.domain.event.ChildEvent
 import com.kuzmin.flowersoflife.feature.home.domain.mapper.toChild
 import com.kuzmin.flowersoflife.feature.home.domain.mapper.toChildUi
@@ -29,9 +28,9 @@ import kotlinx.coroutines.launch
 class ChildEditViewModel(
     savedStateHandle: SavedStateHandle,
     private val navigationManager: NavigationManager,
-    private val getUserFromRemoteUseCase: GetUserFromRemoteUseCase,
     private val updateChildUseCase: UpdateChildRemoteUseCase,
     private val createChildRemoteUseCase: CreateChildRemoteUseCase,
+    private val getChildDashboardRemoteUseCase: GetChildDashboardRemoteUseCase,
     private val childEventFlowMap: SharedFlowMap<ChildEvent>,
     sharedFlowMap: SharedFlowMap<UiEvent>,
     private val resourceProvider: ResourceProvider
@@ -45,17 +44,17 @@ class ChildEditViewModel(
     val errors = _errors.asStateFlow()
 
     init {
-        val child: Child? = savedStateHandle[DestinationArgs.CHILD]
-        _state.value = BaseChildState.Success(
-            data = child?.toChildUi() ?: ChildUi(
-                childId = null,
-                childName = "",
-                balance = 0,
-                photoUrl = null
-            )
-        )
+        val childId: String? = savedStateHandle[DestinationArgs.CHILD_ID]
 
-        viewModelScope.launch {
+        if (childId != null) {
+            fetchChild(childId)
+        } else {
+            _state.value = BaseChildState.Success(
+                data = ChildUi()
+            )
+        }
+
+        viewModelScope.launch { //TODO перенести в отдельный private method
             updateAppState(
                 topBarUiSettings = TopBarUiSettings(
                     title = resourceProvider.getString(R.string.child_title),
@@ -71,11 +70,11 @@ class ChildEditViewModel(
         viewModelScope.launch(ioContext) {
             _state.value = BaseChildState.Loading
 
-            val user = getUserFromRemoteUseCase(childId)
+            val dashBoard = getChildDashboardRemoteUseCase(childId)
 
-            /*_state.value = ChildEditState.Success(
-                //child = user.toChildUi()
-            )*/
+            _state.value = BaseChildState.Success(
+                data = dashBoard?.toChildUi() ?: ChildUi()
+            )
         }
     }
 
