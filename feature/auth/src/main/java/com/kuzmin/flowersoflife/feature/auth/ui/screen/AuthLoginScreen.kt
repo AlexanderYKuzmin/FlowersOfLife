@@ -1,6 +1,5 @@
 package com.kuzmin.flowersoflife.feature.auth.ui.screen
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -104,7 +103,6 @@ fun AuthLoginScreen(
                     message = message,
                     type = SnackbarMessageType.ERROR
                 )
-                Log.d("Auth", "Error: ${state.throwable.message}")
                 viewModel.refresh()
             }
 

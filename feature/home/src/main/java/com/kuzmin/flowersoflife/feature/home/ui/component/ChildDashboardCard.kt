@@ -1,5 +1,7 @@
 package com.kuzmin.flowersoflife.feature.home.ui.component
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +20,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,6 +39,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.kuzmin.flowersoflife.core.domain.model.FinanceRecordType
 import com.kuzmin.flowersoflife.core.domain.model.Goal
 import com.kuzmin.flowersoflife.core.domain.model.GoalStatus
 import com.kuzmin.flowersoflife.core.domain.model.TaskStatus
@@ -48,6 +56,7 @@ import com.kuzmin.flowersoflife.feature.home.ui.mock.mockChildDashboard
 @Composable
 fun ChildDashboardCard(
     modifier: Modifier = Modifier,
+    order: Int,
     childDashboard: ChildDashboard,
     onChildClick: (String) -> Unit
 ) {
@@ -110,13 +119,31 @@ fun ChildDashboardCard(
                         style = SemiBold20
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(6.dp))
 
                     StatRow(
                         valueTextColor = KabTheme.colors.primaryOnCardText,
                         labelRes = R.string.child_card_earned_coins,
                         value = childDashboard.wallet.balance.toString()
                     )
+
+                    Row {
+                        StatRow(
+                            valueTextColor = KabTheme.colors.successText,
+                            labelRes = R.string.child_card_deposits,
+                            value = childDashboard.financialRecords
+                                .filter { it.type == FinanceRecordType.DEPOSIT && it.isActual }
+                                .sumOf { it.amount }.toString()
+                        )
+
+                        StatRow(
+                            valueTextColor = KabTheme.colors.errorText,
+                            labelRes = R.string.child_card_credits,
+                            value = childDashboard.financialRecords
+                                .filter { it.type == FinanceRecordType.CREDIT && it.isActual }
+                                .sumOf { it.amount }.toString()
+                        )
+                    }
 
                     StatRow(
                         valueTextColor = KabTheme.colors.primaryOnCardText,
@@ -135,7 +162,8 @@ fun ChildDashboardCard(
                         .padding(8.dp)
                         .fillMaxWidth(),
                     goal = acceptedGoal,
-                    progress = goalProgress.toFloat(),
+                    progress = goalProgress,
+                    animationDelay = order * 100,
                     currentBalance = childDashboard.wallet.balance.toString()
                 )
             }
@@ -154,7 +182,6 @@ private fun StatRow(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
             .padding(vertical = 5.dp),
         verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -212,8 +239,24 @@ private fun GoalProgressComponent(
     goal: Goal,
     currentBalance: String,
     progress: Float,
+    animationDelay: Int = 0,
     modifier: Modifier = Modifier
 ) {
+
+    var targetProgressState by remember { mutableFloatStateOf(0f) }
+    val animatedProgress by animateFloatAsState(
+        targetValue = targetProgressState,
+        animationSpec = tween(
+            durationMillis = 1400,
+            delayMillis = animationDelay
+        ),
+        label = "progress_animation"
+    )
+
+    LaunchedEffect(Unit) {
+        targetProgressState = progress
+    }
+
     Column(
         modifier = modifier
             .fillMaxWidth(),
@@ -254,7 +297,7 @@ private fun GoalProgressComponent(
             contentAlignment = Alignment.CenterStart
         ) {
             LinearProgressIndicator(
-                progress = { progress },
+                progress = { animatedProgress },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(8.dp)
@@ -262,7 +305,8 @@ private fun GoalProgressComponent(
                 color = KabTheme.colors.successProgress,
                 trackColor = Color.Transparent,
                 gapSize = 0.dp,
-                strokeCap = StrokeCap.Butt
+                strokeCap = StrokeCap.Butt,
+                drawStopIndicator = {}
             )
         }
 
@@ -295,6 +339,7 @@ fun GoalProgressComponentPreview() {
     KabTheme {
         ChildDashboardCard(
             childDashboard = mockChildDashboard,
+            order = 0,
             onChildClick = {}
         )
     }

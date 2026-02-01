@@ -39,10 +39,10 @@ fun TaskDto.toTask(): Task {
     return Task(
         taskId = taskId,
         description = description,
-        status = TaskStatus.valueOf(status),
-        startDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(dateStart), ZoneId.systemDefault()),
+        status = TaskStatus.fromValue(status) ?: TaskStatus.CREATED,
+        startDate = LocalDateTime.ofInstant(Instant.ofEpochSecond(dateStart), ZoneId.systemDefault()),
         endDate = dateEnd?.let {
-            LocalDateTime.ofInstant(Instant.ofEpochMilli(it), ZoneId.systemDefault())
+            LocalDateTime.ofInstant(Instant.ofEpochSecond(it), ZoneId.systemDefault())
         } ?: LocalDateTime.now(),
         reward = reward,
         fine = fine,
@@ -68,8 +68,8 @@ fun FinancialRecordDto.toFinancialRecord(): FinancialRecord {
         type = FinanceRecordType.fromValue(type),
         rate = rate.toInt(),
         description = description ?: "",
-        startDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(dateStart), ZoneId.systemDefault()),
-        endDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(dateEnd), ZoneId.systemDefault()),
+        startDate = LocalDateTime.ofInstant(Instant.ofEpochSecond(dateStart), ZoneId.systemDefault()),
+        endDate = LocalDateTime.ofInstant(Instant.ofEpochSecond(dateEnd), ZoneId.systemDefault()),
         childId = childId
     )
 }

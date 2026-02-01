@@ -29,6 +29,13 @@
 
     <string name="goal_name">Цель:</string>
 
+    <!--Chart-->
+    <string name="chart_period_week">Неделя</string>
+    <string name="chart_period_month">Месяц</string>
+    <string name="chart_period_year">Год</string>
+    <string name="chart_period_label">Период</string>
+    <string name="chart_no_data">Нет данных</string>
+
     <!--Errors messages-->
     <string name="user_not_initialized">Пользватель не проинициализирован</string>
     <string name="unsuccessful_registration">Ошибка при регистрации</string>
@@ -46,6 +53,9 @@
     <string name="unknown_error">Неизвестная ошибка</string>
     <string name="illegal_route_error">Ошибка маршрутизации приложения</string>
     <string name="illegal_login_error">Неверный логин или пароль</string>
+
+    <string name="error_child_id_is_null">Отсутствует ID ребенка</string>
+    <string name="error_empty_child_data">Empty child data</string>
 
     <!-- INFO MESSAGES -->
     <string name="user_registered">Пользователь зарегистрирован - %1$s</string>

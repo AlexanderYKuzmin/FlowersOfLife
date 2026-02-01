@@ -1,6 +1,5 @@
 package com.kuzmin.flowersoflife.feature.home.ui.screen.children
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -28,6 +28,10 @@ fun HomeChildrenDashboardScreen(
 
     val state by viewModel.state.collectAsState()
 
+    LaunchedEffect(Unit) {
+        viewModel.updateAppState()
+    }
+
     when (val uiState = state) {
         is BaseChildrenListState.Loading -> {
 
@@ -36,8 +40,8 @@ fun HomeChildrenDashboardScreen(
             HomeChildrenDashboardScreenContent(
                 modifier = modifier,
                 state = uiState,
-                onChildClick = {
-                    Log.d("CAB-2-3", "Child clicked: $it")
+                onChildClick = { childId ->
+                    viewModel.onChildClick(childId)
                 }
             )
         }
@@ -72,9 +76,10 @@ fun HomeChildrenDashboardScreenContent(
                 .fillMaxSize()
                 .verticalScroll(scrollState)
         ) {
-            children.forEach { childDashboard ->
+            children.forEachIndexed { index, childDashboard ->
                 ChildDashboardCard(
                     childDashboard = childDashboard,
+                    order = index,
                     onChildClick = onChildClick
                 )
             }

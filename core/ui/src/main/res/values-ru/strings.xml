@@ -3,12 +3,29 @@
     <string name="ok_btn">Ок</string>
 
     <!-- ChildCard -->
-    <string name="child_card_week_stats_title">Статистика за неделю:</string>
-    <string name="child_card_active_tasks">Активных заданий:</string>
-    <string name="child_card_closed_tasks">Закрытых заданий:</string>
+    <string name="child_card_task_stats_title">Задания:</string>
+    <string name="child_card_active_tasks">Задач в работе:</string>
+    <string name="child_card_closed_tasks">Выполнено:</string>
+    <string name="child_card_failed_tasks">Провалено:</string>
+    <string name="child_card_created_tasks">Создано:</string>
     <string name="child_card_earned_coins">Кошелек:</string>
-    <string name="child_card_assessed_fines">Начислено штрафов:</string>
     <string name="child_card_balance">Баланс:</string>
     <string name="child_card_my_goal">Моя цель:</string>
+    <string name="child_card_goal">Цель:</string>
     <string name="child_card_my_goal_value">%S • %d</string>
+    <string name="child_card_deposits_credits">Вклады / Кредиты</string>
+    <string name="child_card_deposits">Вклады:</string>
+    <string name="child_card_credits">Кредиты:</string>
+
+    <string name="dashboard_task_header_statistics">Statistics</string>
+    <string name="dashboard_task_header_week">Week</string>
+    <string name="dashboard_task_header_month">Month</string>
+    <string name="dashboard_task_header_year">Year</string>
+
+    <string name="dashboard_goal_price">Цена:</string>
+
+    <string name="dashboard_fines">Штрафы:</string>
+    <string name="dashboard_earned">Заработано:</string>
+
+    <string name="child_card_goal_undefined">Не определена</string>
 </resources>

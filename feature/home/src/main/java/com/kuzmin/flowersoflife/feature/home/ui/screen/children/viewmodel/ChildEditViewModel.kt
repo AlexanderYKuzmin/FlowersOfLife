@@ -54,16 +54,7 @@ class ChildEditViewModel(
             )
         }
 
-        viewModelScope.launch { //TODO перенести в отдельный private method
-            updateAppState(
-                topBarUiSettings = TopBarUiSettings(
-                    title = resourceProvider.getString(R.string.child_title),
-                    isBackVisible = true,
-                    isHamburgerVisible = false
-                ),
-                isBottomNavVisible = false
-            )
-        }
+        updateAppState()
     }
 
     private fun fetchChild(childId: String) {
@@ -108,6 +99,19 @@ class ChildEditViewModel(
 
     fun onCancelClick() {
 
+    }
+
+    private fun updateAppState() {
+        viewModelScope.launch {
+            updateAppState(
+                topBarUiSettings = TopBarUiSettings(
+                    title = resourceProvider.getString(R.string.child_title),
+                    isBackVisible = true,
+                    isHamburgerVisible = false
+                ),
+                isBottomNavVisible = false
+            )
+        }
     }
 
     override fun getSuccessData(state: BaseChildState<ChildUi>): ChildUi? {

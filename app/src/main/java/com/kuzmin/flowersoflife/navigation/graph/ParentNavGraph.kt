@@ -33,7 +33,12 @@ class ParentNavGraph : FeatureNavGraph {
             }
 
             composable(
-                route = Destination.PARENT_CHILD_DASHBOARD,
+                route = "${Destination.PARENT_CHILD_DASHBOARD}/{${DestinationArgs.CHILD_ID}}",
+                arguments = listOf(
+                    navArgument(DestinationArgs.CHILD_ID) {
+                        type = NavType.StringType
+                    }
+                )
             ) {
                 ChildDashboardDetailsScreen()
             }

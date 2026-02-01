@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- ChildCard -->
-    <string name="child_card_week_stats_title">Статистика за неделю:</string>
+    <!-- ChildCard Dashboard -->
+    <string name="child_card_task_stats_title">Tasks:</string>
     <string name="child_card_active_tasks">Tasks in progress:</string>
-    <string name="child_card_closed_tasks">Completed tasks:</string>
+    <string name="child_card_closed_tasks">Completed:</string>
+    <string name="child_card_failed_tasks">Failed:</string>
+    <string name="child_card_created_tasks">Created:</string>
     <string name="child_card_earned_coins">Wallet:</string>
-    <string name="child_card_assessed_fines">Fines:</string>
     <string name="child_card_balance">Balance:</string>
     <string name="child_card_my_goal">My goal:</string>
+    <string name="child_card_goal">Goal:</string>
     <string name="child_card_my_goal_value">%S • %d</string>
+    <string name="child_card_deposits_credits">Deposits / Credits</string>
+    <string name="child_card_deposits">Deposits:</string>
+    <string name="child_card_credits">Credits:</string>
 
+    <string name="dashboard_task_header_statistics">Statistics</string>
+    <string name="dashboard_task_header_week">Week</string>
+    <string name="dashboard_task_header_month">Month</string>
+    <string name="dashboard_task_header_year">Year</string>
+
+    <string name="dashboard_goal_price">Price:</string>
+
+    <string name="dashboard_fines">Fines:</string>
+    <string name="dashboard_earned">Income:</string>
+
+    <string name="child_card_goal_undefined">Undefined</string>
 </resources>

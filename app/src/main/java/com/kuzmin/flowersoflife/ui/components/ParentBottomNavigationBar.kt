@@ -53,9 +53,7 @@ fun ParentBottomNavigationBar(
                 onClick = {
                     if (item.route == BottomNavItem.Home.route) {
                         navController.navigate(item.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                inclusive = true
-                            }
+                            popUpTo(navController.graph.findStartDestination().id)
                             launchSingleTop = true
                             restoreState = false
                         }

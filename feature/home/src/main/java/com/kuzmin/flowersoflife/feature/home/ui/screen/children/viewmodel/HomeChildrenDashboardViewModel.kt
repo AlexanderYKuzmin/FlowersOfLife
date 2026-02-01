@@ -1,8 +1,11 @@
 package com.kuzmin.flowersoflife.feature.home.ui.screen.children.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.kuzmin.flowersoflife.common.R
+import com.kuzmin.flowersoflife.common.model.TopBarUiSettings
 import com.kuzmin.flowersoflife.core.domain.model.aggregate.ChildDashboard
 import com.kuzmin.flowersoflife.core.local.event_bus.SharedFlowMap
+import com.kuzmin.flowersoflife.core.local.resource_provider.ResourceProvider
 import com.kuzmin.flowersoflife.core.navigation.NavigationManager
 import com.kuzmin.flowersoflife.core.navigation.model.NavigationCommand
 import com.kuzmin.flowersoflife.core.navigation.routing.Destination
@@ -19,11 +22,18 @@ class HomeChildrenDashboardViewModel(
     private val getChildrenDashboardUseCase: GetChildrenDashboardUseCase,
     private val getFamilyFromLocalUseCase: GetFamilyFromLocalUseCase,
     private val navigationManager: NavigationManager,
-    sharedFlowMap: SharedFlowMap<UiEvent>
+    sharedFlowMap: SharedFlowMap<UiEvent>,
+    private val resourceProvider: ResourceProvider
 ) : BaseChildrenListViewModel<ChildDashboard, BaseChildrenListState<ChildDashboard>>(sharedFlowMap) {
+
+    override val _state: MutableStateFlow<BaseChildrenListState<ChildDashboard>> =
+        MutableStateFlow(BaseChildrenListState.Loading)
+    override val state: StateFlow<BaseChildrenListState<ChildDashboard>> = _state.asStateFlow()
 
     init {
         fetchChildrenDashboard()
+
+        updateAppState()
     }
 
     private fun fetchChildrenDashboard() {
@@ -39,9 +49,6 @@ class HomeChildrenDashboardViewModel(
             )
         }
     }
-    override val _state: MutableStateFlow<BaseChildrenListState<ChildDashboard>> =
-        MutableStateFlow(BaseChildrenListState.Loading)
-    override val state: StateFlow<BaseChildrenListState<ChildDashboard>> = _state.asStateFlow()
 
     fun onChildClick(childId: String) {
         viewModelScope.launch {
@@ -55,7 +62,7 @@ class HomeChildrenDashboardViewModel(
     }
 
     override fun handleException(throwable: Throwable) {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
     override fun getChildrenList(state: BaseChildrenListState<ChildDashboard>): List<ChildDashboard>? {
@@ -70,6 +77,18 @@ class HomeChildrenDashboardViewModel(
             state.copy(children = newList)
         } else {
             state
+        }
+    }
+
+    fun updateAppState() {
+        viewModelScope.launch(ioContext) {
+            updateAppState(
+                TopBarUiSettings(
+                    title = resourceProvider.getString(R.string.app_name),
+                    isBackVisible = false,
+                ),
+                isBottomNavVisible = true
+            )
         }
     }
 }

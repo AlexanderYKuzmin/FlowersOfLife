@@ -1,6 +1,5 @@
 package com.kuzmin.flowersoflife.core.ui.components.swipe
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,7 +39,6 @@ fun SwipeableListItem(
     val swipeToDismissBoxState = rememberSwipeToDismissBoxState(
         confirmValueChange = {
             if (hasReachedThreshold) {
-                Log.d("Cab-2-1", "SwipeableListItem. Confirmvaluechange : $hasReachedThreshold")
                 onRemove(item)
                 true
             } else {
@@ -50,17 +48,13 @@ fun SwipeableListItem(
     )
 
     LaunchedEffect(Unit) {
-        Log.d("Cab-2-1", "SwipeableListItem. LaunchedEffect : ${swipeToDismissBoxState.progress}")
         snapshotFlow {
-            Log.d("Cab-2-1", "SwipeableListItem. SnapshotFlow : ${swipeToDismissBoxState.progress}")
             swipeToDismissBoxState.progress
         }
             .filter {
-                Log.d("Cab-2-1", "SwipeableListItem. Filter : $it")
                 it > 0.4f && it < 1f
             }
             .collect {
-                Log.d("Cab-2-1", "SwipeableListItem. Collect : $it")
                 hasReachedThreshold = true
             }
     }
@@ -101,6 +95,4 @@ fun SwipeableListItem(
             content()
         }
     )
-
-
 }
