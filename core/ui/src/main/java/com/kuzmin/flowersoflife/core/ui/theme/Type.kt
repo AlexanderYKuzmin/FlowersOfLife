@@ -151,6 +151,14 @@ val SemiBold9 = TextStyle(
     fontSize = 9.sp,
     lineHeight = 22.sp,
 )
+
+val SemiBold12 = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 12.sp,
+    lineHeight = 18.sp,
+)
+
 val SemiBold15 = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.SemiBold,

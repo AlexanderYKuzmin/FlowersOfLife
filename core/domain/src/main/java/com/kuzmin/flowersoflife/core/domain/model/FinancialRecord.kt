@@ -18,7 +18,11 @@ data class FinancialRecord(
     val endDate: LocalDateTime,
 
     val childId: String
-)
+) {
+    val isExpired = endDate.isBefore(LocalDateTime.now())
+
+    val isActual = !isExpired
+}
 
 enum class FinanceRecordType(val value: String) {
     DEPOSIT("deposit"),

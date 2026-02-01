@@ -1,6 +1,5 @@
 package com.kuzmin.flowersoflife.feature.auth.ui.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.common.R.string.sign_in_title
 import com.kuzmin.flowersoflife.common.model.TopBarUiSettings
@@ -42,7 +41,6 @@ open class AuthLoginViewModel(
         viewModelScope.launch(ioCoroutineContext) {
             val userAndFamily = getUserFamilyFromLocalUseCase()
 
-            Log.d("Auth", "Auth. User and family: $userAndFamily")
             notifyAppStateChanged()
             withContext(Dispatchers.Main) {
                 setAuthState(
@@ -91,7 +89,6 @@ open class AuthLoginViewModel(
                         }
             } else null
 
-            Log.d("Auth", "Auth. UserFamily: $userFamily, isUserAuthorized: $isUserAuthorized")
             if (isUserAuthorized && userFamily != null) {
                 setAuthState(AuthState.Success(userFamily))
                 updateAppUser(user = userFamily.user)

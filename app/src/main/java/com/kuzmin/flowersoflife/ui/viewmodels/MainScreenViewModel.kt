@@ -1,6 +1,5 @@
 package com.kuzmin.flowersoflife.ui.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kuzmin.flowersoflife.common.R
@@ -119,7 +118,6 @@ class MainScreenViewModel(
                     }
 
                     is UiEvent.UpdateAppState -> {
-                        Log.d("CAB-2-1", "UI Event update app state: 1) is bottom visible ${event.isBottomNavVisible}")
                         val state = appState.value as? AppUiState.Success ?: return@collect
                         _appState.update {
                             state.copy(

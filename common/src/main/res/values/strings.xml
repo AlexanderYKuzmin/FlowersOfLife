@@ -30,6 +30,13 @@
 
     <string name="goal_name">The Goal:</string>
 
+    <!--Chart-->
+    <string name="chart_period_week">Week</string>
+    <string name="chart_period_month">Month</string>
+    <string name="chart_period_year">Year</string>
+    <string name="chart_period_label">Period</string>
+    <string name="chart_no_data">No data available</string>
+
     <!--Errors messages-->
     <string name="user_not_initialized">User is not initialized</string>
     <string name="unsuccessful_registration">Registration failed</string>
@@ -47,6 +54,9 @@
     <string name="unknown_error">Unknown error</string>
     <string name="illegal_route_error">Wrong application routing</string>
     <string name="illegal_login_error">Wrong login or password</string>
+
+    <string name="error_child_id_is_null">Child ID is null</string>
+    <string name="error_empty_child_data">Empty child data</string>
 
     <!-- INFO MESSAGES -->
     <string name="user_registered">User is signed up - %1$s</string>
